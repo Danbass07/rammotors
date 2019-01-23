@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import RamMotors from './components/RamMotors';
 
 
-if (document.getElementById('app')) {
+if (document.getElementById('root')) {
     ReactDOM.render(
     
     <RamMotors />
     
-    , document.getElementById('app'));
+    , document.getElementById('root'));
 }

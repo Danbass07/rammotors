@@ -60014,8 +60014,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-if (document.getElementById('app')) {
-  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_RamMotors__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('app'));
+if (document.getElementById('root')) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_RamMotors__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.getElementById('root'));
 }
 
 /***/ }),
