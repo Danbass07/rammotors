@@ -12,8 +12,64 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Auth::routes();
+
+	// Cars Controllers
+
+Route::get('/cars', 'CarsController@index');
+Route::get('/cars/dashboard', 'CarsController@dashboard')->name('cars.dashboard');
+Route::get('/cars/alerts', 'CarsController@alerts')->name('cars.alerts');
+Route::get('/cars/create', 'CarsController@create')->name('cars.create');
+Route::get('/cars/pending', 'CarsController@pending')->name('cars.pending');
+Route::get('/cars/confirmed', 'CarsController@confirmed')->name('cars.confirmed');
+Route::get('/cars/{id}/edit', 'CarsController@edit')->name('cars.edit');
+Route::get('/cars/{id}/destroy', 'CarsController@destroy')->name('cars.destroy');
+Route::get('/cars/{id}/undestroy', 'CarsController@undestroy')->name('cars.undestroy');
+Route::get('/cars/deleted', 'CarsController@deleted')->name('cars.deleted');
+Route::get('/cars/{id}/toNexmo', 'CarsController@toNexmo')->name('cars.toNexmo');
+Route::get('/cars/{id}/addOwner', 'CarsController@addOwner')->name('cars.addOwner');
+Route::get('/cars/{id}/removeOwner/{cid}', 'CarsController@removeOwner')->name('cars.removeOwner');
+Route::post('/cars', 'CarsController@store')->name('cars.store');
+Route::get('/cars/{id}/update', 'CarsController@update')->name('cars.update');
+Route::get('/cars/{id}/updateayear/{type}', 'CarsController@updateayear')->name('cars.updateayear');
+Route::get('/get_datatables', 'CarsController@get_datatables')->name('get_datatables');
+Route::get('/get_data_expired', 'CarsController@get_data_expired')->name('get_data_expired');
+
+
+	// Customers Controllers
+
+Route::get('/customers', 'CustomersController@index')->name('customers.index');
+Route::get('/customers/alerts', 'CustomersController@alerts')->name('customers.alerts');
+Route::get('/customers/create', 'CustomersController@create')->name('customers.create');
+Route::get('/customers/{id}/edit', 'CustomersController@edit')->name('customers.edit');
+Route::get('/customers/{id}/destroy', 'CustomersController@destroy')->name('customers.destroy');
+Route::post('/customers', 'CustomersController@store')->name('cars.store');
+Route::get('/customers/{id}/update', 'CustomersController@update')->name('customers.update');
+
+Route::get('/get_customers_datatables', 'CustomersController@get_customers_datatables')->name('get_customers_datatables');	
+
+		
+
+// // Authentication routes...
+// Route::get('auth/login', 'Front@login');
+// Route::post('auth/login', 'Front@authenticate');
+// Route::get('auth/logout', 'Front@logout');
+
+// // Registration routes...
+// Route::post('/register', 'Front@register');
+		
+// Route::get('/checkout', [
+//     'middleware' => 'auth',
+//     'uses' => 'Front@checkout'
+// ]);
+
+
+
+
+
 
 Auth::routes();
 

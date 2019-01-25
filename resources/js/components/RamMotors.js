@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 
 export default class RamMotors extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+                cars: [],
+        };
+
+    }
+   
+    componentWillMount() {
+        
+            axios.get('/cars').then(response =>
+             this.setState({
+                cars: [...response.data]
+                 })
+            );
+            console.log(this.state);
+        
+    }
     render() {
         return (
             <div className="container">
