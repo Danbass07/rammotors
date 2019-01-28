@@ -85,8 +85,8 @@ class CarsController extends Controller
     }
 
     public function index() {
-
-    		return response('cars.index');
+			$cars = Car::all();
+    		return response()->json($cars);
 
     }
 

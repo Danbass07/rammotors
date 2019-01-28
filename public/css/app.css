@@ -1,5 +1,23 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.table-container {
+  width: 80%;
+  overflow: hidden;
+  border: solid 2px black;
+}
+
+.table-head {
+  background-color: darkblue;
+  color: white;
+  border-radius: 45%;
+  width: 50px;
+  margin: 8px;
+}
+
+.table-data {
+  margin: 8px;
+}
+
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors

@@ -59957,13 +59957,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
 
@@ -59979,8 +59979,10 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RamMotors).call(this, props));
     _this.state = {
-      cars: []
+      cars: [],
+      sorting: true
     };
+    _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
   }
 
@@ -59994,24 +59996,74 @@ function (_Component) {
           cars: _toConsumableArray(response.data)
         });
       });
-      console.log(this.state);
+    }
+  }, {
+    key: "clickHandler",
+    value: function clickHandler(category) {
+      var neworder = _toConsumableArray(this.state.cars.sort(this.compareValues(category, this.state.sorting)));
+
+      this.setState({
+        cars: neworder,
+        sorting: !this.state.sorting
+      });
+    }
+  }, {
+    key: "compareValues",
+    value: function compareValues(key) {
+      var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      return function (a, b) {
+        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+          // property doesn't exist on either object
+          return 0;
+        }
+
+        var varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+        var varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
+        var comparison = 0;
+
+        if (varA > varB) {
+          comparison = 1;
+        } else if (varA < varB) {
+          comparison = -1;
+        }
+
+        return order == false ? comparison * -1 : comparison;
+      };
     }
   }, {
     key: "render",
     value: function render() {
+      var _this3 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "row justify-content-center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-md-8"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-header"
-      }, "Example Component"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "card-body"
-      }, "I'm an RamMotors")))));
+        className: "table-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+        className: "table-head"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        onClick: function onClick() {
+          return _this3.clickHandler('registration');
+        }
+      }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        onClick: function onClick() {
+          return _this3.clickHandler('make');
+        }
+      }, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        onClick: function onClick() {
+          return _this3.clickHandler('mot');
+        }
+      }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        onClick: function onClick() {
+          return _this3.clickHandler('servis');
+        }
+      }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        onClick: function onClick() {
+          return _this3.clickHandler('appointment');
+        }
+      }, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.cars.map(function (car) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          key: car.id + car.registration
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.registration), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.appointment));
+      }))));
     }
   }]);
 
@@ -60064,8 +60116,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
