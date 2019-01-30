@@ -59980,7 +59980,10 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RamMotors).call(this, props));
     _this.state = {
       cars: [],
-      sorting: true
+      ascending: true,
+      displayCars: [],
+      editedcar: {},
+      modal: false
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -59993,14 +59996,15 @@ function (_Component) {
 
       axios.get('/cars').then(function (response) {
         return _this2.setState({
-          cars: _toConsumableArray(response.data)
+          cars: _toConsumableArray(response.data),
+          displayCars: _toConsumableArray(response.data)
         });
       });
     }
   }, {
     key: "clickHandler",
     value: function clickHandler(category) {
-      var neworder = _toConsumableArray(this.state.cars.sort(this.compareValues(category, this.state.sorting)));
+      var neworder = _toConsumableArray(this.state.cars.sort(this.compareValues(category, this.state.ascending)));
 
       this.setState({
         cars: neworder,
@@ -60008,9 +60012,45 @@ function (_Component) {
       });
     }
   }, {
+    key: "searchHandler",
+    value: function searchHandler(e) {
+      var target = e.target.value.toLowerCase();
+      var searchResult = [];
+      this.state.cars.map(function (car) {
+        if (car.registration.toLowerCase().includes(target) || car.make.toLowerCase().includes(target) || car.mot.toLowerCase().includes(target) || car.servis.toLowerCase().includes(target) || car.appointment.toLowerCase().includes(target)) {
+          searchResult.push(car);
+        }
+      });
+      this.setState({
+        displayCars: [].concat(searchResult)
+      });
+    }
+  }, {
+    key: "editCarHandler",
+    value: function editCarHandler(car) {
+      this.setState({
+        editedcar: car,
+        modal: !this.state.modal
+      });
+      console.log(this.state.editedcar);
+    }
+  }, {
+    key: "displayModal",
+    value: function displayModal() {
+      var _this3 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "modal"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        onClick: function onClick() {
+          return _this3.editCarHandler({});
+        }
+      }, " hello"));
+    }
+  }, {
     key: "compareValues",
     value: function compareValues(key) {
-      var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      var ascending = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       return function (a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
           // property doesn't exist on either object
@@ -60027,43 +60067,72 @@ function (_Component) {
           comparison = -1;
         }
 
-        return order == false ? comparison * -1 : comparison;
+        return ascending == false ? comparison * -1 : comparison;
       };
+    }
+  }, {
+    key: "contains",
+    value: function contains(a, obj) {
+      for (var i = 0; i < a.length; i++) {
+        if (a[i].id === obj.id) {
+          return true;
+        }
+      }
+
+      return false;
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "table-container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.modal ? this.displayModal() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "table-container",
+        id: "style-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "table-body",
+        id: "style-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "table-head"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         onClick: function onClick() {
-          return _this3.clickHandler('registration');
+          return _this4.clickHandler('registration');
         }
       }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         onClick: function onClick() {
-          return _this3.clickHandler('make');
+          return _this4.clickHandler('make');
         }
       }, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         onClick: function onClick() {
-          return _this3.clickHandler('mot');
+          return _this4.clickHandler('mot');
         }
       }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         onClick: function onClick() {
-          return _this3.clickHandler('servis');
+          return _this4.clickHandler('servis');
         }
       }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
         onClick: function onClick() {
-          return _this3.clickHandler('appointment');
+          return _this4.clickHandler('appointment');
         }
-      }, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, this.state.cars.map(function (car) {
+      }, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+        className: "table-data",
+        id: "style-1"
+      }, this.state.displayCars.map(function (car) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-          key: car.id + car.registration
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.registration), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.appointment));
-      }))));
+          className: "table-data-row",
+          key: car.id + car.registration,
+          onClick: function onClick() {
+            return _this4.editCarHandler(car);
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-registration"
+        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.appointment));
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "search-input",
+        onChange: function onChange(e) {
+          return _this4.searchHandler(e);
+        }
+      })));
     }
   }]);
 
@@ -60116,8 +60185,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

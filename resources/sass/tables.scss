@@ -1,15 +1,74 @@
 .table-container {
-    width: 80%;
-    overflow: hidden;
-    border:solid 2px black; 
+    width: 1020px;
+    font-size:1.6em;
+     overflow-y: scroll;
+     height: 500px;
+     margin: 50px auto;
+     
+}
+.table-body {
+    box-sizing: border-box;
+    text-align: center;
+    
 }
 .table-head {
-    background-color: darkblue;
+    position: fixed;
+    top:72px;
+    height: 60px;
+    padding-top: 13px;
+    background-color: darkred;
     color: white;
-    border-radius: 45%;
-    width: 50px;
-    margin: 8px;
+    width: 1020px;
+    border-radius: 25% 25% 0 0;
+    
+  
 }
 .table-data{
+    background-color: lighten($tablehead, 10%);
+    color:white;
     margin: 8px;
+    overflow-y: visible;
+
+}
+.table-registration {
+    letter-spacing: 6px; 
+}
+.table-data-row:nth-child(odd) {
+    background-color: lighten($tablehead, 20%);
+}
+th {
+    width: 240px;
+}
+
+.search-input {
+    padding-left:80px;
+    position: fixed;
+    left: 380px;
+    bottom: 88px;
+    width: 500px;
+    border-radius: 15% 45% 15% 45%;
+    border: solid 2px red;
+
+}
+#style-1::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+} 
+#style-1::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.modal{
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+    opacity: 66%;
+    z-index: 1000;
+    display: block;
+
+
 }

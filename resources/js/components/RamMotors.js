@@ -5,7 +5,10 @@ export default class RamMotors extends Component {
         super(props);
         this.state = {
                 cars: [],
-                sorting: true,
+                ascending: true,
+                displayCars: [],
+                editedcar: {},
+                modal: false,
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -14,17 +17,56 @@ export default class RamMotors extends Component {
         
             axios.get('/cars').then(response => this.setState({
                 cars: [...response.data],
+                displayCars: [...response.data],
             }));
                
     }
     clickHandler(category){
-       const neworder =[...this.state.cars.sort(this.compareValues(category, this.state.sorting))];
+       const neworder =[...this.state.cars.sort(this.compareValues(category, this.state.ascending))];
        this.setState({
            cars: neworder,
            sorting: !this.state.sorting,
        })
     }
-     compareValues(key, order=true) {
+    searchHandler(e) {
+        const target = e.target.value.toLowerCase()
+        const searchResult = []
+         this.state.cars.map( car => {
+            
+          if (  car.registration.toLowerCase().includes(target) ||
+          car.make.toLowerCase().includes(target) ||
+          car.mot.toLowerCase().includes(target) ||
+          car.servis.toLowerCase().includes(target) ||
+          car.appointment.toLowerCase().includes(target)
+          
+          ) {
+            
+            searchResult.push(car);
+                
+            }})
+        this.setState({
+            displayCars: [...searchResult],
+            })
+    }
+    editCarHandler(car) {
+        this.setState({
+            editedcar: car,
+            modal: !this.state.modal,
+        })
+        console.log(this.state.editedcar)
+    }
+    
+    displayModal(){
+        return (
+            <div className="modal">
+
+                 
+            <h1 onClick={() => this.editCarHandler({})}> hello</h1>
+
+            </div>
+        )
+    }
+     compareValues(key, ascending=true) {
         return function(a, b) {
           if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
             // property doesn't exist on either object
@@ -43,14 +85,28 @@ export default class RamMotors extends Component {
             comparison = -1;
           }
           return (
-            (order == false) ? (comparison * -1) : comparison
+            (ascending == false) ? (comparison * -1) : comparison
           );
         };
       }
+      contains(a, obj) {
+        for (var i = 0; i < a.length; i++) {
+          
+            if (a[i].id === obj.id) {
+              
+                return true;
+            }
+        }
+      
+        return false;
+    }    
     render() {
         return (
-            <div className="table-container">
-            <table>
+        <div>
+            {this.state.modal ? this.displayModal() : null}
+            <div className="table-container" id="style-1">
+            
+            <table className="table-body" id="style-1">
             <thead className='table-head'>
                 <tr>
                     <th onClick={() => this.clickHandler('registration')}>REGISTRATION</th>
@@ -60,10 +116,10 @@ export default class RamMotors extends Component {
                     <th onClick={() => this.clickHandler('appointment')}>APPOINTMENT</th>
                 </tr>
             </thead>
-            <tbody>
-                {this.state.cars.map(car =>
-                <tr key={car.id+car.registration}>
-                    <th>{car.registration}</th>
+            <tbody className="table-data"  id="style-1">
+                {this.state.displayCars.map(car =>
+                <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.editCarHandler(car)}>
+                    <th className='table-registration'>{car.registration.toUpperCase()}</th>
                     <th>{car.make}</th>
                     <th>{car.mot}</th>
                     <th>{car.servis}</th>
@@ -72,8 +128,11 @@ export default class RamMotors extends Component {
                 )}
                 
             </tbody>
-            </table>    
+           
+            </table>   
+            <input className="search-input" onChange={(e) => this.searchHandler(e)}></input> 
             </div>
+        </div>
         );
     }
 }
