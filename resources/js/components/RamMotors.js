@@ -22,11 +22,12 @@ export default class RamMotors extends Component {
                
     }
     clickHandler(category){
-       const neworder =[...this.state.cars.sort(this.compareValues(category, this.state.ascending))];
+       const neworder =[...this.state.displayCars.sort(this.compareValues(category, this.state.ascending))];
        this.setState({
-           cars: neworder,
-           sorting: !this.state.sorting,
+            displayCars: neworder,
+           ascending: !this.state.ascending,
        })
+       console.log(this.state.cars)
     }
     searchHandler(e) {
         const target = e.target.value.toLowerCase()
@@ -53,7 +54,7 @@ export default class RamMotors extends Component {
             editedcar: car,
             modal: !this.state.modal,
         })
-        console.log(this.state.editedcar)
+        
     }
     
     displayModal(){
@@ -97,42 +98,59 @@ export default class RamMotors extends Component {
                 return true;
             }
         }
-      
+        console.log('compare works')
         return false;
     }    
     render() {
         return (
-        <div>
-            {this.state.modal ? this.displayModal() : null}
-            <div className="table-container" id="style-1">
-            
-            <table className="table-body" id="style-1">
-            <thead className='table-head'>
-                <tr>
-                    <th onClick={() => this.clickHandler('registration')}>REGISTRATION</th>
-                    <th onClick={() => this.clickHandler('make')}>MAKE</th>
-                    <th onClick={() => this.clickHandler('mot')}>MOT</th>
-                    <th onClick={() => this.clickHandler('servis')}>SERVICE</th>
-                    <th onClick={() => this.clickHandler('appointment')}>APPOINTMENT</th>
-                </tr>
-            </thead>
-            <tbody className="table-data"  id="style-1">
-                {this.state.displayCars.map(car =>
-                <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.editCarHandler(car)}>
-                    <th className='table-registration'>{car.registration.toUpperCase()}</th>
-                    <th>{car.make}</th>
-                    <th>{car.mot}</th>
-                    <th>{car.servis}</th>
-                    <th>{car.appointment}</th>
-                </tr>    
-                )}
-                
-            </tbody>
-           
-            </table>   
-            <input className="search-input" onChange={(e) => this.searchHandler(e)}></input> 
+            <div className="wrapper">
+                <div className="closing-div">X</div>
+                <div className="workfield"> 
+                    {this.state.modal ? this.displayModal() : null}
+                    
+                        <div className="header">
+                            
+                            <div className='header-item'>{Object.keys(this.state)[0].toUpperCase()}</div>
+                        </div>
+                        <div className="header">
+                            <div onClick={() => this.clickHandler('registration')} className="header-item">REGISTRATION</div>
+                            <div onClick={() => this.clickHandler('make')} className="header-item">TYPE</div>
+                            <div onClick={() => this.clickHandler('mot')} className="header-item">MOT</div>
+                            <div onClick={() => this.clickHandler('servis')} className="header-item">SERVICE</div>   
+                            <div onClick={() => this.clickHandler('appointment')} className="header-item">APPOINTMENT</div>         
+                        </div>
+                        <div className="table-container" id="style-1">
+                        
+                            <table className="table-body" id="style-1">
+                            
+                                <thead className='table-head'>
+                                    <tr>
+                                        <th >REGISTRATION</th>
+                                        <th >MAKE</th>
+                                        <th >MOT</th>
+                                        <th >SERVICE</th>
+                                        <th >APPOINTMENT</th>
+                                    </tr>
+                                </thead>
+                                
+                                <tbody className="table-data"  id="style-1">
+                                    {this.state.displayCars.map(car =>
+                                    <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.editCarHandler(car)}>
+                                        <th className='table-item'>{car.registration.toUpperCase()}</th>
+                                        <th className='table-item'>{car.make}</th>
+                                        <th className='table-item'>{car.mot}</th>
+                                        <th className='table-item'>{car.servis}</th>
+                                        <th className='table-item'>{car.appointment}</th>
+                                    </tr>    
+                                    )}
+                                    
+                                </tbody>
+                        
+                            </table>   
+                        </div>
+                    <input className="search-input" onChange={(e) => this.searchHandler(e)} placeholder="Click and type to search here ..." ></input> 
+                </div>
             </div>
-        </div>
         );
     }
 }

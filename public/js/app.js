@@ -60004,12 +60004,13 @@ function (_Component) {
   }, {
     key: "clickHandler",
     value: function clickHandler(category) {
-      var neworder = _toConsumableArray(this.state.cars.sort(this.compareValues(category, this.state.ascending)));
+      var neworder = _toConsumableArray(this.state.displayCars.sort(this.compareValues(category, this.state.ascending)));
 
       this.setState({
-        cars: neworder,
-        sorting: !this.state.sorting
+        displayCars: neworder,
+        ascending: !this.state.ascending
       });
+      console.log(this.state.cars);
     }
   }, {
     key: "searchHandler",
@@ -60032,7 +60033,6 @@ function (_Component) {
         editedcar: car,
         modal: !this.state.modal
       });
-      console.log(this.state.editedcar);
     }
   }, {
     key: "displayModal",
@@ -60079,6 +60079,7 @@ function (_Component) {
         }
       }
 
+      console.log('compare works');
       return false;
     }
   }, {
@@ -60086,7 +60087,44 @@ function (_Component) {
     value: function render() {
       var _this4 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.modal ? this.displayModal() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "wrapper"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "closing-div"
+      }, "X"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "workfield"
+      }, this.state.modal ? this.displayModal() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header-item"
+      }, Object.keys(this.state)[0].toUpperCase())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this4.clickHandler('registration');
+        },
+        className: "header-item"
+      }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this4.clickHandler('make');
+        },
+        className: "header-item"
+      }, "TYPE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this4.clickHandler('mot');
+        },
+        className: "header-item"
+      }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this4.clickHandler('servis');
+        },
+        className: "header-item"
+      }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this4.clickHandler('appointment');
+        },
+        className: "header-item"
+      }, "APPOINTMENT")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "table-container",
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
@@ -60094,27 +60132,7 @@ function (_Component) {
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "table-head"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        onClick: function onClick() {
-          return _this4.clickHandler('registration');
-        }
-      }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        onClick: function onClick() {
-          return _this4.clickHandler('make');
-        }
-      }, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        onClick: function onClick() {
-          return _this4.clickHandler('mot');
-        }
-      }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        onClick: function onClick() {
-          return _this4.clickHandler('servis');
-        }
-      }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-        onClick: function onClick() {
-          return _this4.clickHandler('appointment');
-        }
-      }, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "table-data",
         id: "style-1"
       }, this.state.displayCars.map(function (car) {
@@ -60125,13 +60143,22 @@ function (_Component) {
             return _this4.editCarHandler(car);
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-registration"
-        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, car.appointment));
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "table-item"
+        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, car.appointment));
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "search-input",
         onChange: function onChange(e) {
           return _this4.searchHandler(e);
-        }
+        },
+        placeholder: "Click and type to search here ..."
       })));
     }
   }]);
@@ -60185,8 +60212,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\Websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\Websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

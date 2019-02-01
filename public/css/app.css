@@ -1,11 +1,40 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
+.wrapper {
+  width: 560px;
+  height: 360px;
+}
+
+.workfield {
+  width: 560px;
+  height: 360px;
+  align-items: center;
+  border-radius: 5%;
+  box-shadow: red 2px 2px 18px 3px;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  background-color: darkred;
+  width: 100%;
+  height: 28px;
+  justify-content: space-around;
+}
+
+.header-item {
+  width: 20%;
+  height: 30px;
+  background-color: darkred;
+  color: wheat;
+  text-align: center;
+}
+
 .table-container {
-  width: 1020px;
-  font-size: 1.6em;
-  overflow-y: scroll;
-  height: 500px;
-  margin: 50px auto;
+  font-size: 1em;
+  overflow-y: auto;
+  height: 250px;
 }
 
 .table-body {
@@ -14,43 +43,45 @@
 }
 
 .table-head {
-  position: fixed;
-  top: 72px;
-  height: 60px;
-  padding-top: 13px;
-  background-color: darkred;
-  color: white;
-  width: 1020px;
-  border-radius: 25% 25% 0 0;
+  display: none;
 }
 
 .table-data {
   background-color: #535353;
   color: white;
-  margin: 8px;
-  overflow-y: visible;
 }
 
-.table-registration {
-  letter-spacing: 6px;
+.table-item {
+  width: 112px;
+}
+
+.closing-div {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  z-index: 990;
+  font-size: 1.4em;
+  margin-left: auto;
+  position: relative;
+  right: -10px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
 }
 
 .table-data-row:nth-child(odd) {
   background-color: #6c6c6c;
 }
 
-th {
-  width: 240px;
-}
-
 .search-input {
   padding-left: 80px;
-  position: fixed;
   left: 380px;
   bottom: 88px;
-  width: 500px;
-  border-radius: 15% 45% 15% 45%;
-  border: solid 2px red;
+  width: 100%;
+  height: 55px;
 }
 
 #style-1::-webkit-scrollbar {
