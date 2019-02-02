@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Table from './Table';
 
 export default class RamMotors extends Component {
     constructor(props) {
@@ -7,6 +8,7 @@ export default class RamMotors extends Component {
                 cars: [],
                 ascending: true,
                 displayCars: [],
+                displayAlerts: [],
                 editedcar: {},
                 modal: false,
         };
@@ -19,16 +21,30 @@ export default class RamMotors extends Component {
                 cars: [...response.data],
                 displayCars: [...response.data],
             }));
-               
+            axios.get('/cars/alerts').then(response => this.setState({
+                alerts: [...response.data],
+                displayAlerts: [...response.data],
+            }));
     }
-    clickHandler(category){
-       const neworder =[...this.state.displayCars.sort(this.compareValues(category, this.state.ascending))];
+    clickHandler(category, table){
+        console.log(this.state.displayCars);
+        let sortingData;
+        if (table === 'displayCars') {
+            sortingData = [...this.state.displayCars];
+        }
+        if (table === 'displayAlerts') {
+            sortingData = [...this.state.displayAlerts];
+        }
+        
+       const neworder =sortingData.sort(this.compareValues(category, this.state.ascending));
+       console.log(neworder);
        this.setState({
-            displayCars: neworder,
+            [table]: neworder,
            ascending: !this.state.ascending,
        })
-       console.log(this.state.cars)
+       
     }
+  
     searchHandler(e) {
         const target = e.target.value.toLowerCase()
         const searchResult = []
@@ -98,58 +114,18 @@ export default class RamMotors extends Component {
                 return true;
             }
         }
-        console.log('compare works')
         return false;
     }    
     render() {
         return (
-            <div className="wrapper">
-                <div className="closing-div">X</div>
-                <div className="workfield"> 
-                    {this.state.modal ? this.displayModal() : null}
-                    
-                        <div className="header">
-                            
-                            <div className='header-item'>{Object.keys(this.state)[0].toUpperCase()}</div>
-                        </div>
-                        <div className="header">
-                            <div onClick={() => this.clickHandler('registration')} className="header-item">REGISTRATION</div>
-                            <div onClick={() => this.clickHandler('make')} className="header-item">TYPE</div>
-                            <div onClick={() => this.clickHandler('mot')} className="header-item">MOT</div>
-                            <div onClick={() => this.clickHandler('servis')} className="header-item">SERVICE</div>   
-                            <div onClick={() => this.clickHandler('appointment')} className="header-item">APPOINTMENT</div>         
-                        </div>
-                        <div className="table-container" id="style-1">
-                        
-                            <table className="table-body" id="style-1">
-                            
-                                <thead className='table-head'>
-                                    <tr>
-                                        <th >REGISTRATION</th>
-                                        <th >MAKE</th>
-                                        <th >MOT</th>
-                                        <th >SERVICE</th>
-                                        <th >APPOINTMENT</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody className="table-data"  id="style-1">
-                                    {this.state.displayCars.map(car =>
-                                    <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.editCarHandler(car)}>
-                                        <th className='table-item'>{car.registration.toUpperCase()}</th>
-                                        <th className='table-item'>{car.make}</th>
-                                        <th className='table-item'>{car.mot}</th>
-                                        <th className='table-item'>{car.servis}</th>
-                                        <th className='table-item'>{car.appointment}</th>
-                                    </tr>    
-                                    )}
-                                    
-                                </tbody>
-                        
-                            </table>   
-                        </div>
-                    <input className="search-input" onChange={(e) => this.searchHandler(e)} placeholder="Click and type to search here ..." ></input> 
-                </div>
+            <div className="rammotors">
+            <Table tableName="cars" displayCars={this.state.displayCars} clickHandler={(category) => this.clickHandler(category, 'displayCars')} editCarHandler={(car) => this.editCarHandler(car)} />
+            <Table tableName="alerts" 
+            displayCars={this.state.displayAlerts} 
+            clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+               
+                
             </div>
         );
     }

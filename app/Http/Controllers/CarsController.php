@@ -120,7 +120,7 @@ class CarsController extends Controller
 		
 			
 			
-			return view('cars.alerts')->with('carsmotcoming', $carsmotcoming);
+			return response()->json($carsmotcoming);
 	}
 
 
