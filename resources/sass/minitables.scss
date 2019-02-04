@@ -1,0 +1,127 @@
+.mini-wrapper {
+    width: 240px;
+    height: 180px;
+}
+.mini-workfield {
+    width: 240px;
+    height: 180px;
+    align-items: center;
+    border-radius: 5%;
+    box-shadow: red 2px 2px 18px 3px;
+    overflow: hidden;
+
+    
+
+}
+.mini-header{
+    display: flex;
+    flex-direction: row; 
+    background-color: darkred;
+    width: 100%;
+    height: 28px;
+    justify-content: space-around;
+}
+
+.mini-header-item{
+    width: 120px;
+ height: 30px;
+ background-color: darkred;
+ color: wheat;
+ text-align: center;
+
+}
+.mini-table-container {
+  
+    font-size:1em;
+     overflow-y: auto;
+     height: 125px;
+     
+}
+.mini-table-body {
+    box-sizing: border-box;
+    text-align: center;
+    
+    
+}
+.mini-table-head {
+    
+    display: none;
+    
+  
+}
+.mini-table-data{
+    background-color: lighten($tablehead, 10%);
+    color:white;
+   
+   
+
+}
+.mini-table-item  {
+    width: 120px;
+}
+
+.mini-closing-div {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    z-index:990;
+    font-size:1.4em;
+    margin-left: auto;
+    position: relative;
+    right: -10px;
+    top: 20px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+
+.mini-table-data-row:nth-child(odd) {
+    background-color: lighten($tablehead, 20%);
+}
+
+
+.mini-search-input {
+    padding-left:80px;
+    left: 380px;
+    bottom: 88px;
+    width: 100%;
+    height: 55px;
+
+
+}
+#style-1::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+} 
+#style-1::-webkit-scrollbar-thumb {
+    background-color: #000000;
+}
+#style-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.focus{
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: block;
+
+
+}
+.focus-field {
+    position:relative;
+    margin: 200px auto;
+    width: 560px;
+    height: 360px;
+    opacity: 1;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: white 2px 2px 18px 3px;
+}

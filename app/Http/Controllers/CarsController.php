@@ -303,7 +303,7 @@ class CarsController extends Controller
 		$cars = \App\Car::where('pending', '=', 1)->get();
 
 
-			return view('cars/pending')->withCars($cars);
+		return response()->json($cars);
 	}
 
 	public function confirmed() {
@@ -312,7 +312,7 @@ class CarsController extends Controller
 						->get();
 
 
-			return view('cars/confirmed')->withCars($cars);
+						return response()->json($cars);
 	}
 
 

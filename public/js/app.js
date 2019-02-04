@@ -59927,6 +59927,114 @@ if (token) {
 
 /***/ }),
 
+/***/ "./resources/js/components/MiniTable.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/MiniTable.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MiniTable; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var MiniTable =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(MiniTable, _Component);
+
+  function MiniTable(props) {
+    var _this;
+
+    _classCallCheck(this, MiniTable);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MiniTable).call(this, props));
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(MiniTable, [{
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-wrapper"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "closing-div"
+      }, "X"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-workfield"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header-item"
+      }, this.props.tableName.toUpperCase())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('registration');
+        },
+        className: "mini-header-item"
+      }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('make');
+        },
+        className: "mini-header-item"
+      }, "Make")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-table-container",
+        id: "style-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+        className: "mini-table-body",
+        id: "style-1"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+        className: "mini-table-head"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+        className: "mini-table-data",
+        id: "style-1"
+      }, this.props.displayCars.map(function (car) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          className: "mini-table-data-row",
+          key: car.id + car.registration,
+          onClick: function onClick() {
+            return _this2.props.editCarHandler(car);
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "mini-table-item"
+        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "mini-table-item"
+        }, car.make));
+      }))))));
+    }
+  }]);
+
+  return MiniTable;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/RamMotors.js":
 /*!**********************************************!*\
   !*** ./resources/js/components/RamMotors.js ***!
@@ -59940,9 +60048,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Table */ "./resources/js/components/Table.js");
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
+/* harmony import */ var _MiniTable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MiniTable */ "./resources/js/components/MiniTable.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -59973,6 +60082,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 
 
+
 var RamMotors =
 /*#__PURE__*/
 function (_Component) {
@@ -59989,6 +60099,10 @@ function (_Component) {
       ascending: true,
       displayCars: [],
       displayAlerts: [],
+      pending: [],
+      displayPending: [],
+      confirmed: [],
+      displayConfirmed: [],
       editedObject: {},
       focus: false
     };
@@ -60011,6 +60125,18 @@ function (_Component) {
         return _this2.setState({
           alerts: _toConsumableArray(response.data),
           displayAlerts: _toConsumableArray(response.data)
+        });
+      });
+      axios.get('/cars/confirmed').then(function (response) {
+        return _this2.setState({
+          confirmed: _toConsumableArray(response.data),
+          displayConfirmed: _toConsumableArray(response.data)
+        });
+      });
+      axios.get('/cars/pending').then(function (response) {
+        return _this2.setState({
+          pending: _toConsumableArray(response.data),
+          displayPending: _toConsumableArray(response.data)
         });
       });
     }
@@ -60049,7 +60175,6 @@ function (_Component) {
   }, {
     key: "editCarHandler",
     value: function editCarHandler(car) {
-      console.log(_typeof(car));
       this.setState({
         editedObject: _objectSpread({}, car),
         focus: !this.state.focus
@@ -60058,8 +60183,6 @@ function (_Component) {
   }, {
     key: "formChangeHandler",
     value: function formChangeHandler(e) {
-      console.log(_typeof(this.state.editedObject));
-
       var editedObject = _objectSpread({}, this.state.editedObject);
 
       editedObject[e.target.placeholder] = e.target.value;
@@ -60183,7 +60306,7 @@ function (_Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
-      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "cars",
         displayCars: this.state.displayCars,
         clickHandler: function clickHandler(category) {
@@ -60192,11 +60315,29 @@ function (_Component) {
         editCarHandler: function editCarHandler(car) {
           return _this5.editCarHandler(car);
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "alerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
           return _this5.clickHandler(category, 'displayAlerts');
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this5.editCarHandler(car);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        tableName: "pending",
+        displayCars: this.state.displayPending,
+        clickHandler: function clickHandler(category) {
+          return _this5.clickHandler(category, 'displayPending');
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this5.editCarHandler(car);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        tableName: "confirmed",
+        displayCars: this.state.displayConfirmed,
+        clickHandler: function clickHandler(category) {
+          return _this5.clickHandler(category, 'displayConfirmed');
         },
         editCarHandler: function editCarHandler(car) {
           return _this5.editCarHandler(car);
@@ -60389,8 +60530,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

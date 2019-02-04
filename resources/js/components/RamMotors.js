@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Table from './Table';
+import MiniTable from './MiniTable';
 
 export default class RamMotors extends Component {
     constructor(props) {
@@ -9,6 +10,10 @@ export default class RamMotors extends Component {
                 ascending: true,
                 displayCars: [],
                 displayAlerts: [],
+                pending: [],
+                displayPending: [],
+                confirmed: [],
+                displayConfirmed: [],
                 editedObject: {},
                 focus: false,
         };
@@ -25,6 +30,15 @@ export default class RamMotors extends Component {
                 alerts: [...response.data],
                 displayAlerts: [...response.data],
             }));
+            axios.get('/cars/confirmed').then(response => this.setState({
+                confirmed: [...response.data],
+                displayConfirmed: [...response.data],
+            }));
+            axios.get('/cars/pending').then(response => this.setState({
+                pending: [...response.data],
+                displayPending: [...response.data],
+            }));
+          
     }
     clickHandler(category, table){
         let sortingData;
@@ -65,7 +79,6 @@ export default class RamMotors extends Component {
             })
     }
     editCarHandler(car) {
-        console.log(typeof(car));
 
         this.setState({
             editedObject: {...car},
@@ -73,7 +86,6 @@ export default class RamMotors extends Component {
         })
     }
     formChangeHandler(e) {
-        console.log(typeof(this.state.editedObject));
         let editedObject = {...this.state.editedObject};
         editedObject[e.target.placeholder] = e.target.value;
         this.setState({
@@ -178,12 +190,39 @@ export default class RamMotors extends Component {
     render() {
         return (
             <div className="rammotors">
+
             {this.state.focus ? this.focus() : null}
-            <Table tableName="cars" displayCars={this.state.displayCars} clickHandler={(category) => this.clickHandler(category, 'displayCars')} editCarHandler={(car) => this.editCarHandler(car)} />
-            <Table tableName="alerts" 
+
+            <MiniTable tableName="cars" 
+            displayCars={this.state.displayCars} 
+            clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+
+            
+            <MiniTable tableName="alerts" 
             displayCars={this.state.displayAlerts} 
             clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
             editCarHandler={(car) => this.editCarHandler(car)} />
+
+            <MiniTable tableName="pending" 
+            displayCars={this.state.displayPending} 
+            clickHandler={(category) => this.clickHandler(category, 'displayPending')} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+
+            
+            <MiniTable tableName="confirmed" 
+            displayCars={this.state.displayConfirmed} 
+            clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+            {/* <Table tableName="cars" 
+            displayCars={this.state.displayCars} 
+            clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+
+            <Table tableName="alerts" 
+            displayCars={this.state.displayAlerts} 
+            clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
+            editCarHandler={(car) => this.editCarHandler(car)} /> */}
                
                 
             </div>
