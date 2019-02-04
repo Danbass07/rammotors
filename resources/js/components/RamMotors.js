@@ -9,8 +9,8 @@ export default class RamMotors extends Component {
                 ascending: true,
                 displayCars: [],
                 displayAlerts: [],
-                editedcar: {},
-                modal: false,
+                editedObject: {},
+                focus: false,
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -27,7 +27,6 @@ export default class RamMotors extends Component {
             }));
     }
     clickHandler(category, table){
-        console.log(this.state.displayCars);
         let sortingData;
         if (table === 'displayCars') {
             sortingData = [...this.state.displayCars];
@@ -37,9 +36,9 @@ export default class RamMotors extends Component {
         }
         
        const neworder =sortingData.sort(this.compareValues(category, this.state.ascending));
-       console.log(neworder);
+       
        this.setState({
-            [table]: neworder,
+            [table]: [...neworder],
            ascending: !this.state.ascending,
        })
        
@@ -66,20 +65,80 @@ export default class RamMotors extends Component {
             })
     }
     editCarHandler(car) {
+        console.log(typeof(car));
+
         this.setState({
-            editedcar: car,
-            modal: !this.state.modal,
+            editedObject: {...car},
+            focus: !this.state.focus,
         })
-        
+    }
+    formChangeHandler(e) {
+        console.log(typeof(this.state.editedObject));
+        let editedObject = {...this.state.editedObject};
+        editedObject[e.target.placeholder] = e.target.value;
+        this.setState({
+            editedObject: editedObject,
+        }) 
+    }
+    submitHandler(e){
+        e.preventDefault();
+      
+        axios.put(`/cars/${this.state.editedObject.id}`, {
+            registartion: this.state.name,
+            make: this.state.type,
+            mot: this.state.url,
+            servis: this.state.wins,
+            appointment: this.state.lost,  
+        }).then(response => {
+           this.props.history.push('/home');
+        });
     }
     
-    displayModal(){
+    focus(){
         return (
-            <div className="modal">
+            <div className="focus">
+                <div className="focus-field">    
+                    <h1 onClick={() => this.setState({focus:!this.state.focus})}> CLOSE</h1>
+                    <form onSubmit={(e) => this.submitHandler(e) }>
+                        <input 
+                        placeholder="registration"
+                        value={this.state.editedObject.registration}
+                        onChange={(e) => this.formChangeHandler(e)}
+                        required
+                        />
+                         <input 
+                        placeholder="make"
+                        value={this.state.editedObject.make}
+                        onChange={(e) => this.formChangeHandler(e)}
+                        required
+                        />
+                           <input 
+                        placeholder="mot"
+                        value={this.state.editedObject.mot}
+                        onChange={(e) => this.formChangeHandler(e)}
+                        required
+                        />
+                         <input 
+                        placeholder="servis"
+                        value={this.state.editedObject.servis}
+                        onChange={(e) => this.formChangeHandler(e)}
+                        required
+                        />
+                         <input 
+                        placeholder="appointment"
+                        value={this.state.editedObject.appointment}
+                        onChange={(e) => this.formChangeHandler(e)}
+                        required
+                        />
+                         <button 
+                                type="submit" 
+                                className="btn btn-primary"
 
-                 
-            <h1 onClick={() => this.editCarHandler({})}> hello</h1>
-
+                                >
+                              Save Changes
+                                </button>
+                    </form>
+                </div>
             </div>
         )
     }
@@ -119,6 +178,7 @@ export default class RamMotors extends Component {
     render() {
         return (
             <div className="rammotors">
+            {this.state.focus ? this.focus() : null}
             <Table tableName="cars" displayCars={this.state.displayCars} clickHandler={(category) => this.clickHandler(category, 'displayCars')} editCarHandler={(car) => this.editCarHandler(car)} />
             <Table tableName="alerts" 
             displayCars={this.state.displayAlerts} 

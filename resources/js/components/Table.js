@@ -41,12 +41,14 @@ export default class Table extends Component {
                                 
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayCars.map(car =>
-                                    <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.editCarHandler(car)}>
+                                    
+                                    <tr className="table-data-row" key={car.id+car.registration} onClick={() => this.props.editCarHandler(car)}>
                                         <th className='table-item'>{car.registration.toUpperCase()}</th>
                                         <th className='table-item'>{car.make}</th>
                                         <th className='table-item'>{car.mot}</th>
                                         <th className='table-item'>{car.servis}</th>
                                         <th className='table-item'>{car.appointment}</th>
+                                        
                                     </tr>    
                                     )}
                                     

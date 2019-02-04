@@ -59940,6 +59940,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Table */ "./resources/js/components/Table.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -59987,8 +59989,8 @@ function (_Component) {
       ascending: true,
       displayCars: [],
       displayAlerts: [],
-      editedcar: {},
-      modal: false
+      editedObject: {},
+      focus: false
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -60017,7 +60019,6 @@ function (_Component) {
     value: function clickHandler(category, table) {
       var _this$setState;
 
-      console.log(this.state.displayCars);
       var sortingData;
 
       if (table === 'displayCars') {
@@ -60029,8 +60030,7 @@ function (_Component) {
       }
 
       var neworder = sortingData.sort(this.compareValues(category, this.state.ascending));
-      console.log(neworder);
-      this.setState((_this$setState = {}, _defineProperty(_this$setState, table, neworder), _defineProperty(_this$setState, "ascending", !this.state.ascending), _this$setState));
+      this.setState((_this$setState = {}, _defineProperty(_this$setState, table, _toConsumableArray(neworder)), _defineProperty(_this$setState, "ascending", !this.state.ascending), _this$setState));
     }
   }, {
     key: "searchHandler",
@@ -60049,23 +60049,98 @@ function (_Component) {
   }, {
     key: "editCarHandler",
     value: function editCarHandler(car) {
+      console.log(_typeof(car));
       this.setState({
-        editedcar: car,
-        modal: !this.state.modal
+        editedObject: _objectSpread({}, car),
+        focus: !this.state.focus
       });
     }
   }, {
-    key: "displayModal",
-    value: function displayModal() {
+    key: "formChangeHandler",
+    value: function formChangeHandler(e) {
+      console.log(_typeof(this.state.editedObject));
+
+      var editedObject = _objectSpread({}, this.state.editedObject);
+
+      editedObject[e.target.placeholder] = e.target.value;
+      this.setState({
+        editedObject: editedObject
+      });
+    }
+  }, {
+    key: "submitHandler",
+    value: function submitHandler(e) {
       var _this3 = this;
 
+      e.preventDefault();
+      axios.put("/cars/".concat(this.state.editedObject.id), {
+        registartion: this.state.name,
+        make: this.state.type,
+        mot: this.state.url,
+        servis: this.state.wins,
+        appointment: this.state.lost
+      }).then(function (response) {
+        _this3.props.history.push('/home');
+      });
+    }
+  }, {
+    key: "focus",
+    value: function focus() {
+      var _this4 = this;
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "modal"
+        className: "focus"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-field"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         onClick: function onClick() {
-          return _this3.editCarHandler({});
+          return _this4.setState({
+            focus: !_this4.state.focus
+          });
         }
-      }, " hello"));
+      }, " CLOSE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return _this4.submitHandler(e);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "registration",
+        value: this.state.editedObject.registration,
+        onChange: function onChange(e) {
+          return _this4.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "make",
+        value: this.state.editedObject.make,
+        onChange: function onChange(e) {
+          return _this4.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "mot",
+        value: this.state.editedObject.mot,
+        onChange: function onChange(e) {
+          return _this4.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "servis",
+        value: this.state.editedObject.servis,
+        onChange: function onChange(e) {
+          return _this4.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "appointment",
+        value: this.state.editedObject.appointment,
+        onChange: function onChange(e) {
+          return _this4.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary"
+      }, "Save Changes"))));
     }
   }, {
     key: "compareValues",
@@ -60104,27 +60179,27 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: "cars",
         displayCars: this.state.displayCars,
         clickHandler: function clickHandler(category) {
-          return _this4.clickHandler(category, 'displayCars');
+          return _this5.clickHandler(category, 'displayCars');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this4.editCarHandler(car);
+          return _this5.editCarHandler(car);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: "alerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
-          return _this4.clickHandler(category, 'displayAlerts');
+          return _this5.clickHandler(category, 'displayAlerts');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this4.editCarHandler(car);
+          return _this5.editCarHandler(car);
         }
       }));
     }
@@ -60242,7 +60317,7 @@ function (_Component) {
           className: "table-data-row",
           key: car.id + car.registration,
           onClick: function onClick() {
-            return _this2.editCarHandler(car);
+            return _this2.props.editCarHandler(car);
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
@@ -60314,8 +60389,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\Websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\Websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
