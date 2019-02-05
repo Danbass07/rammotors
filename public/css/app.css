@@ -238,6 +238,13 @@
   box-shadow: white 2px 2px 18px 3px;
 }
 
+.rammotors-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  height: 200px;
+}
+
 /*!
  * Bootstrap v4.2.1 (https://getbootstrap.com/)
  * Copyright 2011-2018 The Bootstrap Authors

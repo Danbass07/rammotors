@@ -14,6 +14,8 @@ export default class RamMotors extends Component {
                 displayPending: [],
                 confirmed: [],
                 displayConfirmed: [],
+                expired: [],
+                displayExpired:[],
                 editedObject: {},
                 focus: false,
         };
@@ -38,6 +40,10 @@ export default class RamMotors extends Component {
                 pending: [...response.data],
                 displayPending: [...response.data],
             }));
+            axios.get('/cars/get_data_expired').then(response => this.setState({
+                expired: [...response.data],
+                displayExpired: [...response.data],
+            }));
           
     }
     clickHandler(category, table){
@@ -47,6 +53,15 @@ export default class RamMotors extends Component {
         }
         if (table === 'displayAlerts') {
             sortingData = [...this.state.displayAlerts];
+        }
+        if (table === 'displayConfirmed') {
+            sortingData = [...this.state.displayConfirmed];
+        }
+        if (table === 'displayPending') {
+            sortingData = [...this.state.displayPending];
+        }
+        if (table === 'displayExpired') {
+            sortingData = [...this.state.displayExpired];
         }
         
        const neworder =sortingData.sort(this.compareValues(category, this.state.ascending));
@@ -191,40 +206,49 @@ export default class RamMotors extends Component {
         return (
             <div className="rammotors">
 
-            {this.state.focus ? this.focus() : null}
+                {this.state.focus ? this.focus() : null}
+                <div className="rammotors-row">
+                                  
+                    <MiniTable tableName="alerts" 
+                    displayCars={this.state.displayAlerts} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
 
-            <MiniTable tableName="cars" 
-            displayCars={this.state.displayCars} 
-            clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
-            editCarHandler={(car) => this.editCarHandler(car)} />
+                    <MiniTable tableName="pending" 
+                    displayCars={this.state.displayPending} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayPending')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
 
-            
-            <MiniTable tableName="alerts" 
-            displayCars={this.state.displayAlerts} 
-            clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
-            editCarHandler={(car) => this.editCarHandler(car)} />
+                    
+                    <MiniTable tableName="confirmed" 
+                    displayCars={this.state.displayConfirmed} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
 
-            <MiniTable tableName="pending" 
-            displayCars={this.state.displayPending} 
-            clickHandler={(category) => this.clickHandler(category, 'displayPending')} 
-            editCarHandler={(car) => this.editCarHandler(car)} />
+                    <MiniTable tableName="expired" 
+                    displayCars={this.state.displayExpired} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
+                </div>
+                <div className="rammotors-row">
 
-            
-            <MiniTable tableName="confirmed" 
-            displayCars={this.state.displayConfirmed} 
-            clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
-            editCarHandler={(car) => this.editCarHandler(car)} />
-            {/* <Table tableName="cars" 
-            displayCars={this.state.displayCars} 
-            clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
-            editCarHandler={(car) => this.editCarHandler(car)} />
+                    <MiniTable tableName="cars" 
+                    displayCars={this.state.displayCars} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
 
-            <Table tableName="alerts" 
-            displayCars={this.state.displayAlerts} 
-            clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
-            editCarHandler={(car) => this.editCarHandler(car)} /> */}
-               
-                
+                </div>
+                    {/* <Table tableName="cars" 
+                    displayCars={this.state.displayCars} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} />
+
+                    <Table tableName="alerts" 
+                    displayCars={this.state.displayAlerts} 
+                    clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} /> */}
+                    
+                        
             </div>
         );
     }

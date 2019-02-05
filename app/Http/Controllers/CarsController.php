@@ -58,14 +58,15 @@ class CarsController extends Controller
 
 	public function get_data_expired() {
     	
-    		return  datatables()->of(Car::query()->where('mot', '<', Carbon::now()))
-			    	->addColumn('action', function ($car) {
+    		// return  datatables()->of(Car::query()->where('mot', '<', Carbon::now()))
+			//     	->addColumn('action', function ($car) {
 
-			                return '<a href="'.$car->id.'/destroy" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-remove"></i> DELETE</a>';
-			            })
+			//                 return '<a href="'.$car->id.'/destroy" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-remove"></i> DELETE</a>';
+			//             })
 
-			        ->editColumn('Id', 'ID: {{$id}}')
-			    	->toJson();
+			//         ->editColumn('Id', 'ID: {{$id}}')
+			//     	->toJson();
+			$cars = Car::where('mot', '<', Carbon::now())AQ	\
     	
     }
 

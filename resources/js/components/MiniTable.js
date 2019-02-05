@@ -20,7 +20,7 @@ export default class MiniTable extends Component {
                         </div>
                         <div className="mini-header">
                             <div onClick={() => this.props.clickHandler('registration')} className="mini-header-item">REGISTRATION</div>
-                            <div onClick={() => this.props.clickHandler('make')} className="mini-header-item">Make</div>
+                            <div onClick={() => this.props.clickHandler('make')} className="mini-header-item">MAKE</div>
                           
                         </div>
                         <div className="mini-table-container" id="style-1">

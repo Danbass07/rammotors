@@ -60001,7 +60001,7 @@ function (_Component) {
           return _this2.props.clickHandler('make');
         },
         className: "mini-header-item"
-      }, "Make")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "MAKE")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-table-container",
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
@@ -60103,6 +60103,8 @@ function (_Component) {
       displayPending: [],
       confirmed: [],
       displayConfirmed: [],
+      expired: [],
+      displayExpired: [],
       editedObject: {},
       focus: false
     };
@@ -60139,6 +60141,12 @@ function (_Component) {
           displayPending: _toConsumableArray(response.data)
         });
       });
+      axios.get('/cars/get_data_expired').then(function (response) {
+        return _this2.setState({
+          expired: _toConsumableArray(response.data),
+          displayExpired: _toConsumableArray(response.data)
+        });
+      });
     }
   }, {
     key: "clickHandler",
@@ -60153,6 +60161,18 @@ function (_Component) {
 
       if (table === 'displayAlerts') {
         sortingData = _toConsumableArray(this.state.displayAlerts);
+      }
+
+      if (table === 'displayConfirmed') {
+        sortingData = _toConsumableArray(this.state.displayConfirmed);
+      }
+
+      if (table === 'displayPending') {
+        sortingData = _toConsumableArray(this.state.displayPending);
+      }
+
+      if (table === 'displayExpired') {
+        sortingData = _toConsumableArray(this.state.displayExpired);
       }
 
       var neworder = sortingData.sort(this.compareValues(category, this.state.ascending));
@@ -60306,16 +60326,9 @@ function (_Component) {
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
-      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tableName: "cars",
-        displayCars: this.state.displayCars,
-        clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayCars');
-        },
-        editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
-        }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rammotors-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "alerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
@@ -60342,7 +60355,27 @@ function (_Component) {
         editCarHandler: function editCarHandler(car) {
           return _this5.editCarHandler(car);
         }
-      }));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        tableName: "expired",
+        displayCars: this.state.displayExpired,
+        clickHandler: function clickHandler(category) {
+          return _this5.clickHandler(category, 'displayConfirmed');
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this5.editCarHandler(car);
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rammotors-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        tableName: "cars",
+        displayCars: this.state.displayCars,
+        clickHandler: function clickHandler(category) {
+          return _this5.clickHandler(category, 'displayCars');
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this5.editCarHandler(car);
+        }
+      })));
     }
   }]);
 
@@ -60530,8 +60563,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
