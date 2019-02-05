@@ -59986,10 +59986,13 @@ function (_Component) {
       }, "X"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "mini-header"
+        className: "mini-header",
+        onClick: function onClick() {
+          return _this2.props.focusOnTableHandler(_this2.props.tableName);
+        }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header-item"
-      }, this.props.tableName.toUpperCase())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " ", this.props.tableName.toUpperCase(), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -60106,6 +60109,7 @@ function (_Component) {
       expired: [],
       displayExpired: [],
       editedObject: {},
+      focusOn: '',
       focus: false
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
@@ -60201,6 +60205,30 @@ function (_Component) {
       });
     }
   }, {
+    key: "displayTable",
+    value: function displayTable(table) {
+      var _this3 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableName: this.state.focusOn,
+        displayCars: this.state[table],
+        clickHandler: function clickHandler(category) {
+          return _this3.clickHandler(category, _this3.state.focusOn);
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this3.editCarHandler(car);
+        }
+      });
+    }
+  }, {
+    key: "focusOnTableHandler",
+    value: function focusOnTableHandler(table) {
+      this.setState({
+        focusOn: table,
+        focus: !this.state.focus
+      });
+    }
+  }, {
     key: "formChangeHandler",
     value: function formChangeHandler(e) {
       var editedObject = _objectSpread({}, this.state.editedObject);
@@ -60213,7 +60241,7 @@ function (_Component) {
   }, {
     key: "submitHandler",
     value: function submitHandler(e) {
-      var _this3 = this;
+      var _this4 = this;
 
       e.preventDefault();
       axios.put("/cars/".concat(this.state.editedObject.id), {
@@ -60223,13 +60251,62 @@ function (_Component) {
         servis: this.state.wins,
         appointment: this.state.lost
       }).then(function (response) {
-        _this3.props.history.push('/home');
+        _this4.props.history.push('/home');
       });
     }
   }, {
+    key: "displayForm",
+    value: function displayForm() {
+      var _this5 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return _this5.submitHandler(e);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "registration",
+        value: this.state.editedObject.registration,
+        onChange: function onChange(e) {
+          return _this5.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "make",
+        value: this.state.editedObject.make,
+        onChange: function onChange(e) {
+          return _this5.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "mot",
+        value: this.state.editedObject.mot,
+        onChange: function onChange(e) {
+          return _this5.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "servis",
+        value: this.state.editedObject.servis,
+        onChange: function onChange(e) {
+          return _this5.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "appointment",
+        value: this.state.editedObject.appointment,
+        onChange: function onChange(e) {
+          return _this5.formChangeHandler(e);
+        },
+        required: true
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn btn-primary"
+      }, "Save Changes"));
+    }
+  }, {
     key: "focus",
-    value: function focus() {
-      var _this4 = this;
+    value: function focus(focusOn) {
+      var _this6 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus"
@@ -60237,53 +60314,11 @@ function (_Component) {
         className: "focus-field"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
         onClick: function onClick() {
-          return _this4.setState({
-            focus: !_this4.state.focus
+          return _this6.setState({
+            focus: !_this6.state.focus
           });
         }
-      }, " CLOSE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: function onSubmit(e) {
-          return _this4.submitHandler(e);
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "registration",
-        value: this.state.editedObject.registration,
-        onChange: function onChange(e) {
-          return _this4.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "make",
-        value: this.state.editedObject.make,
-        onChange: function onChange(e) {
-          return _this4.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "mot",
-        value: this.state.editedObject.mot,
-        onChange: function onChange(e) {
-          return _this4.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "servis",
-        value: this.state.editedObject.servis,
-        onChange: function onChange(e) {
-          return _this4.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "appointment",
-        value: this.state.editedObject.appointment,
-        onChange: function onChange(e) {
-          return _this4.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn btn-primary"
-      }, "Save Changes"))));
+      }, " CLOSE"), focusOn == '' ? this.displayForm() : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null));
     }
   }, {
     key: "compareValues",
@@ -60322,58 +60357,70 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this7 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
-      }, this.state.focus ? this.focus() : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.focus ? this.focus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tableName: "alerts",
+        tableName: "displayAlerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayAlerts');
+          return _this7.clickHandler(category, 'displayAlerts');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
+          return _this7.editCarHandler(car);
+        },
+        focusOnTableHandler: function focusOnTableHandler(table) {
+          return _this7.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tableName: "pending",
+        tableName: "displayPending",
         displayCars: this.state.displayPending,
         clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayPending');
+          return _this7.clickHandler(category, 'displayPending');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
+          return _this7.editCarHandler(car);
+        },
+        focusOnTableHandler: function focusOnTableHandler(table) {
+          return _this7.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tableName: "confirmed",
+        tableName: "displayConfirmed",
         displayCars: this.state.displayConfirmed,
         clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayConfirmed');
+          return _this7.clickHandler(category, 'displayConfirmed');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
+          return _this7.editCarHandler(car);
+        },
+        focusOnTableHandler: function focusOnTableHandler(table) {
+          return _this7.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tableName: "expired",
+        tableName: "displayExpired",
         displayCars: this.state.displayExpired,
         clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayConfirmed');
+          return _this7.clickHandler(category, 'displayExpired');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
+          return _this7.editCarHandler(car);
+        },
+        focusOnTableHandler: function focusOnTableHandler(table) {
+          return _this7.focusOnTableHandler(table);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: "cars",
         displayCars: this.state.displayCars,
         clickHandler: function clickHandler(category) {
-          return _this5.clickHandler(category, 'displayCars');
+          return _this7.clickHandler(category, 'displayCars');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this5.editCarHandler(car);
+          return _this7.editCarHandler(car);
         }
       })));
     }
@@ -60563,8 +60610,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

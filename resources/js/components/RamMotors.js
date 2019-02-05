@@ -17,6 +17,7 @@ export default class RamMotors extends Component {
                 expired: [],
                 displayExpired:[],
                 editedObject: {},
+                focusOn: '',
                 focus: false,
         };
         this.compareValues = this.compareValues.bind(this);
@@ -100,6 +101,22 @@ export default class RamMotors extends Component {
             focus: !this.state.focus,
         })
     }
+    displayTable(table) {
+        return (
+            <Table tableName={this.state.focusOn} 
+            displayCars={this.state[table]} 
+            clickHandler={(category) => this.clickHandler(category, this.state.focusOn)} 
+            editCarHandler={(car) => this.editCarHandler(car)} />
+        )
+    }
+    focusOnTableHandler(table) {
+
+        this.setState({
+            focusOn: table,
+            focus: !this.state.focus,
+        })
+    
+    }
     formChangeHandler(e) {
         let editedObject = {...this.state.editedObject};
         editedObject[e.target.placeholder] = e.target.value;
@@ -120,51 +137,57 @@ export default class RamMotors extends Component {
            this.props.history.push('/home');
         });
     }
+    displayForm(){
+        return (
+        <form onSubmit={(e) => this.submitHandler(e) }>
+        <input 
+        placeholder="registration"
+        value={this.state.editedObject.registration}
+        onChange={(e) => this.formChangeHandler(e)}
+        required
+        />
+         <input 
+        placeholder="make"
+        value={this.state.editedObject.make}
+        onChange={(e) => this.formChangeHandler(e)}
+        required
+        />
+           <input 
+        placeholder="mot"
+        value={this.state.editedObject.mot}
+        onChange={(e) => this.formChangeHandler(e)}
+        required
+        />
+         <input 
+        placeholder="servis"
+        value={this.state.editedObject.servis}
+        onChange={(e) => this.formChangeHandler(e)}
+        required
+        />
+         <input 
+        placeholder="appointment"
+        value={this.state.editedObject.appointment}
+        onChange={(e) => this.formChangeHandler(e)}
+        required
+        />
+         <button 
+                type="submit" 
+                className="btn btn-primary"
+
+                >
+              Save Changes
+                </button>
+    </form>
+        )
+    }
     
-    focus(){
+    focus(focusOn){
         return (
             <div className="focus">
                 <div className="focus-field">    
                     <h1 onClick={() => this.setState({focus:!this.state.focus})}> CLOSE</h1>
-                    <form onSubmit={(e) => this.submitHandler(e) }>
-                        <input 
-                        placeholder="registration"
-                        value={this.state.editedObject.registration}
-                        onChange={(e) => this.formChangeHandler(e)}
-                        required
-                        />
-                         <input 
-                        placeholder="make"
-                        value={this.state.editedObject.make}
-                        onChange={(e) => this.formChangeHandler(e)}
-                        required
-                        />
-                           <input 
-                        placeholder="mot"
-                        value={this.state.editedObject.mot}
-                        onChange={(e) => this.formChangeHandler(e)}
-                        required
-                        />
-                         <input 
-                        placeholder="servis"
-                        value={this.state.editedObject.servis}
-                        onChange={(e) => this.formChangeHandler(e)}
-                        required
-                        />
-                         <input 
-                        placeholder="appointment"
-                        value={this.state.editedObject.appointment}
-                        onChange={(e) => this.formChangeHandler(e)}
-                        required
-                        />
-                         <button 
-                                type="submit" 
-                                className="btn btn-primary"
-
-                                >
-                              Save Changes
-                                </button>
-                    </form>
+                {focusOn == '' ? this.displayForm() : null}
+                {focusOn !== '' ? this.displayTable(this.state.focusOn) : null}
                 </div>
             </div>
         )
@@ -206,47 +229,45 @@ export default class RamMotors extends Component {
         return (
             <div className="rammotors">
 
-                {this.state.focus ? this.focus() : null}
+                {this.state.focus ? this.focus(this.state.focusOn) : null}
                 <div className="rammotors-row">
                                   
-                    <MiniTable tableName="alerts" 
+                    <MiniTable tableName="displayAlerts" 
                     displayCars={this.state.displayAlerts} 
                     clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
+                    editCarHandler={(car) => this.editCarHandler(car)} 
+                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
-                    <MiniTable tableName="pending" 
+                    <MiniTable tableName="displayPending" 
                     displayCars={this.state.displayPending} 
                     clickHandler={(category) => this.clickHandler(category, 'displayPending')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
+                    editCarHandler={(car) => this.editCarHandler(car)} 
+                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     
-                    <MiniTable tableName="confirmed" 
+                    <MiniTable tableName="displayConfirmed" 
                     displayCars={this.state.displayConfirmed} 
                     clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
+                    editCarHandler={(car) => this.editCarHandler(car)} 
+                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
-                    <MiniTable tableName="expired" 
+                    <MiniTable tableName="displayExpired" 
                     displayCars={this.state.displayExpired} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
+                    clickHandler={(category) => this.clickHandler(category, 'displayExpired')} 
+                    editCarHandler={(car) => this.editCarHandler(car)} 
+                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
                 </div>
                 <div className="rammotors-row">
 
-                    <MiniTable tableName="cars" 
+                 <Table tableName="cars" 
                     displayCars={this.state.displayCars} 
                     clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
                     editCarHandler={(car) => this.editCarHandler(car)} />
 
                 </div>
-                    {/* <Table tableName="cars" 
-                    displayCars={this.state.displayCars} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
+                   
 
-                    <Table tableName="alerts" 
-                    displayCars={this.state.displayAlerts} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} /> */}
+        
                     
                         
             </div>

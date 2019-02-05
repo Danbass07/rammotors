@@ -66,7 +66,9 @@ class CarsController extends Controller
 
 			//         ->editColumn('Id', 'ID: {{$id}}')
 			//     	->toJson();
-			//$cars = Car::where('mot', '<', Carbon::now())
+			$cars = \App\Car::where('mot', '<', Carbon::now())->get();
+			return response()->json($cars);
+
     	
     }
 

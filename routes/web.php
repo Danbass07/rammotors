@@ -36,7 +36,7 @@ Route::post('/cars', 'CarsController@store')->name('cars.store');
 Route::get('/cars/{id}/update', 'CarsController@update')->name('cars.update');
 Route::get('/cars/{id}/updateayear/{type}', 'CarsController@updateayear')->name('cars.updateayear');
 Route::get('/get_datatables', 'CarsController@get_datatables')->name('get_datatables');
-Route::get('/get_data_expired', 'CarsController@get_data_expired')->name('get_data_expired');
+Route::get('cars/get_data_expired', 'CarsController@get_data_expired')->name('cars.get_data_expired');
 
 
 	// Customers Controllers
