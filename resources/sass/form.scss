@@ -1,0 +1,20 @@
+.focus-form {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    margin: auto;
+    font-size: 1.8em;
+}
+.focus-form-input {
+    margin-bottom: 5px;
+    text-align: center;
+    color: white;
+    background-color: darkred;
+    border-radius: 25px;
+}
+.submit-button {
+    color: darkred;
+    background-color: white;
+    border-color: darkred;
+    border-radius: 25px;
+}

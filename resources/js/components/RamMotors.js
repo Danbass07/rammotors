@@ -47,6 +47,7 @@ export default class RamMotors extends Component {
             }));
           
     }
+
     clickHandler(category, table){
         let sortingData;
         if (table === 'displayCars') {
@@ -94,13 +95,16 @@ export default class RamMotors extends Component {
             displayCars: [...searchResult],
             })
     }
+
     editCarHandler(car) {
 
         this.setState({
+            focusOn: '',
             editedObject: {...car},
             focus: !this.state.focus,
         })
     }
+
     displayTable(table) {
         return (
             <Table tableName={this.state.focusOn} 
@@ -109,6 +113,7 @@ export default class RamMotors extends Component {
             editCarHandler={(car) => this.editCarHandler(car)} />
         )
     }
+
     focusOnTableHandler(table) {
 
         this.setState({
@@ -117,6 +122,7 @@ export default class RamMotors extends Component {
         })
     
     }
+
     formChangeHandler(e) {
         let editedObject = {...this.state.editedObject};
         editedObject[e.target.placeholder] = e.target.value;
@@ -124,55 +130,67 @@ export default class RamMotors extends Component {
             editedObject: editedObject,
         }) 
     }
+
     submitHandler(e){
         e.preventDefault();
       
-        axios.put(`/cars/${this.state.editedObject.id}`, {
+        axios.put(`/cars/${this.state.editedObject.id}/update`, {
             registartion: this.state.name,
             make: this.state.type,
             mot: this.state.url,
             servis: this.state.wins,
             appointment: this.state.lost,  
         }).then(response => {
-           this.props.history.push('/home');
+           console.log(response);
         });
     }
+
     displayForm(){
         return (
-        <form onSubmit={(e) => this.submitHandler(e) }>
+        <form className="focus-form" onSubmit={(e) => this.submitHandler(e) }>
         <input 
+        className="focus-form-input"
         placeholder="registration"
+        type="text"
         value={this.state.editedObject.registration}
         onChange={(e) => this.formChangeHandler(e)}
         required
         />
          <input 
+         className="focus-form-input"
         placeholder="make"
+        type="text"
         value={this.state.editedObject.make}
         onChange={(e) => this.formChangeHandler(e)}
         required
         />
-           <input 
+        <input 
+        className="focus-form-input"
         placeholder="mot"
+        type="date"
         value={this.state.editedObject.mot}
         onChange={(e) => this.formChangeHandler(e)}
         required
         />
-         <input 
+        <input
+        className="focus-form-input" 
         placeholder="servis"
+        type="date"
         value={this.state.editedObject.servis}
         onChange={(e) => this.formChangeHandler(e)}
         required
         />
-         <input 
+        <input 
+        className="focus-form-input"
         placeholder="appointment"
+        type="date"
         value={this.state.editedObject.appointment}
         onChange={(e) => this.formChangeHandler(e)}
         required
         />
          <button 
                 type="submit" 
-                className="btn btn-primary"
+                className="submit-button"
 
                 >
               Save Changes
@@ -185,14 +203,15 @@ export default class RamMotors extends Component {
         return (
             <div className="focus">
                 <div className="focus-field">    
-                    <h1 onClick={() => this.setState({focus:!this.state.focus})}> CLOSE</h1>
+                <div className="closing-div" onClick={() => this.setState({focus:!this.state.focus})}>X</div>
                 {focusOn == '' ? this.displayForm() : null}
                 {focusOn !== '' ? this.displayTable(this.state.focusOn) : null}
                 </div>
             </div>
         )
     }
-     compareValues(key, ascending=true) {
+
+    compareValues(key, ascending=true) {
         return function(a, b) {
           if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
             // property doesn't exist on either object
@@ -214,8 +233,9 @@ export default class RamMotors extends Component {
             (ascending == false) ? (comparison * -1) : comparison
           );
         };
-      }
-      contains(a, obj) {
+    }
+
+    contains(a, obj) {
         for (var i = 0; i < a.length; i++) {
           
             if (a[i].id === obj.id) {
@@ -224,7 +244,8 @@ export default class RamMotors extends Component {
             }
         }
         return false;
-    }    
+    }  
+
     render() {
         return (
             <div className="rammotors">

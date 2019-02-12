@@ -195,8 +195,7 @@ class CarsController extends Controller
 		$car->save();
 
 		
-			return redirect()->route('cars.edit', $id)
-                        ->with('message','car has been updated');
+		return response()->json($car);
 	
 	}
 	public function updateayear($id, $type)	{
