@@ -133,13 +133,13 @@ export default class RamMotors extends Component {
 
     submitHandler(e){
         e.preventDefault();
-      
+      console.log(this.state.editedObject.mot);
         axios.put(`/cars/${this.state.editedObject.id}/update`, {
-            registartion: this.state.name,
-            make: this.state.type,
-            mot: this.state.url,
-            servis: this.state.wins,
-            appointment: this.state.lost,  
+            registartion: this.state.editedObject.registartion,
+            make: this.state.editedObject.make,
+            mot: this.state.editedObject.mot,
+            servis: this.state.editedObject.servis,
+            appointment: this.state.editedObject.appointment,  
         }).then(response => {
            console.log(response);
         });

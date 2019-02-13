@@ -11,7 +11,7 @@ export default class Table extends Component {
     render() {
         return ( 
             <div className="wrapper">
-                <div className="closing-div">X</div>
+                {/* <div className="closing-div">X</div> */}
                 <div className="workfield"> 
                     
                         <div className="header">

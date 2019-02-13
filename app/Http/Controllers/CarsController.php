@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Car;
 use App\Customer;
+use Illuminate\Support\Facades\Log;
 use Validator;
 use Input;
 
@@ -167,7 +168,7 @@ class CarsController extends Controller
 			return View('cars.edit')->withCar($car)->withCustomers($customers);
 	}
 
-	public function update($id)	{
+	public function update(Request $request, $id)	{
 		
 
 		
@@ -181,10 +182,10 @@ class CarsController extends Controller
 		
      		
 		$car = Car::findOrfail($id);
-		$car->make = request('make');
-		$car->mot = request('mot');
-		$car->servis = request('servis');
-		$car->appointment = request('appointment');
+		$car->make = $request->make;
+		$car->mot = $request->mot;
+		$car->servis = $request->servis;
+		$car->appointment = $request->appointment;
 		
 			if ($car->appointment > Carbon::now()) {
 				
@@ -193,7 +194,6 @@ class CarsController extends Controller
 
 		$car->info = request('info');
 		$car->save();
-
 		
 		return response()->json($car);
 	

@@ -33,7 +33,7 @@ Route::get('/cars/{id}/toNexmo', 'CarsController@toNexmo')->name('cars.toNexmo')
 Route::get('/cars/{id}/addOwner', 'CarsController@addOwner')->name('cars.addOwner');
 Route::get('/cars/{id}/removeOwner/{cid}', 'CarsController@removeOwner')->name('cars.removeOwner');
 Route::post('/cars', 'CarsController@store')->name('cars.store');
-Route::get('/cars/{id}/update', 'CarsController@update')->name('cars.update');
+Route::put('/cars/{id}/update', 'CarsController@update')->name('cars.update');
 Route::get('/cars/{id}/updateayear/{type}', 'CarsController@updateayear')->name('cars.updateayear');
 Route::get('/get_datatables', 'CarsController@get_datatables')->name('get_datatables');
 Route::get('cars/get_data_expired', 'CarsController@get_data_expired')->name('cars.get_data_expired');

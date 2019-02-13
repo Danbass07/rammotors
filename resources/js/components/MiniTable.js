@@ -11,7 +11,7 @@ export default class MiniTable extends Component {
     render() {
         return ( 
             <div className="mini-wrapper">
-                <div className="closing-div">X</div>
+                {/* <div className="closing-div">X</div> */}
                 <div className="mini-workfield"> 
                     
                         <div className="mini-header"  >

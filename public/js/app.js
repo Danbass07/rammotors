@@ -59982,8 +59982,6 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "closing-div"
-      }, "X"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header"
@@ -60243,12 +60241,13 @@ function (_Component) {
     key: "submitHandler",
     value: function submitHandler(e) {
       e.preventDefault();
+      console.log(this.state.editedObject.mot);
       axios.put("/cars/".concat(this.state.editedObject.id, "/update"), {
-        registartion: this.state.name,
-        make: this.state.type,
-        mot: this.state.url,
-        servis: this.state.wins,
-        appointment: this.state.lost
+        registartion: this.state.editedObject.registartion,
+        make: this.state.editedObject.make,
+        mot: this.state.editedObject.mot,
+        servis: this.state.editedObject.servis,
+        appointment: this.state.editedObject.appointment
       }).then(function (response) {
         console.log(response);
       });
@@ -60449,133 +60448,9 @@ function (_Component) {
   !*** ./resources/js/components/Table.js ***!
   \******************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Table; });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-var Table =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(Table, _Component);
-
-  function Table(props) {
-    var _this;
-
-    _classCallCheck(this, Table);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(Table).call(this, props));
-    _this.state = {};
-    return _this;
-  }
-
-  _createClass(Table, [{
-    key: "render",
-    value: function render() {
-      var _this2 = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "closing-div"
-      }, "X"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "workfield"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-item"
-      }, this.props.tableName.toUpperCase())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this2.props.clickHandler('registration');
-        },
-        className: "header-item"
-      }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this2.props.clickHandler('make');
-        },
-        className: "header-item"
-      }, "TYPE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this2.props.clickHandler('mot');
-        },
-        className: "header-item"
-      }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this2.props.clickHandler('servis');
-        },
-        className: "header-item"
-      }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        onClick: function onClick() {
-          return _this2.props.clickHandler('appointment');
-        },
-        className: "header-item"
-      }, "APPOINTMENT")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "table-container",
-        id: "style-1"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table-body",
-        id: "style-1"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
-        className: "table-head"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
-        className: "table-data",
-        id: "style-1"
-      }, this.props.displayCars.map(function (car) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-          className: "table-data-row",
-          key: car.id + car.registration,
-          onClick: function onClick() {
-            return _this2.props.editCarHandler(car);
-          }
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-item"
-        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-item"
-        }, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-item"
-        }, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-item"
-        }, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-          className: "table-item"
-        }, car.appointment));
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "search-input",
-        onChange: function onChange(e) {
-          return _this2.props.searchHandler(e);
-        },
-        placeholder: "Click and type to search here ..."
-      })));
-    }
-  }]);
-
-  return Table;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\Users\\Danbass666\\WebSites\\Ram_motors\\resources\\js\\components\\Table.js: Unexpected token (48:76)\n\n\u001b[0m \u001b[90m 46 | \u001b[39m                                        \u001b[33m<\u001b[39m\u001b[33mth\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m'table-item'\u001b[39m\u001b[33m>\u001b[39m{car\u001b[33m.\u001b[39mregistration\u001b[33m.\u001b[39mtoUpperCase()}\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mth\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 47 | \u001b[39m                                        \u001b[33m<\u001b[39m\u001b[33mth\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m'table-item'\u001b[39m\u001b[33m>\u001b[39m{car\u001b[33m.\u001b[39mmake}\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mth\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 48 | \u001b[39m                                        \u001b[33m<\u001b[39m\u001b[33mth\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m'table-item'\u001b[39m\u001b[33m>\u001b[39m{car\u001b[33m.\u001b[39mmot}\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mth\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    | \u001b[39m                                                                            \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 49 | \u001b[39m                                        \u001b[33m<\u001b[39m\u001b[33mth\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m'table-item'\u001b[39m\u001b[33m>\u001b[39m{car\u001b[33m.\u001b[39mservis}\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mth\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 50 | \u001b[39m                                        \u001b[33m<\u001b[39m\u001b[33mth\u001b[39m className\u001b[33m=\u001b[39m\u001b[32m'table-item'\u001b[39m\u001b[33m>\u001b[39m{car\u001b[33m.\u001b[39mappointment}\u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mth\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 51 | \u001b[39m                                        \u001b[0m\n    at raise (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3834:17)\n    at unexpected (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5142:16)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3499:24)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3482:32)\n    at jsxParseElement (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3535:17)\n    at parseExprAtom (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3542:19)\n    at parseExprSubscripts (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5848:23)\n    at parseMaybeUnary (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5828:21)\n    at parseExprOps (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5717:23)\n    at parseMaybeConditional (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5690:23)\n    at parseMaybeAssign (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5635:21)\n    at parseFunctionBody (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:6857:24)\n    at parseArrowExpression (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:6818:10)\n    at parseExprAtom (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:6160:18)\n    at parseExprAtom (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3547:20)\n    at parseExprSubscripts (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5848:23)\n    at parseMaybeUnary (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5828:21)\n    at parseExprOps (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5717:23)\n    at parseMaybeConditional (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5690:23)\n    at parseMaybeAssign (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5635:21)\n    at parseExprListItem (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:6930:18)\n    at parseCallExpressionArguments (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:6051:22)\n    at parseSubscript (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5949:29)\n    at parseSubscripts (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5868:19)\n    at parseExprSubscripts (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5858:17)\n    at parseMaybeUnary (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5828:21)\n    at parseExprOps (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5717:23)\n    at parseMaybeConditional (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5690:23)\n    at parseMaybeAssign (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5635:21)\n    at parseExpression (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:5587:23)\n    at jsxParseExpressionContainer (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3403:30)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3493:34)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3482:32)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3482:32)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3482:32)\n    at jsxParseElementAt (C:\\Users\\Danbass666\\WebSites\\Ram_motors\\node_modules\\@babel\\parser\\lib\\index.js:3482:32)");
 
 /***/ }),
 
@@ -60621,8 +60496,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
