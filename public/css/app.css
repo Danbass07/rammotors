@@ -157,6 +157,7 @@
   font-size: 1em;
   overflow-y: auto;
   height: 125px;
+  background-color: gray;
 }
 
 .mini-table-body {

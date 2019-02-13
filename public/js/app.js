@@ -59990,7 +59990,7 @@ function (_Component) {
         onClick: function onClick() {
           return _this2.props.focusOnTableHandler(_this2.props.tableName);
         }
-      }, " ", this.props.tableName.toUpperCase(), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, " ", this.props.tableName.toUpperCase().replace('DISPLAY', ''), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {

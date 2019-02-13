@@ -16,7 +16,7 @@ export default class MiniTable extends Component {
                     
                         <div className="mini-header"  >
                             
-                            <div className='mini-header-item' onClick={() => this.props.focusOnTableHandler(this.props.tableName)}> {this.props.tableName.toUpperCase()} </div>
+                            <div className='mini-header-item' onClick={() => this.props.focusOnTableHandler(this.props.tableName)}> {this.props.tableName.toUpperCase().replace('DISPLAY','')} </div>
                         </div>
                         <div className="mini-header">
                             <div onClick={() => this.props.clickHandler('registration')} className="mini-header-item">REGISTRATION</div>
