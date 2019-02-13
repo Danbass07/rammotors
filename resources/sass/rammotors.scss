@@ -1,9 +1,18 @@
+.rammotors {
+    width: 1400px;
+    height: 785px;
+    background-image: url("/images/rammotors-tlo1.jpg");
+    background-size: cover;
+    margin: 0;
+}
 .rammotors-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 1000px;
-    height:200px;
+    width: 1400px;
+    height:50%;
     margin:0px auto;
+    overflow: hidden;
+
     
 }

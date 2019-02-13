@@ -1,12 +1,13 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
 .wrapper {
-  width: 560px;
+  margin-top: 20px;
+  width: 1400px;
   height: 360px;
 }
 
 .workfield {
-  width: 560px;
+  width: 1400px;
   height: 360px;
   align-items: center;
   border-radius: 5%;
@@ -40,6 +41,7 @@
 .table-body {
   box-sizing: border-box;
   text-align: center;
+  width: 100%;
 }
 
 .table-head {
@@ -120,13 +122,13 @@
 }
 
 .mini-wrapper {
-  width: 240px;
+  margin-top: 160px;
   height: 180px;
 }
 
 .mini-workfield {
-  width: 240px;
   height: 180px;
+  width: 340px;
   align-items: center;
   border-radius: 5%;
   box-shadow: red 2px 2px 18px 3px;
@@ -143,7 +145,7 @@
 }
 
 .mini-header-item {
-  width: 120px;
+  width: 170px;
   height: 30px;
   background-color: darkred;
   color: wheat;
@@ -171,7 +173,7 @@
 }
 
 .mini-table-item {
-  width: 120px;
+  width: 170px;
 }
 
 .mini-closing-div {
@@ -238,13 +240,22 @@
   box-shadow: white 2px 2px 18px 3px;
 }
 
+.rammotors {
+  width: 1400px;
+  height: 785px;
+  background-image: url("/images/rammotors-tlo1.jpg");
+  background-size: cover;
+  margin: 0;
+}
+
 .rammotors-row {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  width: 1000px;
-  height: 200px;
+  width: 1400px;
+  height: 50%;
   margin: 0px auto;
+  overflow: hidden;
 }
 
 .focus-form {

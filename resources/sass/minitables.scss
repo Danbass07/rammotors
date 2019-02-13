@@ -1,10 +1,11 @@
 .mini-wrapper {
-    width: 240px;
+    margin-top:160px;
+    
     height: 180px;
 }
 .mini-workfield {
-    width: 240px;
     height: 180px;
+    width: 340px;
     align-items: center;
     border-radius: 5%;
     box-shadow: red 2px 2px 18px 3px;
@@ -23,7 +24,7 @@
 }
 
 .mini-header-item{
-    width: 120px;
+ width: 170px;
  height: 30px;
  background-color: darkred;
  color: wheat;
@@ -57,7 +58,7 @@
 
 }
 .mini-table-item  {
-    width: 120px;
+    width: 170px;
 }
 
 .mini-closing-div {

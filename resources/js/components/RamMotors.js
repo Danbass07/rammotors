@@ -251,6 +251,16 @@ export default class RamMotors extends Component {
             <div className="rammotors">
 
                 {this.state.focus ? this.focus(this.state.focusOn) : null}
+
+                <div className="rammotors-row">
+
+<Table tableName="cars" 
+   displayCars={this.state.displayCars} 
+   clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
+   editCarHandler={(car) => this.editCarHandler(car)} />
+
+</div>
+  
                 <div className="rammotors-row">
                                   
                     <MiniTable tableName="displayAlerts" 
@@ -278,15 +288,7 @@ export default class RamMotors extends Component {
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
                 </div>
-                <div className="rammotors-row">
-
-                 <Table tableName="cars" 
-                    displayCars={this.state.displayCars} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
-                    editCarHandler={(car) => this.editCarHandler(car)} />
-
-                </div>
-                   
+              
 
         
                     

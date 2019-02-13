@@ -1,9 +1,10 @@
 .wrapper {
-    width: 560px;
+    margin-top: 20px;
+    width: 1400px;
     height: 360px;
 }
 .workfield {
-    width: 560px;
+    width: 1400px;
     height: 360px;
     align-items: center;
     border-radius: 5%;
@@ -40,6 +41,7 @@
 .table-body {
     box-sizing: border-box;
     text-align: center;
+    width: 100%;
     
     
 }

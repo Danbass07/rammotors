@@ -60373,6 +60373,17 @@ function (_Component) {
         className: "rammotors"
       }, this.state.focus ? this.focus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableName: "cars",
+        displayCars: this.state.displayCars,
+        clickHandler: function clickHandler(category) {
+          return _this6.clickHandler(category, 'displayCars');
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this6.editCarHandler(car);
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayAlerts",
         displayCars: this.state.displayAlerts,
@@ -60420,17 +60431,6 @@ function (_Component) {
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
           return _this6.focusOnTableHandler(table);
-        }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "rammotors-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableName: "cars",
-        displayCars: this.state.displayCars,
-        clickHandler: function clickHandler(category) {
-          return _this6.clickHandler(category, 'displayCars');
-        },
-        editCarHandler: function editCarHandler(car) {
-          return _this6.editCarHandler(car);
         }
       })));
     }
