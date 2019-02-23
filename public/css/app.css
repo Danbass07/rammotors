@@ -1,7 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
 
 .wrapper {
-  margin-top: 20px;
   width: 1400px;
   height: 380px;
   font-size: 1.8em;
@@ -58,23 +57,6 @@
   width: 20%;
 }
 
-.closing-div {
-  background-color: black;
-  color: white;
-  border-radius: 50%;
-  z-index: 990;
-  font-size: 1.4em;
-  margin-left: auto;
-  position: relative;
-  right: -10px;
-  top: 20px;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  overflow: hidden;
-  padding: 0;
-}
-
 .table-data-row:nth-child(odd) {
   background-color: #6c6c6c;
 }
@@ -99,27 +81,6 @@
 #style-1::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #F5F5F5;
-}
-
-.focus {
-  position: fixed;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: block;
-}
-
-.focus-field {
-  position: relative;
-  margin: 200px auto;
-  width: 560px;
-  height: 360px;
-  opacity: 1;
-  background-color: lightgray;
-  border-radius: 12px;
-  box-shadow: white 2px 2px 18px 3px;
 }
 
 .mini-wrapper {
@@ -221,27 +182,6 @@
   background-color: #F5F5F5;
 }
 
-.focus {
-  position: fixed;
-  top: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  display: block;
-}
-
-.focus-field {
-  position: relative;
-  margin: 200px auto;
-  width: 560px;
-  height: 360px;
-  opacity: 1;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: white 2px 2px 18px 3px;
-}
-
 .rammotors {
   width: 1400px;
   height: 785px;
@@ -257,6 +197,8 @@
   width: 1400px;
   height: 50%;
   margin: 0px auto;
+  padding: 20px 5px;
+  box-sizing: border-box;
 }
 
 .focus-form {
@@ -280,6 +222,42 @@
   background-color: white;
   border-color: darkred;
   border-radius: 25px;
+}
+
+.focus {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: block;
+}
+
+.focus-field {
+  position: relative;
+  margin: 200px auto;
+  width: 1400px;
+  height: 395px;
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.closing-div {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  z-index: 990;
+  font-size: 1.4em;
+  margin-left: auto;
+  position: relative;
+  right: -10px;
+  top: 20px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  overflow: hidden;
+  padding: 0;
 }
 
 /*!

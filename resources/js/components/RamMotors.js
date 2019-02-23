@@ -133,7 +133,6 @@ export default class RamMotors extends Component {
 
     submitHandler(e){
         e.preventDefault();
-      console.log(this.state.editedObject.mot);
         axios.put(`/cars/${this.state.editedObject.id}/update`, {
             registartion: this.state.editedObject.registartion,
             make: this.state.editedObject.make,
@@ -141,7 +140,30 @@ export default class RamMotors extends Component {
             servis: this.state.editedObject.servis,
             appointment: this.state.editedObject.appointment,  
         }).then(response => {
-           console.log(response);
+            axios.get('/cars').then(response => this.setState({
+                cars: [...response.data],
+                displayCars: [...response.data],
+            }));
+            axios.get('/cars/alerts').then(response => this.setState({
+                alerts: [...response.data],
+                displayAlerts: [...response.data],
+            }));
+            axios.get('/cars/confirmed').then(response => this.setState({
+                confirmed: [...response.data],
+                displayConfirmed: [...response.data],
+            }));
+            axios.get('/cars/pending').then(response => this.setState({
+                pending: [...response.data],
+                displayPending: [...response.data],
+            }));
+            axios.get('/cars/get_data_expired').then(response => this.setState({
+                expired: [...response.data],
+                displayExpired: [...response.data],
+            }));
+            this.setState({
+                focusOn: '',
+                focus: !this.state.focus,
+            })
         });
     }
 

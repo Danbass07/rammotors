@@ -106,24 +106,3 @@
     background-color: #F5F5F5;
 }
 
-.focus{
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-    display: block;
-
-
-}
-.focus-field {
-    position:relative;
-    margin: 200px auto;
-    width: 560px;
-    height: 360px;
-    opacity: 1;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: white 2px 2px 18px 3px;
-}

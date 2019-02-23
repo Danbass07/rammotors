@@ -1,5 +1,4 @@
 .wrapper {
-    margin-top: 20px;
     width: 1400px;
     height: 380px;
     font-size:1.8em;
@@ -64,22 +63,7 @@
     width: 20%;
 }
 
-.closing-div {
-    background-color: black;
-    color: white;
-    border-radius: 50%;
-    z-index:990;
-    font-size:1.4em;
-    margin-left: auto;
-    position: relative;
-    right: -10px;
-    top: 20px;
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    overflow: hidden;
-    padding: 0;
-}
+
 
 
 .table-data-row:nth-child(odd) {
@@ -108,24 +92,3 @@
     background-color: #F5F5F5;
 }
 
-.focus{
-    position: fixed;
-    top: 0;
-    height: 100vh;
-    width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-    display: block;
-
-
-}
-.focus-field {
-    position:relative;
-    margin: 200px auto;
-    width: 560px;
-    height: 360px;
-    opacity: 1;
-    background-color: lightgray;
-    border-radius: 12px;
-    box-shadow: white 2px 2px 18px 3px;
-}

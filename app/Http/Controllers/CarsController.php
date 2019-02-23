@@ -194,8 +194,7 @@ class CarsController extends Controller
 
 		$car->info = request('info');
 		$car->save();
-		
-		return response()->json($car);
+		return response();
 	
 	}
 	public function updateayear($id, $type)	{
