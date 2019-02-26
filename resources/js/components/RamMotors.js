@@ -7,6 +7,7 @@ export default class RamMotors extends Component {
         super(props);
         this.state = {
                 cars: [],
+                customers:[],
                 ascending: true,
                 displayCars: [],
                 displayAlerts: [],
@@ -19,12 +20,16 @@ export default class RamMotors extends Component {
                 editedObject: {},
                 focusOn: '',
                 focus: false,
+                tableName: 'customers',
         };
         this.compareValues = this.compareValues.bind(this);
     }
    
     componentWillMount() {
-        
+            axios.get('/customers').then(response => this.setState({
+                customers: [...response.data],
+                displayCustomers: [...response.data],
+            }));
             axios.get('/cars').then(response => this.setState({
                 cars: [...response.data],
                 displayCars: [...response.data],
@@ -50,7 +55,8 @@ export default class RamMotors extends Component {
 
     clickHandler(category, table){
         let sortingData;
-        if (table === 'displayCars') {
+
+        if (table === 'cars') {
             sortingData = [...this.state.displayCars];
         }
         if (table === 'displayAlerts') {
@@ -104,11 +110,23 @@ export default class RamMotors extends Component {
             focus: !this.state.focus,
         })
     }
-
+    tableNameHandler(tableName) {
+        if (tableName === "cars") {
+            tableName = "customers"
+        } else {
+            tableName = "cars"
+        }
+        this.setState({
+            tableName: tableName,
+        })
+    }
+    addNewButtonHandler(item) {
+        console.log("Add new "+item)
+    }
     displayTable(table) {
         return (
             <Table tableName={this.state.focusOn} 
-            displayCars={this.state[table]} 
+            displayData={this.state[table]} 
             clickHandler={(category) => this.clickHandler(category, this.state.focusOn)} 
             editCarHandler={(car) => this.editCarHandler(car)} />
         )
@@ -276,10 +294,12 @@ export default class RamMotors extends Component {
 
                 <div className="rammotors-row">
 
-<Table tableName="cars" 
-   displayCars={this.state.displayCars} 
-   clickHandler={(category) => this.clickHandler(category, 'displayCars')} 
-   editCarHandler={(car) => this.editCarHandler(car)} />
+<Table tableName={this.state.tableName} 
+   displayData={this.state.tableName === "cars" ? this.state.displayCars :this.state.customers} 
+   clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
+   editCarHandler={(car) => this.editCarHandler(car)}
+   tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
+   addNewButtonHandler={(item) => this.addNewButtonHandler(item)} />
 
 </div>
   

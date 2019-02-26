@@ -11,11 +11,8 @@
     box-shadow: red 2px 2px 18px 3px;
     letter-spacing: 4px;
     overflow: hidden;
-
-    
-
 }
-.header{
+.header {
     display: flex;
     flex-direction: row; 
     background-color: darkred;
@@ -24,43 +21,35 @@
     justify-content: space-around;
 }
 
-.header-item{
- width: 20%;
- height: 30px;
- background-color: darkred;
- color: wheat;
- text-align: center;
+.header-item {
+    width: 280px;
+    max-width: 280px;
+    height: 30px;
+    background-color: darkred;
+    color: wheat;
+    text-align: center;
 
 }
 .table-container {
-    
-   
-     overflow-y: auto;
-     height: 250px;
-     
+    overflow-y: auto;
+    height: 250px;
 }
+
 .table-body {
     box-sizing: border-box;
     text-align: center;
     width: 100%;
-    
-    
 }
 .table-head {
-    
     display: none;
-    
-  
 }
 .table-data{
     background-color: lighten($tablehead, 10%);
     color:white;
-   
-   
-
 }
 .table-item  {
-    width: 20%;
+    width: 280px;
+    max-width: 280px;
 }
 
 
@@ -70,15 +59,24 @@
     background-color: lighten($tablehead, 20%);
 }
 
+.search-add-field{
+    display: flex;
+    flex-direction: column;
+}
 
 .search-input {
     padding-left:80px;
     left: 380px;
     bottom: 88px;
-    width: 100%;
+    width: 80%;
     height: 55px;
-
-
+}
+.add-new-button {
+    height: 55px;
+    width: 20%;
+    background-color: darkred;
+    color: white;
+    border: none;
 }
 #style-1::-webkit-scrollbar {
     width: 6px;

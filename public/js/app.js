@@ -60097,6 +60097,7 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(RamMotors).call(this, props));
     _this.state = {
       cars: [],
+      customers: [],
       ascending: true,
       displayCars: [],
       displayAlerts: [],
@@ -60108,7 +60109,8 @@ function (_Component) {
       displayExpired: [],
       editedObject: {},
       focusOn: '',
-      focus: false
+      focus: false,
+      tableName: 'customers'
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -60119,6 +60121,12 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
+      axios.get('/customers').then(function (response) {
+        return _this2.setState({
+          customers: _toConsumableArray(response.data),
+          displayCustomers: _toConsumableArray(response.data)
+        });
+      });
       axios.get('/cars').then(function (response) {
         return _this2.setState({
           cars: _toConsumableArray(response.data),
@@ -60157,7 +60165,7 @@ function (_Component) {
 
       var sortingData;
 
-      if (table === 'displayCars') {
+      if (table === 'cars') {
         sortingData = _toConsumableArray(this.state.displayCars);
       }
 
@@ -60204,13 +60212,31 @@ function (_Component) {
       });
     }
   }, {
+    key: "tableNameHandler",
+    value: function tableNameHandler(tableName) {
+      if (tableName === "cars") {
+        tableName = "customers";
+      } else {
+        tableName = "cars";
+      }
+
+      this.setState({
+        tableName: tableName
+      });
+    }
+  }, {
+    key: "addNewButtonHandler",
+    value: function addNewButtonHandler(item) {
+      console.log("Add new " + item);
+    }
+  }, {
     key: "displayTable",
     value: function displayTable(table) {
       var _this3 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: this.state.focusOn,
-        displayCars: this.state[table],
+        displayData: this.state[table],
         clickHandler: function clickHandler(category) {
           return _this3.clickHandler(category, _this3.state.focusOn);
         },
@@ -60409,13 +60435,19 @@ function (_Component) {
       }, this.state.focus ? this.focus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableName: "cars",
-        displayCars: this.state.displayCars,
+        tableName: this.state.tableName,
+        displayData: this.state.tableName === "cars" ? this.state.displayCars : this.state.customers,
         clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, 'displayCars');
+          return _this7.clickHandler(category, _this7.state.tableName);
         },
         editCarHandler: function editCarHandler(car) {
           return _this7.editCarHandler(car);
+        },
+        tableNameHandler: function tableNameHandler(tableName) {
+          return _this7.tableNameHandler(tableName);
+        },
+        addNewButtonHandler: function addNewButtonHandler(item) {
+          return _this7.addNewButtonHandler(item);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
@@ -60537,8 +60569,38 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header-item",
+        onClick: function onClick() {
+          return _this2.props.tableNameHandler(_this2.props.tableName);
+        }
+      }, this.props.tableName.toUpperCase())), this.props.tableName === "customers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('name');
+        },
         className: "header-item"
-      }, this.props.tableName.toUpperCase())), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('surname');
+        },
+        className: "header-item"
+      }, "SURNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('phone');
+        },
+        className: "header-item"
+      }, "PHONE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('email');
+        },
+        className: "header-item"
+      }, "EMAIL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.clickHandler('notes');
+        },
+        className: "header-item"
+      }, "NOTES")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -60571,36 +60633,66 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table-body",
         id: "style-1"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+      }, this.props.tableName === "customers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "table-head"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SURNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "PHONE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "EMAIL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "NOTES"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+        className: "table-head"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), this.props.tableName === 'customers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "table-data",
         id: "style-1"
-      }, this.props.displayCars.map(function (car) {
+      }, this.props.displayData.map(function (data) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
           className: "table-data-row",
-          key: car.id + car.registration,
+          key: data[Object.keys(data)[0]],
           onClick: function onClick() {
-            return _this2.props.editCarHandler(car);
+            return _this2.props.editCusomerHandler(data);
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        }, data[Object.keys(data)[1]].toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, car.make), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        }, data[Object.keys(data)[2]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, car.mot), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        }, data[Object.keys(data)[3]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, car.servis), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        }, data[Object.keys(data)[4]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, car.appointment));
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }, data[Object.keys(data)[5]]));
+      })) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+        className: "table-data",
+        id: "style-1"
+      }, this.props.displayData.map(function (data) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+          className: "table-data-row",
+          key: data[Object.keys(data)[0]],
+          onClick: function onClick() {
+            return _this2.props.editCarHandler(data);
+          }
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, data[Object.keys(data)[2]].toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, data[Object.keys(data)[3]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, data[Object.keys(data)[4]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, data[Object.keys(data)[5]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+          className: "table-item"
+        }, data[Object.keys(data)[6]]));
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-add-fild"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "search-input",
         onChange: function onChange(e) {
           return _this2.props.searchHandler(e);
         },
         placeholder: "Click and type to search here ..."
-      })));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "add-new-button",
+        onClick: function onClick() {
+          return _this2.props.addNewButtonHandler(_this2.props.tableName);
+        }
+      }, "ADD NEW ", this.props.TableName))));
     }
   }]);
 
