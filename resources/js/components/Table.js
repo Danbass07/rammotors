@@ -63,7 +63,7 @@ export default class Table extends Component {
                                 {this.props.tableName === 'customers' ?
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayData.map((data) => 
-                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]} onClick={() => this.props.editCusomerHandler(data)}>
+                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editCusomerHandler(data)}>
                                              <th className='table-item'>{data[Object.keys(data)[1]].toUpperCase()}</th>
                                              <th className='table-item'>{data[Object.keys(data)[2]]}</th>
                                              <th className='table-item'>{data[Object.keys(data)[3]]}</th>
@@ -95,10 +95,13 @@ export default class Table extends Component {
                         
                             </table>   
                         </div>
-                    <div className="search-add-fild">
+                    <div className="under-table-field">
+                    <button className="under-table-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
+                        ADD NEW 
+                        </button>
                         <input className="search-input" onChange={(e) => this.props.searchHandler(e)} placeholder="Click and type to search here ..." ></input> 
-                        <button className="add-new-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
-                        ADD NEW {this.props.TableName}
+                        <button className="under-table-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
+                        DELETED 
                         </button>
                     </div>
 

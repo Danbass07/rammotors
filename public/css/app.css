@@ -57,26 +57,26 @@
 .table-item {
   width: 280px;
   max-width: 280px;
+  padding: 15px;
+  box-sizing: border-box;
+  word-break: break-all;
 }
 
 .table-data-row:nth-child(odd) {
   background-color: #6c6c6c;
 }
 
-.search-add-field {
-  display: flex;
+.under-table-field {
   flex-direction: column;
 }
 
 .search-input {
   padding-left: 80px;
-  left: 380px;
-  bottom: 88px;
-  width: 80%;
+  width: 60%;
   height: 55px;
 }
 
-.add-new-button {
+.under-table-button {
   height: 55px;
   width: 20%;
   background-color: darkred;

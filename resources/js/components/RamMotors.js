@@ -10,6 +10,7 @@ export default class RamMotors extends Component {
                 customers:[],
                 ascending: true,
                 displayCars: [],
+                displayCustomers: [],
                 displayAlerts: [],
                 pending: [],
                 displayPending: [],
@@ -56,7 +57,12 @@ export default class RamMotors extends Component {
     clickHandler(category, table){
         let sortingData;
 
+        if (table === 'customers') {
+            table = 'displayCustomers';
+            sortingData = [...this.state.displayCustomers];
+        }
         if (table === 'cars') {
+            table = 'displayCars';
             sortingData = [...this.state.displayCars];
         }
         if (table === 'displayAlerts') {
@@ -81,25 +87,54 @@ export default class RamMotors extends Component {
        
     }
   
-    searchHandler(e) {
+    searchHandler(e, tableName) {
+     
+        if (tableName === 'cars') {
+            tableName= 'displayCars'
+        }
+        if (tableName === 'customers') {
+            tableName= 'displayCustomers'
+        }
         const target = e.target.value.toLowerCase()
         const searchResult = []
-         this.state.cars.map( car => {
+
+
+         this.state[tableName].map( item => {
             
-          if (  car.registration.toLowerCase().includes(target) ||
-          car.make.toLowerCase().includes(target) ||
-          car.mot.toLowerCase().includes(target) ||
-          car.servis.toLowerCase().includes(target) ||
-          car.appointment.toLowerCase().includes(target)
+        //   if (  item[0].toLowerCase().includes(target) ||
+        //   item[1].toLowerCase().includes(target) ||
+        //   item[2].toLowerCase().includes(target) ||
+        //   item[3].toLowerCase().includes(target) ||
+        //   item[4].toLowerCase().includes(target)
           
-          ) {
+        //   ) 
+        
             
-            searchResult.push(car);
-                
+           // searchResult.push(item);
+           for (const property in item) {
+                if (item.hasOwnProperty(property) && typeof item[property] === 'string' ) {
+                   
+                if    (item[property].toLowerCase().includes(target)) {
+                    console.log('item');
+                    console.log(item);
+                        searchResult.push(item); 
+                       
+                        
+                    }
+                   
+                }
+              
             }})
-        this.setState({
-            displayCars: [...searchResult],
-            })
+            
+            this.setState({
+                [tableName]: searchResult,
+                })
+            console.log('searchResult');
+            console.log(searchResult);
+        
+           console.log('display state');
+           console.log(this.state[tableName]);
+           
     }
 
     editCarHandler(car) {
@@ -295,11 +330,13 @@ export default class RamMotors extends Component {
                 <div className="rammotors-row">
 
 <Table tableName={this.state.tableName} 
-   displayData={this.state.tableName === "cars" ? this.state.displayCars :this.state.customers} 
+   displayData={this.state.tableName === "cars" ? this.state.displayCars :this.state.displayCustomers} 
    clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
-   editCarHandler={(car) => this.editCarHandler(car)}
    tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
-   addNewButtonHandler={(item) => this.addNewButtonHandler(item)} />
+   addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
+   searchHandler={(e) => this.searchHandler(e, this.state.tableName)}
+   
+   editCarHandler={(car) => this.editCarHandler(car)}/>
 
 </div>
   

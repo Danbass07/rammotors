@@ -60100,6 +60100,7 @@ function (_Component) {
       customers: [],
       ascending: true,
       displayCars: [],
+      displayCustomers: [],
       displayAlerts: [],
       pending: [],
       displayPending: [],
@@ -60165,7 +60166,13 @@ function (_Component) {
 
       var sortingData;
 
+      if (table === 'customers') {
+        table = 'displayCustomers';
+        sortingData = _toConsumableArray(this.state.displayCustomers);
+      }
+
       if (table === 'cars') {
+        table = 'displayCars';
         sortingData = _toConsumableArray(this.state.displayCars);
       }
 
@@ -60190,17 +60197,40 @@ function (_Component) {
     }
   }, {
     key: "searchHandler",
-    value: function searchHandler(e) {
+    value: function searchHandler(e, tableName) {
+      if (tableName === 'cars') {
+        tableName = 'displayCars';
+      }
+
+      if (tableName === 'customers') {
+        tableName = 'displayCustomers';
+      }
+
       var target = e.target.value.toLowerCase();
       var searchResult = [];
-      this.state.cars.map(function (car) {
-        if (car.registration.toLowerCase().includes(target) || car.make.toLowerCase().includes(target) || car.mot.toLowerCase().includes(target) || car.servis.toLowerCase().includes(target) || car.appointment.toLowerCase().includes(target)) {
-          searchResult.push(car);
+      this.state[tableName].map(function (item) {
+        //   if (  item[0].toLowerCase().includes(target) ||
+        //   item[1].toLowerCase().includes(target) ||
+        //   item[2].toLowerCase().includes(target) ||
+        //   item[3].toLowerCase().includes(target) ||
+        //   item[4].toLowerCase().includes(target)
+        //   ) 
+        // searchResult.push(item);
+        for (var property in item) {
+          if (item.hasOwnProperty(property) && typeof item[property] === 'string') {
+            if (item[property].toLowerCase().includes(target)) {
+              console.log('item');
+              console.log(item);
+              searchResult.push(item);
+            }
+          }
         }
       });
-      this.setState({
-        displayCars: [].concat(searchResult)
-      });
+      this.setState(_defineProperty({}, tableName, searchResult));
+      console.log('searchResult');
+      console.log(searchResult);
+      console.log('display state');
+      console.log(this.state[tableName]);
     }
   }, {
     key: "editCarHandler",
@@ -60436,18 +60466,21 @@ function (_Component) {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: this.state.tableName,
-        displayData: this.state.tableName === "cars" ? this.state.displayCars : this.state.customers,
+        displayData: this.state.tableName === "cars" ? this.state.displayCars : this.state.displayCustomers,
         clickHandler: function clickHandler(category) {
           return _this7.clickHandler(category, _this7.state.tableName);
-        },
-        editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
         },
         tableNameHandler: function tableNameHandler(tableName) {
           return _this7.tableNameHandler(tableName);
         },
         addNewButtonHandler: function addNewButtonHandler(item) {
           return _this7.addNewButtonHandler(item);
+        },
+        searchHandler: function searchHandler(e) {
+          return _this7.searchHandler(e, _this7.state.tableName);
+        },
+        editCarHandler: function editCarHandler(car) {
+          return _this7.editCarHandler(car);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
@@ -60643,7 +60676,7 @@ function (_Component) {
       }, this.props.displayData.map(function (data) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
           className: "table-data-row",
-          key: data[Object.keys(data)[0]],
+          key: data[Object.keys(data)[0]] + 'customer',
           onClick: function onClick() {
             return _this2.props.editCusomerHandler(data);
           }
@@ -60680,19 +60713,24 @@ function (_Component) {
           className: "table-item"
         }, data[Object.keys(data)[6]]));
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "search-add-fild"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        className: "under-table-field"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "under-table-button",
+        onClick: function onClick() {
+          return _this2.props.addNewButtonHandler(_this2.props.tableName);
+        }
+      }, "ADD NEW"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "search-input",
         onChange: function onChange(e) {
           return _this2.props.searchHandler(e);
         },
         placeholder: "Click and type to search here ..."
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "add-new-button",
+        className: "under-table-button",
         onClick: function onClick() {
           return _this2.props.addNewButtonHandler(_this2.props.tableName);
         }
-      }, "ADD NEW ", this.props.TableName))));
+      }, "DELETED"))));
     }
   }]);
 
