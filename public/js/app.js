@@ -60108,10 +60108,13 @@ function (_Component) {
       displayConfirmed: [],
       expired: [],
       displayExpired: [],
+      deleted: [],
+      displaydeleted: [],
       editedObject: {},
       focusOn: '',
       focus: false,
-      tableName: 'customers'
+      tableName: 'displayCars',
+      search: ''
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -60158,6 +60161,12 @@ function (_Component) {
           displayExpired: _toConsumableArray(response.data)
         });
       });
+      axios.get('/cars/deleted').then(function (response) {
+        return _this2.setState({
+          deleted: _toConsumableArray(response.data),
+          displaydeleted: _toConsumableArray(response.data)
+        });
+      });
     }
   }, {
     key: "clickHandler",
@@ -60165,72 +60174,56 @@ function (_Component) {
       var _this$setState;
 
       var sortingData;
-
-      if (table === 'customers') {
-        table = 'displayCustomers';
-        sortingData = _toConsumableArray(this.state.displayCustomers);
-      }
-
-      if (table === 'cars') {
-        table = 'displayCars';
-        sortingData = _toConsumableArray(this.state.displayCars);
-      }
-
-      if (table === 'displayAlerts') {
-        sortingData = _toConsumableArray(this.state.displayAlerts);
-      }
-
-      if (table === 'displayConfirmed') {
-        sortingData = _toConsumableArray(this.state.displayConfirmed);
-      }
-
-      if (table === 'displayPending') {
-        sortingData = _toConsumableArray(this.state.displayPending);
-      }
-
-      if (table === 'displayExpired') {
-        sortingData = _toConsumableArray(this.state.displayExpired);
-      }
-
+      sortingData = _toConsumableArray(this.state[table]);
       var neworder = sortingData.sort(this.compareValues(category, this.state.ascending));
       this.setState((_this$setState = {}, _defineProperty(_this$setState, table, _toConsumableArray(neworder)), _defineProperty(_this$setState, "ascending", !this.state.ascending), _this$setState));
     }
   }, {
+    key: "deletedButtonHandler",
+    value: function deletedButtonHandler() {}
+  }, {
     key: "searchHandler",
-    value: function searchHandler(e, tableName) {
-      if (tableName === 'cars') {
-        tableName = 'displayCars';
-      }
+    value: function searchHandler(e) {
+      this.setState({
+        search: e.target.value
+      });
+    }
+  }, {
+    key: "filteringResults",
+    value: function filteringResults() {
+      var _this3 = this;
 
-      if (tableName === 'customers') {
-        tableName = 'displayCustomers';
-      }
-
-      var target = e.target.value.toLowerCase();
       var searchResult = [];
-      this.state[tableName].map(function (item) {
-        //   if (  item[0].toLowerCase().includes(target) ||
-        //   item[1].toLowerCase().includes(target) ||
-        //   item[2].toLowerCase().includes(target) ||
-        //   item[3].toLowerCase().includes(target) ||
-        //   item[4].toLowerCase().includes(target)
-        //   ) 
-        // searchResult.push(item);
+      var filtering = this.state.tableName.toLowerCase().replace('display', '');
+      this.state[filtering].map(function (item) {
         for (var property in item) {
           if (item.hasOwnProperty(property) && typeof item[property] === 'string') {
-            if (item[property].toLowerCase().includes(target)) {
-              console.log('item');
-              console.log(item);
+            if (item[property].toLowerCase().includes(_this3.state.search) && !searchResult.includes(item)) {
               searchResult.push(item);
             }
           }
         }
       });
-      this.setState(_defineProperty({}, tableName, searchResult));
-      console.log('searchResult');
-      console.log(searchResult);
-      console.log('display state');
-      console.log(this.state[tableName]);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableName: this.state.tableName,
+        displayData: searchResult,
+        clickHandler: function clickHandler(category) {
+          return _this3.clickHandler(category, _this3.state.tableName);
+        },
+        tableNameHandler: function tableNameHandler(tableName) {
+          return _this3.tableNameHandler(tableName);
+        },
+        addNewButtonHandler: function addNewButtonHandler(item) {
+          return _this3.addNewButtonHandler(item);
+        },
+        searchHandler: function searchHandler(e) {
+          return _this3.searchHandler(e);
+        },
+        searchValue: this.state.search,
+        editCarHandler: function editCarHandler(car) {
+          return _this3.editCarHandler(car);
+        }
+      });
     }
   }, {
     key: "editCarHandler",
@@ -60244,12 +60237,6 @@ function (_Component) {
   }, {
     key: "tableNameHandler",
     value: function tableNameHandler(tableName) {
-      if (tableName === "cars") {
-        tableName = "customers";
-      } else {
-        tableName = "cars";
-      }
-
       this.setState({
         tableName: tableName
       });
@@ -60257,21 +60244,25 @@ function (_Component) {
   }, {
     key: "addNewButtonHandler",
     value: function addNewButtonHandler(item) {
-      console.log("Add new " + item);
+      this.setState({
+        focusOn: '',
+        editedObject: {},
+        focus: !this.state.focus
+      });
     }
   }, {
     key: "displayTable",
     value: function displayTable(table) {
-      var _this3 = this;
+      var _this4 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: this.state.focusOn,
         displayData: this.state[table],
         clickHandler: function clickHandler(category) {
-          return _this3.clickHandler(category, _this3.state.focusOn);
+          return _this4.clickHandler(category, _this4.state.focusOn);
         },
         editCarHandler: function editCarHandler(car) {
-          return _this3.editCarHandler(car);
+          return _this4.editCarHandler(car);
         }
       });
     }
@@ -60296,7 +60287,7 @@ function (_Component) {
   }, {
     key: "submitHandler",
     value: function submitHandler(e) {
-      var _this4 = this;
+      var _this5 = this;
 
       e.preventDefault();
       axios.put("/cars/".concat(this.state.editedObject.id, "/update"), {
@@ -60307,51 +60298,51 @@ function (_Component) {
         appointment: this.state.editedObject.appointment
       }).then(function (response) {
         axios.get('/cars').then(function (response) {
-          return _this4.setState({
+          return _this5.setState({
             cars: _toConsumableArray(response.data),
             displayCars: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/alerts').then(function (response) {
-          return _this4.setState({
+          return _this5.setState({
             alerts: _toConsumableArray(response.data),
             displayAlerts: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/confirmed').then(function (response) {
-          return _this4.setState({
+          return _this5.setState({
             confirmed: _toConsumableArray(response.data),
             displayConfirmed: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/pending').then(function (response) {
-          return _this4.setState({
+          return _this5.setState({
             pending: _toConsumableArray(response.data),
             displayPending: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/get_data_expired').then(function (response) {
-          return _this4.setState({
+          return _this5.setState({
             expired: _toConsumableArray(response.data),
             displayExpired: _toConsumableArray(response.data)
           });
         });
 
-        _this4.setState({
+        _this5.setState({
           focusOn: '',
-          focus: !_this4.state.focus
+          focus: !_this5.state.focus
         });
       });
     }
   }, {
     key: "displayForm",
     value: function displayForm() {
-      var _this5 = this;
+      var _this6 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "focus-form",
         onSubmit: function onSubmit(e) {
-          return _this5.submitHandler(e);
+          return _this6.submitHandler(e);
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "focus-form-input",
@@ -60359,7 +60350,7 @@ function (_Component) {
         type: "text",
         value: this.state.editedObject.registration,
         onChange: function onChange(e) {
-          return _this5.formChangeHandler(e);
+          return _this6.formChangeHandler(e);
         },
         required: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -60368,7 +60359,7 @@ function (_Component) {
         type: "text",
         value: this.state.editedObject.make,
         onChange: function onChange(e) {
-          return _this5.formChangeHandler(e);
+          return _this6.formChangeHandler(e);
         },
         required: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -60377,7 +60368,7 @@ function (_Component) {
         type: "date",
         value: this.state.editedObject.mot,
         onChange: function onChange(e) {
-          return _this5.formChangeHandler(e);
+          return _this6.formChangeHandler(e);
         },
         required: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -60386,7 +60377,7 @@ function (_Component) {
         type: "date",
         value: this.state.editedObject.servis,
         onChange: function onChange(e) {
-          return _this5.formChangeHandler(e);
+          return _this6.formChangeHandler(e);
         },
         required: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -60395,7 +60386,7 @@ function (_Component) {
         type: "date",
         value: this.state.editedObject.appointment,
         onChange: function onChange(e) {
-          return _this5.formChangeHandler(e);
+          return _this6.formChangeHandler(e);
         },
         required: true
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -60406,7 +60397,7 @@ function (_Component) {
   }, {
     key: "focus",
     value: function focus(focusOn) {
-      var _this6 = this;
+      var _this7 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus"
@@ -60415,8 +60406,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "closing-div",
         onClick: function onClick() {
-          return _this6.setState({
-            focus: !_this6.state.focus
+          return _this7.setState({
+            focus: !_this7.state.focus
           });
         }
       }, "X"), focusOn == '' ? this.displayForm() : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null));
@@ -60458,79 +60449,61 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this7 = this;
+      var _this8 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
       }, this.state.focus ? this.focus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableName: this.state.tableName,
-        displayData: this.state.tableName === "cars" ? this.state.displayCars : this.state.displayCustomers,
-        clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, _this7.state.tableName);
-        },
-        tableNameHandler: function tableNameHandler(tableName) {
-          return _this7.tableNameHandler(tableName);
-        },
-        addNewButtonHandler: function addNewButtonHandler(item) {
-          return _this7.addNewButtonHandler(item);
-        },
-        searchHandler: function searchHandler(e) {
-          return _this7.searchHandler(e, _this7.state.tableName);
-        },
-        editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
-        }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.filteringResults()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayAlerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, 'displayAlerts');
+          return _this8.clickHandler(category, 'displayAlerts');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
+          return _this8.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this7.focusOnTableHandler(table);
+          return _this8.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayPending",
         displayCars: this.state.displayPending,
         clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, 'displayPending');
+          return _this8.clickHandler(category, 'displayPending');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
+          return _this8.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this7.focusOnTableHandler(table);
+          return _this8.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayConfirmed",
         displayCars: this.state.displayConfirmed,
         clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, 'displayConfirmed');
+          return _this8.clickHandler(category, 'displayConfirmed');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
+          return _this8.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this7.focusOnTableHandler(table);
+          return _this8.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayExpired",
         displayCars: this.state.displayExpired,
         clickHandler: function clickHandler(category) {
-          return _this7.clickHandler(category, 'displayExpired');
+          return _this8.clickHandler(category, 'displayExpired');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this7.editCarHandler(car);
+          return _this8.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this7.focusOnTableHandler(table);
+          return _this8.focusOnTableHandler(table);
         }
       })));
     }
@@ -60602,11 +60575,18 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-item",
+        className: "header-item"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "header-table-button",
         onClick: function onClick() {
-          return _this2.props.tableNameHandler(_this2.props.tableName);
+          return _this2.props.tableNameHandler('displayCars');
         }
-      }, this.props.tableName.toUpperCase())), this.props.tableName === "customers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "CARS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "header-table-button",
+        onClick: function onClick() {
+          return _this2.props.tableNameHandler('displayCustomers');
+        }
+      }, "CUSTOMERS"))), this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -60666,11 +60646,11 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
         className: "table-body",
         id: "style-1"
-      }, this.props.tableName === "customers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+      }, this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "table-head"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SURNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "PHONE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "EMAIL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "NOTES"))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "table-head"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), this.props.tableName === 'customers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "APPOINTMENT"))), this.props.tableName === 'displayCustomers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "table-data",
         id: "style-1"
       }, this.props.displayData.map(function (data) {
@@ -60724,11 +60704,12 @@ function (_Component) {
         onChange: function onChange(e) {
           return _this2.props.searchHandler(e);
         },
+        value: this.props.serachValue,
         placeholder: "Click and type to search here ..."
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
         onClick: function onClick() {
-          return _this2.props.addNewButtonHandler(_this2.props.tableName);
+          return _this2.props.tableNameHandler('displayDeleted');
         }
       }, "DELETED"))));
     }
@@ -60783,8 +60764,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

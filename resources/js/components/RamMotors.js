@@ -18,10 +18,13 @@ export default class RamMotors extends Component {
                 displayConfirmed: [],
                 expired: [],
                 displayExpired:[],
+                deleted: [],
+                displaydeleted: [],
                 editedObject: {},
                 focusOn: '',
                 focus: false,
-                tableName: 'customers',
+                tableName: 'displayCars',
+                search: '',
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -51,89 +54,68 @@ export default class RamMotors extends Component {
                 expired: [...response.data],
                 displayExpired: [...response.data],
             }));
+            axios.get('/cars/deleted').then(response => this.setState({
+                deleted: [...response.data],
+                displaydeleted: [...response.data],
+            }));
           
     }
 
     clickHandler(category, table){
+
         let sortingData;
 
-        if (table === 'customers') {
-            table = 'displayCustomers';
-            sortingData = [...this.state.displayCustomers];
-        }
-        if (table === 'cars') {
-            table = 'displayCars';
-            sortingData = [...this.state.displayCars];
-        }
-        if (table === 'displayAlerts') {
-            sortingData = [...this.state.displayAlerts];
-        }
-        if (table === 'displayConfirmed') {
-            sortingData = [...this.state.displayConfirmed];
-        }
-        if (table === 'displayPending') {
-            sortingData = [...this.state.displayPending];
-        }
-        if (table === 'displayExpired') {
-            sortingData = [...this.state.displayExpired];
-        }
-        
-       const neworder =sortingData.sort(this.compareValues(category, this.state.ascending));
-       
-       this.setState({
+        sortingData = [...this.state[table]];
+
+        const neworder =sortingData.sort(this.compareValues(category, this.state.ascending));
+
+        this.setState({
             [table]: [...neworder],
-           ascending: !this.state.ascending,
-       })
+            ascending: !this.state.ascending,
+        })
        
     }
+    deletedButtonHandler(){
+
+    }
   
-    searchHandler(e, tableName) {
-     
-        if (tableName === 'cars') {
-            tableName= 'displayCars'
-        }
-        if (tableName === 'customers') {
-            tableName= 'displayCustomers'
-        }
-        const target = e.target.value.toLowerCase()
-        const searchResult = []
+    searchHandler(e) {
+        this.setState({
+            search: e.target.value,
+        })
+    }
+    filteringResults() {
+        let searchResult= []
+        let filtering = this.state.tableName.toLowerCase().replace('display','')
+       
+        this.state[filtering].map( item => {
 
+            
 
-         this.state[tableName].map( item => {
-            
-        //   if (  item[0].toLowerCase().includes(target) ||
-        //   item[1].toLowerCase().includes(target) ||
-        //   item[2].toLowerCase().includes(target) ||
-        //   item[3].toLowerCase().includes(target) ||
-        //   item[4].toLowerCase().includes(target)
-          
-        //   ) 
-        
-            
-           // searchResult.push(item);
-           for (const property in item) {
+            for (const property in item) {
                 if (item.hasOwnProperty(property) && typeof item[property] === 'string' ) {
-                   
-                if    (item[property].toLowerCase().includes(target)) {
-                    console.log('item');
-                    console.log(item);
-                        searchResult.push(item); 
-                       
-                        
+                    
+                    if    (item[property].toLowerCase().includes(this.state.search) && !searchResult.includes(item)) {
+    
+                            searchResult.push(item); 
+                            
+                            
+                        }
                     }
-                   
-                }
-              
-            }})
-            
-            this.setState({
-                [tableName]: searchResult,
-                })
-            console.log('searchResult');
-            console.log(searchResult);
-        
-           console.log('display state');
-           console.log(this.state[tableName]);
+                 }
+            })
+            return (
+                <Table tableName={this.state.tableName} 
+                displayData={searchResult} 
+                clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
+                tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
+                addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
+                searchHandler={(e) => this.searchHandler(e)}
+                searchValue={this.state.search}
+
+                editCarHandler={(car) => this.editCarHandler(car)}/>
+            )
+     
            
     }
 
@@ -146,17 +128,17 @@ export default class RamMotors extends Component {
         })
     }
     tableNameHandler(tableName) {
-        if (tableName === "cars") {
-            tableName = "customers"
-        } else {
-            tableName = "cars"
-        }
+     
         this.setState({
             tableName: tableName,
         })
     }
     addNewButtonHandler(item) {
-        console.log("Add new "+item)
+        this.setState({
+            focusOn: '',
+            editedObject: {},
+            focus: !this.state.focus,
+        })
     }
     displayTable(table) {
         return (
@@ -321,7 +303,8 @@ export default class RamMotors extends Component {
         return false;
     }  
 
-    render() {
+    render() {  
+        
         return (
             <div className="rammotors">
 
@@ -329,14 +312,7 @@ export default class RamMotors extends Component {
 
                 <div className="rammotors-row">
 
-<Table tableName={this.state.tableName} 
-   displayData={this.state.tableName === "cars" ? this.state.displayCars :this.state.displayCustomers} 
-   clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
-   tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
-   addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
-   searchHandler={(e) => this.searchHandler(e, this.state.tableName)}
-   
-   editCarHandler={(car) => this.editCarHandler(car)}/>
+                {this.filteringResults()}  
 
 </div>
   

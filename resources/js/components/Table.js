@@ -16,9 +16,13 @@ export default class Table extends Component {
                     
                         <div className="header">
                             
-                            <div className='header-item' onClick={() => this.props.tableNameHandler(this.props.tableName)}>{this.props.tableName.toUpperCase()}</div>
+                            <div className='header-item' >
+                            {/* {this.props.tableName.toUpperCase().replace('DISPLAY','')} */}
+                            <button className="header-table-button" onClick={() => this.props.tableNameHandler('displayCars')}>CARS</button>
+                            <button className="header-table-button" onClick={() => this.props.tableNameHandler('displayCustomers')}>CUSTOMERS</button>
+                            </div>
                         </div>
-                        {this.props.tableName === "customers"? 
+                        {this.props.tableName === "displayCustomers"? 
                         <div className="header">
                             <div onClick={() => this.props.clickHandler('name')} className="header-item">NAME</div>
                             <div onClick={() => this.props.clickHandler('surname')} className="header-item">SURNAME</div>
@@ -39,7 +43,7 @@ export default class Table extends Component {
                         
                             <table className="table-body" id="style-1">
                             
-                                {this.props.tableName === "customers"? 
+                                {this.props.tableName === "displayCustomers"? 
                                 <thead className='table-head'>
                                 <tr>
                                     <th >NAME</th>
@@ -60,7 +64,7 @@ export default class Table extends Component {
                                         <th >APPOINTMENT</th>
                                     </tr>
                                     </thead> }
-                                {this.props.tableName === 'customers' ?
+                                {this.props.tableName === 'displayCustomers' ?
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayData.map((data) => 
                                              <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editCusomerHandler(data)}>
@@ -99,8 +103,8 @@ export default class Table extends Component {
                     <button className="under-table-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
                         ADD NEW 
                         </button>
-                        <input className="search-input" onChange={(e) => this.props.searchHandler(e)} placeholder="Click and type to search here ..." ></input> 
-                        <button className="under-table-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
+                        <input className="search-input" onChange={(e) => this.props.searchHandler(e)} value={this.props.serachValue} placeholder="Click and type to search here ..." ></input> 
+                        <button className="under-table-button" onClick={() => this.props.tableNameHandler('displayDeleted')}>
                         DELETED 
                         </button>
                     </div>

@@ -344,7 +344,7 @@ class CarsController extends Controller
 		
 		$cars = \App\Car::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
 		
-			return View('cars/deleted')->withCars($cars);
+			return response()->json($cars);
 		
  }
 
