@@ -1,3 +1,11 @@
+.form-wrapper {
+    border: 1px solid red;
+    border-radius: 25px;
+    box-shadow: red 2px 2px 18px 3px;
+    padding: 10px;
+    width: 300px;
+}
+
 .focus-form {
     display: flex;
     flex-direction: column;
@@ -11,6 +19,12 @@
     color: white;
     background-color: darkred;
     border-radius: 25px;
+}
+.form-label {
+    color: darkred;
+    font-size: 0.7em;
+    margin: 0 auto;
+    text-align: center;
 }
 .submit-button {
     color: darkred;

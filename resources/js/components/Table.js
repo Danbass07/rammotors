@@ -103,7 +103,10 @@ export default class Table extends Component {
                     <button className="under-table-button" onClick={() => this.props.addNewButtonHandler(this.props.tableName)}>
                         ADD NEW 
                         </button>
-                        <input className="search-input" onChange={(e) => this.props.searchHandler(e)} value={this.props.serachValue} placeholder="Click and type to search here ..." ></input> 
+                        
+                        <input className="search-input" onChange={(e) => this.props.searchHandler(e)} value={this.props.searchValue} placeholder="Click and type to search here ..." ></input> 
+                      
+                        {console.log(this.props.searchValue)}
                         <button className="under-table-button" onClick={() => this.props.tableNameHandler('displayDeleted')}>
                         DELETED 
                         </button>

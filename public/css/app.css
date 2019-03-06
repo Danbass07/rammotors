@@ -216,12 +216,21 @@
   box-sizing: border-box;
 }
 
+.form-wrapper {
+  border: 1px solid red;
+  border-radius: 25px;
+  box-shadow: red 2px 2px 18px 3px;
+  padding: 10px;
+  width: 300px;
+}
+
 .focus-form {
   display: flex;
   flex-direction: column;
   width: 250px;
   margin: auto;
   font-size: 1.8em;
+  justify-content: space-around;
 }
 
 .focus-form-input {
@@ -230,6 +239,13 @@
   color: white;
   background-color: darkred;
   border-radius: 25px;
+}
+
+.form-label {
+  color: darkred;
+  font-size: 0.7em;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .submit-button {
@@ -252,10 +268,17 @@
 .focus-field {
   position: relative;
   margin: 200px auto;
-  width: 1400px;
   height: 395px;
   opacity: 1;
   background-color: rgba(0, 0, 0, 0);
+}
+
+.focus-work-area {
+  background-color: white;
+  width: 90%;
+  height: 80%;
+  margin: 0 auto;
+  display: flex;
 }
 
 .closing-div {
@@ -266,7 +289,7 @@
   font-size: 1.4em;
   margin-left: auto;
   position: relative;
-  right: -10px;
+  right: 50px;
   top: 20px;
   width: 30px;
   height: 30px;

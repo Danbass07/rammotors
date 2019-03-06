@@ -60098,23 +60098,37 @@ function (_Component) {
     _this.state = {
       cars: [],
       customers: [],
-      ascending: true,
+      pending: [],
+      confirmed: [],
+      expired: [],
+      deleted: [],
       displayCars: [],
       displayCustomers: [],
       displayAlerts: [],
-      pending: [],
       displayPending: [],
-      confirmed: [],
       displayConfirmed: [],
-      expired: [],
       displayExpired: [],
-      deleted: [],
-      displaydeleted: [],
-      editedObject: {},
-      focusOn: '',
-      focus: false,
+      displayDeleted: [],
       tableName: 'displayCars',
-      search: ''
+      ascending: true,
+      search: '',
+      searchResult: [],
+      editedCar: {
+        registration: '',
+        make: '',
+        mot: '',
+        servis: '',
+        appointment: ''
+      },
+      editedCustomer: {
+        name: '',
+        surname: '',
+        phone: '',
+        email: '',
+        notes: ''
+      },
+      focusOn: '',
+      focus: false
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -60125,6 +60139,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
+      /// loading all resources
       axios.get('/customers').then(function (response) {
         return _this2.setState({
           customers: _toConsumableArray(response.data),
@@ -60164,98 +60179,78 @@ function (_Component) {
       axios.get('/cars/deleted').then(function (response) {
         return _this2.setState({
           deleted: _toConsumableArray(response.data),
-          displaydeleted: _toConsumableArray(response.data)
+          displayDeleted: _toConsumableArray(response.data)
         });
       });
     }
   }, {
-    key: "clickHandler",
-    value: function clickHandler(category, table) {
-      var _this$setState;
-
-      var sortingData;
-      sortingData = _toConsumableArray(this.state[table]);
-      var neworder = sortingData.sort(this.compareValues(category, this.state.ascending));
-      this.setState((_this$setState = {}, _defineProperty(_this$setState, table, _toConsumableArray(neworder)), _defineProperty(_this$setState, "ascending", !this.state.ascending), _this$setState));
-    }
-  }, {
-    key: "deletedButtonHandler",
-    value: function deletedButtonHandler() {}
-  }, {
     key: "searchHandler",
     value: function searchHandler(e) {
-      this.setState({
-        search: e.target.value
-      });
-    }
-  }, {
-    key: "filteringResults",
-    value: function filteringResults() {
       var _this3 = this;
 
+      /// search or clear search value
+      var filtering = this.state.tableName.toLowerCase().replace('display', ''); // functions variables
+
       var searchResult = [];
-      var filtering = this.state.tableName.toLowerCase().replace('display', '');
-      this.state[filtering].map(function (item) {
-        for (var property in item) {
-          if (item.hasOwnProperty(property) && typeof item[property] === 'string') {
-            if (item[property].toLowerCase().includes(_this3.state.search) && !searchResult.includes(item)) {
-              searchResult.push(item);
+
+      if (e === undefined) {
+        // if we change table clear search results 
+        this.state[filtering].map(function (item) {
+          searchResult.push(item);
+        });
+        this.setState(_defineProperty({
+          search: ''
+        }, this.state.tableName, searchResult));
+      } else {
+        // if we fill search input 
+        this.setState({
+          search: e.target.value // set search value
+
+        }, function () {
+          // and imieditly perform search filter
+          _this3.state[filtering].map(function (item) {
+            for (var property in item) {
+              if (item.hasOwnProperty(property) && typeof item[property] === 'string') {
+                if (item[property].toLowerCase().includes(_this3.state.search) && !searchResult.includes(item)) {
+                  searchResult.push(item);
+                }
+              }
             }
-          }
-        }
-      });
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableName: this.state.tableName,
-        displayData: searchResult,
-        clickHandler: function clickHandler(category) {
-          return _this3.clickHandler(category, _this3.state.tableName);
-        },
-        tableNameHandler: function tableNameHandler(tableName) {
-          return _this3.tableNameHandler(tableName);
-        },
-        addNewButtonHandler: function addNewButtonHandler(item) {
-          return _this3.addNewButtonHandler(item);
-        },
-        searchHandler: function searchHandler(e) {
-          return _this3.searchHandler(e);
-        },
-        searchValue: this.state.search,
-        editCarHandler: function editCarHandler(car) {
-          return _this3.editCarHandler(car);
-        }
-      });
-    }
-  }, {
-    key: "editCarHandler",
-    value: function editCarHandler(car) {
-      this.setState({
-        focusOn: '',
-        editedObject: _objectSpread({}, car),
-        focus: !this.state.focus
-      });
+          });
+
+          _this3.setState(_defineProperty({}, _this3.state.tableName, searchResult));
+        });
+      }
     }
   }, {
     key: "tableNameHandler",
     value: function tableNameHandler(tableName) {
+      /// synchronise actions to the right diplay table name
+      this.searchHandler();
       this.setState({
         tableName: tableName
       });
     }
   }, {
-    key: "addNewButtonHandler",
-    value: function addNewButtonHandler(item) {
-      this.setState({
-        focusOn: '',
-        editedObject: {},
-        focus: !this.state.focus
-      });
+    key: "clickHandler",
+    value: function clickHandler(category, table) {
+      var _this$setState2;
+
+      // sorting alphabeticly DESC or ASC depend on clicked property (table head)
+      var sortingData;
+      sortingData = _toConsumableArray(this.state[table]);
+      var neworder = sortingData.sort(this.compareValues(category, this.state.ascending));
+      this.setState((_this$setState2 = {}, _defineProperty(_this$setState2, table, _toConsumableArray(neworder)), _defineProperty(_this$setState2, "ascending", !this.state.ascending), _this$setState2));
     }
   }, {
     key: "displayTable",
     value: function displayTable(table) {
       var _this4 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      // display full version of mini tables not all functions added yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-field"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         tableName: this.state.focusOn,
         displayData: this.state[table],
         clickHandler: function clickHandler(category) {
@@ -60264,31 +60259,77 @@ function (_Component) {
         editCarHandler: function editCarHandler(car) {
           return _this4.editCarHandler(car);
         }
-      });
-    }
+      }));
+    } ///////////// methods depending on focus state
+    ////////////// modal display and form to add or update
+
   }, {
     key: "focusOnTableHandler",
     value: function focusOnTableHandler(table) {
+      ///  focus on or off
       this.setState({
+        ////// to simple need to know if click is from focus on type and keep focus on just change content
         focusOn: table,
         focus: !this.state.focus
       });
     }
   }, {
-    key: "formChangeHandler",
-    value: function formChangeHandler(e) {
-      var editedObject = _objectSpread({}, this.state.editedObject);
-
-      editedObject[e.target.placeholder] = e.target.value;
+    key: "addNewButtonHandler",
+    value: function addNewButtonHandler() {
+      // simply add new depend on active table name car or customer
       this.setState({
-        editedObject: editedObject
+        focusOn: '',
+        focus: !this.state.focus
       });
+    }
+  }, {
+    key: "editCarHandler",
+    value: function editCarHandler(car) {
+      /// set up for start need to handle cars and customers
+      this.setState({
+        focusOn: '',
+        editedObject: _objectSpread({}, car),
+        focus: !this.state.focus
+      });
+    }
+  }, {
+    key: "displayForm",
+    value: function displayForm(editedCar) {
+      var _this5 = this;
+
+      /// form for cars needt to change to dynamic build
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-wrapper"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "focus-form",
+        onSubmit: function onSubmit(e) {
+          return _this5.submitHandler(e);
+        }
+      }, Object.keys(editedCar).map(function (key, index) {
+        var _this6 = this;
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          className: "focus-form-input",
+          placeholder: key,
+          type: "text",
+          value: this.state.editedCar[editedCar[key]],
+          onChange: function onChange(e) {
+            return _this6.formChangeHandler(e);
+          },
+          required: true
+        });
+        console.log(key);
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "submit-button"
+      }, "Save Changes")));
     }
   }, {
     key: "submitHandler",
     value: function submitHandler(e) {
-      var _this5 = this;
+      var _this7 = this;
 
+      // submit both of above new or edit  need to update state reset search value
       e.preventDefault();
       axios.put("/cars/".concat(this.state.editedObject.id, "/update"), {
         registartion: this.state.editedObject.registartion,
@@ -60298,131 +60339,77 @@ function (_Component) {
         appointment: this.state.editedObject.appointment
       }).then(function (response) {
         axios.get('/cars').then(function (response) {
-          return _this5.setState({
+          return _this7.setState({
             cars: _toConsumableArray(response.data),
             displayCars: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/alerts').then(function (response) {
-          return _this5.setState({
+          return _this7.setState({
             alerts: _toConsumableArray(response.data),
             displayAlerts: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/confirmed').then(function (response) {
-          return _this5.setState({
+          return _this7.setState({
             confirmed: _toConsumableArray(response.data),
             displayConfirmed: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/pending').then(function (response) {
-          return _this5.setState({
+          return _this7.setState({
             pending: _toConsumableArray(response.data),
             displayPending: _toConsumableArray(response.data)
           });
         });
         axios.get('/cars/get_data_expired').then(function (response) {
-          return _this5.setState({
+          return _this7.setState({
             expired: _toConsumableArray(response.data),
             displayExpired: _toConsumableArray(response.data)
           });
         });
 
-        _this5.setState({
+        _this7.setState({
           focusOn: '',
-          focus: !_this5.state.focus
+          focus: !_this7.state.focus,
+          search: ''
         });
       });
     }
   }, {
-    key: "displayForm",
-    value: function displayForm() {
-      var _this6 = this;
-
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "focus-form",
-        onSubmit: function onSubmit(e) {
-          return _this6.submitHandler(e);
-        }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "focus-form-input",
-        placeholder: "registration",
-        type: "text",
-        value: this.state.editedObject.registration,
-        onChange: function onChange(e) {
-          return _this6.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "focus-form-input",
-        placeholder: "make",
-        type: "text",
-        value: this.state.editedObject.make,
-        onChange: function onChange(e) {
-          return _this6.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "focus-form-input",
-        placeholder: "mot",
-        type: "date",
-        value: this.state.editedObject.mot,
-        onChange: function onChange(e) {
-          return _this6.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "focus-form-input",
-        placeholder: "servis",
-        type: "date",
-        value: this.state.editedObject.servis,
-        onChange: function onChange(e) {
-          return _this6.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        className: "focus-form-input",
-        placeholder: "appointment",
-        type: "date",
-        value: this.state.editedObject.appointment,
-        onChange: function onChange(e) {
-          return _this6.formChangeHandler(e);
-        },
-        required: true
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "submit-button"
-      }, "Save Changes"));
-    }
-  }, {
     key: "focus",
     value: function focus(focusOn) {
-      var _this7 = this;
+      var _this8 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "focus-field"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "closing-div",
         onClick: function onClick() {
-          return _this7.setState({
-            focus: !_this7.state.focus
+          return _this8.setState({
+            focus: !_this8.state.focus
           });
         }
-      }, "X"), focusOn == '' ? this.displayForm() : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null));
-    }
+      }, "X"), focusOn == '' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-work-area"
+      }, " ", function () {
+        return _this8.displayForm(_this8.state.editedCar);
+      }, " ") : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null);
+    } ////// helping fuctions 
+
   }, {
     key: "compareValues",
     value: function compareValues(key) {
       var ascending = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      /// sorting 
       return function (a, b) {
         if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
           // property doesn't exist on either object
           return 0;
         }
 
-        var varA = typeof a[key] === 'string' ? a[key].toUpperCase() : a[key];
+        var varA = typeof a[key] === 'string' ? /// letter case insensitive
+        a[key].toUpperCase() : a[key];
         var varB = typeof b[key] === 'string' ? b[key].toUpperCase() : b[key];
         var comparison = 0;
 
@@ -60438,6 +60425,7 @@ function (_Component) {
   }, {
     key: "contains",
     value: function contains(a, obj) {
+      /// that was firt method i found I could use indexof but maybe later
       for (var i = 0; i < a.length; i++) {
         if (a[i].id === obj.id) {
           return true;
@@ -60449,61 +60437,80 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this8 = this;
+      var _this9 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
       }, this.state.focus ? this.focus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
-      }, this.filteringResults()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableName: this.state.tableName,
+        displayData: this.state[this.state.tableName],
+        clickHandler: function clickHandler(category) {
+          return _this9.clickHandler(category, _this9.state.tableName);
+        },
+        tableNameHandler: function tableNameHandler(tableName) {
+          return _this9.tableNameHandler(tableName);
+        },
+        addNewButtonHandler: function addNewButtonHandler(item) {
+          return _this9.addNewButtonHandler(item);
+        },
+        searchHandler: function searchHandler(e) {
+          return _this9.searchHandler(e);
+        },
+        searchValue: this.state.search,
+        editCarHandler: function editCarHandler(car) {
+          return _this9.editCarHandler(car);
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayAlerts",
         displayCars: this.state.displayAlerts,
         clickHandler: function clickHandler(category) {
-          return _this8.clickHandler(category, 'displayAlerts');
+          return _this9.clickHandler(category, 'displayAlerts');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this8.editCarHandler(car);
+          return _this9.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this8.focusOnTableHandler(table);
+          return _this9.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayPending",
         displayCars: this.state.displayPending,
         clickHandler: function clickHandler(category) {
-          return _this8.clickHandler(category, 'displayPending');
+          return _this9.clickHandler(category, 'displayPending');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this8.editCarHandler(car);
+          return _this9.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this8.focusOnTableHandler(table);
+          return _this9.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayConfirmed",
         displayCars: this.state.displayConfirmed,
         clickHandler: function clickHandler(category) {
-          return _this8.clickHandler(category, 'displayConfirmed');
+          return _this9.clickHandler(category, 'displayConfirmed');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this8.editCarHandler(car);
+          return _this9.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this8.focusOnTableHandler(table);
+          return _this9.focusOnTableHandler(table);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayExpired",
         displayCars: this.state.displayExpired,
         clickHandler: function clickHandler(category) {
-          return _this8.clickHandler(category, 'displayExpired');
+          return _this9.clickHandler(category, 'displayExpired');
         },
         editCarHandler: function editCarHandler(car) {
-          return _this8.editCarHandler(car);
+          return _this9.editCarHandler(car);
         },
         focusOnTableHandler: function focusOnTableHandler(table) {
-          return _this8.focusOnTableHandler(table);
+          return _this9.focusOnTableHandler(table);
         }
       })));
     }
@@ -60704,9 +60711,9 @@ function (_Component) {
         onChange: function onChange(e) {
           return _this2.props.searchHandler(e);
         },
-        value: this.props.serachValue,
+        value: this.props.searchValue,
         placeholder: "Click and type to search here ..."
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), console.log(this.props.searchValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayDeleted');
@@ -60764,8 +60771,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
