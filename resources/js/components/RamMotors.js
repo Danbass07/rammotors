@@ -46,6 +46,7 @@ export default class RamMotors extends Component {
 
                 focusOn: '',
                 focus: false,
+                chooseCustomer: true,
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -133,7 +134,7 @@ export default class RamMotors extends Component {
 
     }
 
-    tableNameHandler(tableName) {  /// synchronise actions to the right diplay table name
+    tableNameHandler(tableName) {  /// synchronise actions to the according display table name
         this.searchHandler(); 
         this.setState({
             tableName: tableName,
@@ -179,7 +180,7 @@ export default class RamMotors extends Component {
 
     focusOnTableHandler(table) { ///  focus on or off
 
-        this.setState({  ////// to simple need to know if click is from focus on type and keep focus on just change content
+        this.setState({  //////  need to know if click is from focus on type and keep focus on just change content
             focusOn: table,
             focus: !this.state.focus,
         })
@@ -202,26 +203,64 @@ export default class RamMotors extends Component {
         })
     }
  
- 
- 
-    displayForm(editedCar){  /// form for cars needt to change to dynamic build
+    chooseCar() {
+
+       return  (
+       <select className="focus-form-input">
+            {this.state.cars.map((car) => {
+                
+                if (!car.customer_id) {
+                    {console.log(car.customer_id)
+                console.log(car.registration)}
+                    <option value={car.id}>{ car.registration }</option>
+                }
+            })}
+           </select>
+       )
+    }
+    formChangeHandler2(e, key){
+        let editedObjectName = ''; 
+        if(this.state.tableName == 'displayCars') {
+            editedObjectName = 'editedCar'
+        }
+        if(this.state.tableName == 'displayCustomers') {
+            editedObjectName = 'editedCustomer'
+        }
+        
+        this.setState({
+            [editedObjectName]: {
+                ...this.state[editedObjectName],
+                [key]: e.target.value
+    
+            }
+        })
+    }
+    displayForm(editedObject){  /// form for cars needt to change to dynamic build
+        let editedObjectName = ''; 
+        if(this.state.tableName == 'displayCars') {
+            editedObjectName = 'editedCar'
+        }
+        if(this.state.tableName == 'displayCustomers') {
+            editedObjectName = 'editedCustomer'
+        }
         return (
 
     <div className="form-wrapper">
          <form className="focus-form" onSubmit={(e) => this.submitHandler(e) }>
 
 
-                { Object.keys(editedCar).map(function(key, index) {
+                { Object.keys(editedObject).map((key) => {
                 
               return(  <input 
+                key={key}
                 className="focus-form-input"
                 placeholder={key}
-                type="text"
-                value={this.state.editedCar[editedCar[key]]}
-                onChange={(e) => this.formChangeHandler(e)}
+                type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
+                value={[editedObjectName][editedObject[key]]}
+                onChange={(e) => this.formChangeHandler2(e, key)}
                 required
                 />)
-                    console.log(key)
+                    
                
                 })}
 
@@ -235,61 +274,9 @@ export default class RamMotors extends Component {
                     >
                 Save Changes
                     </button>
+                    {this.state.tableName === 'displayCustomers' ? this.chooseCar() : null }
         </form>
 
-        {/* // <form className="focus-form" onSubmit={(e) => this.submitHandler(e) }>
-        //     <input 
-        //     className="focus-form-input"
-        //     placeholder="registration"
-        //     type="text"
-        //     value={this.state.editedObject.registration}
-        //     onChange={(e) => this.formChangeHandler(e)}
-        //     required
-        //     />
-        //     <input 
-        //     className="focus-form-input"
-        //     placeholder="make"
-        //     type="text"
-        //     label="MAKE"
-        //     value={this.state.editedObject.make}
-        //     onChange={(e) => this.formChangeHandler(e)}
-        //     required
-        //     />
-        //     <label className="form-label"  for="mot">MOT</label>
-        //     <input 
-        //     className="focus-form-input"
-        //     placeholder="mot"
-        //     type="date"
-        //     value={this.state.editedObject.mot}
-        //     onChange={(e) => this.formChangeHandler(e)}
-        //     required
-        //     />
-        //     <label className="form-label"  for="servis">SERVIS</label>
-        //     <input
-        //     className="focus-form-input" 
-        //     placeholder="servis"
-        //     type="date"
-        //     value={this.state.editedObject.servis}
-        //     onChange={(e) => this.formChangeHandler(e)}
-        //     required
-        //     />
-        //     <label className="form-label"  for="appointment">APPOINTMENT</label>
-        //     <input 
-        //     className="focus-form-input"
-        //     placeholder="appointment"
-        //     type="date"
-        //     value={this.state.editedObject.appointment}
-        //     onChange={(e) => this.formChangeHandler(e)}
-        //     required
-        //     />
-        //     <button 
-        //             type="submit" 
-        //             className="submit-button"
-
-        //             >
-        //         Save Changes
-        //             </button>
-        // </form> */}
     
     </div>
        
@@ -298,7 +285,7 @@ export default class RamMotors extends Component {
     
 
 
-
+   
 
     submitHandler(e){   // submit both of above new or edit  need to update state reset search value
         e.preventDefault();
@@ -343,13 +330,14 @@ export default class RamMotors extends Component {
             <div className="focus">  
                 <div className="closing-div" onClick={() => this.setState({focus:!this.state.focus})}>X</div>
                 
-                {focusOn == '' ? <div className="focus-work-area"> {() => this.displayForm(this.state.editedCar)} </div> : null}
-               
+                {focusOn == '' && this.state.tableName == 'displayCars' ? <div className="focus-work-area"> 
+                    {this.displayForm(this.state.editedCar)} </div> : null }
+
+                {focusOn == '' && this.state.tableName == 'displayCustomers' ? <div className="focus-work-area"> 
+                    {this.displayForm(this.state.editedCustomer)} </div> : null }
+                                      
                 {focusOn !== '' ? this.displayTable(this.state.focusOn) : null}
 
-                
-
-               
             </div>
         )
     }
@@ -393,7 +381,6 @@ export default class RamMotors extends Component {
     }  
 
     render() { 
-        
         return (
             <div className="rammotors">
 
