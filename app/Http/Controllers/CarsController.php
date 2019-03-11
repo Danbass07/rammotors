@@ -132,6 +132,7 @@ class CarsController extends Controller
 
 	public function store()	{
 			
+		Log::info(request());
 
 		$this->validate(request(), [
         'registration' => 'required|unique:cars,registration|max:255',
@@ -155,8 +156,7 @@ class CarsController extends Controller
 
 			
 
-			return redirect('/cars')
-                        ->with('message','car has been added');
+			return response()->json($car);
 	}
 
 		

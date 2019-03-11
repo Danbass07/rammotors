@@ -42,6 +42,7 @@ export default class RamMotors extends Component {
                     phone: '',
                     email: '',
                     notes: '',
+                    cars: [],
                 },
 
                 focusOn: '',
@@ -194,11 +195,11 @@ export default class RamMotors extends Component {
         })
     }
 
-    editCarHandler(car) {  /// set up for start need to handle cars and customers
+    editObjecHandler(object) {  /// set up for start need to handle cars and customers
 
         this.setState({
             focusOn: '',
-            editedObject: {...car},
+            editedObject: {...object},
             focus: !this.state.focus,
         })
     }
@@ -210,15 +211,17 @@ export default class RamMotors extends Component {
             {this.state.cars.map((car) => {
                 
                 if (!car.customer_id) {
-                    {console.log(car.customer_id)
-                console.log(car.registration)}
-                    <option value={car.id}>{ car.registration }</option>
+              
+                 return   <option key={car.id} value={car.id}>
+                                {car.registration}
+                         </option>
                 }
             })}
            </select>
        )
     }
-    formChangeHandler2(e, key){
+    formChangeHandler(e, key){
+        console.log('formChanger')
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
             editedObjectName = 'editedCar'
@@ -233,9 +236,10 @@ export default class RamMotors extends Component {
                 [key]: e.target.value
     
             }
-        })
+        }, console.log(this.state[editedObjectName]))
     }
     displayForm(editedObject){  /// form for cars needt to change to dynamic build
+        
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
             editedObjectName = 'editedCar'
@@ -243,10 +247,14 @@ export default class RamMotors extends Component {
         if(this.state.tableName == 'displayCustomers') {
             editedObjectName = 'editedCustomer'
         }
+        const style = {
+            display: 'none',
+        }
+       
         return (
 
     <div className="form-wrapper">
-         <form className="focus-form" onSubmit={(e) => this.submitHandler(e) }>
+         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, editedObject, 'addNew') }>
 
 
                 { Object.keys(editedObject).map((key) => {
@@ -255,10 +263,11 @@ export default class RamMotors extends Component {
                 key={key}
                 className="focus-form-input"
                 placeholder={key}
+                style={key==='cars' ? style : null }
                 type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
                 value={[editedObjectName][editedObject[key]]}
-                onChange={(e) => this.formChangeHandler2(e, key)}
-                required
+                onChange={(e) => this.formChangeHandler(e, key)}
+                
                 />)
                     
                
@@ -287,41 +296,105 @@ export default class RamMotors extends Component {
 
    
 
-    submitHandler(e){   // submit both of above new or edit  need to update state reset search value
+    submitHandler(e, editedObjectName, operation){   // submit both of above new or edit  need to update state reset search value
         e.preventDefault();
-        axios.put(`/cars/${this.state.editedObject.id}/update`, {
-            registartion: this.state.editedObject.registartion,
-            make: this.state.editedObject.make,
-            mot: this.state.editedObject.mot,
-            servis: this.state.editedObject.servis,
-            appointment: this.state.editedObject.appointment,  
-        }).then(response => {
-            axios.get('/cars').then(response => this.setState({
-                cars: [...response.data],
-                displayCars: [...response.data],
-            }));
-            axios.get('/cars/alerts').then(response => this.setState({
-                alerts: [...response.data],
-                displayAlerts: [...response.data],
-            }));
-            axios.get('/cars/confirmed').then(response => this.setState({
-                confirmed: [...response.data],
-                displayConfirmed: [...response.data],
-            }));
-            axios.get('/cars/pending').then(response => this.setState({
-                pending: [...response.data],
-                displayPending: [...response.data],
-            }));
-            axios.get('/cars/get_data_expired').then(response => this.setState({
-                expired: [...response.data],
-                displayExpired: [...response.data],
-            }));
-            this.setState({
-                focusOn: '',
-                focus: !this.state.focus,
-                search: '',
-            })
-        });
+        
+        if (editedObjectName === 'editedCar' || operation === 'addNew' ) {
+            const editedCar = [...this.state.editedCar]
+            axios.post(`/cars`, {
+                registration: editedCar.registration,
+                make: editedCar.make,
+                mot: editedCar.mot,
+                servis: editedCar.servis,
+                appointment: editedCar.appointment,  
+            }).then(response => {
+                axios.get('/cars').then(response => this.setState({
+                    cars: [...response.data],
+                    displayCars: [...response.data],
+                }));
+                axios.get('/cars/alerts').then(response => this.setState({
+                    alerts: [...response.data],
+                    displayAlerts: [...response.data],
+                }));
+                axios.get('/cars/confirmed').then(response => this.setState({
+                    confirmed: [...response.data],
+                    displayConfirmed: [...response.data],
+                }));
+                axios.get('/cars/pending').then(response => this.setState({
+                    pending: [...response.data],
+                    displayPending: [...response.data],
+                }));
+                axios.get('/cars/get_data_expired').then(response => this.setState({
+                    expired: [...response.data],
+                    displayExpired: [...response.data],
+                }));
+                this.setState({
+                    focusOn: '',
+                    focus: !this.state.focus,
+                    search: '',
+                })
+            });
+
+        }
+      else if (editedObjectName === 'editedCar' || operation === 'update' ) {
+      
+            axios.put(`/cars/${editedCar.id}/update`, {
+                registration: editedCar.registration,
+                make: editedCar.make,
+                mot: editedCar.mot,
+                servis: editedCar.servis,
+                appointment: editedCar.appointment,  
+            }).then(response => {
+                axios.get('/cars').then(response => this.setState({
+                    cars: [...response.data],
+                    displayCars: [...response.data],
+                }));
+                axios.get('/cars/alerts').then(response => this.setState({
+                    alerts: [...response.data],
+                    displayAlerts: [...response.data],
+                }));
+                axios.get('/cars/confirmed').then(response => this.setState({
+                    confirmed: [...response.data],
+                    displayConfirmed: [...response.data],
+                }));
+                axios.get('/cars/pending').then(response => this.setState({
+                    pending: [...response.data],
+                    displayPending: [...response.data],
+                }));
+                axios.get('/cars/get_data_expired').then(response => this.setState({
+                    expired: [...response.data],
+                    displayExpired: [...response.data],
+                }));
+                this.setState({
+                    focusOn: '',
+                    focus: !this.state.focus,
+                    search: '',
+                })
+            });
+        } else if (editedObjectName === 'editedCustomer'  || operation === 'addNew' ){
+            console.log(this.state.editedCustomer);
+            const editedCustomer = {...this.state.editedCustomer}
+            
+            axios.post(`/customers`, {
+                name: editedCustomer.name,
+                surname: editedCustomer.surname,
+                phone: editedCustomer.phone,
+                email: editedCustomer.email,
+            }).then(response => {
+                axios.get('/customers').then(response => this.setState({
+                    customers: [...response.data],
+                    displayCustomers: [...response.data],
+                }));
+ 
+                this.setState({
+                    focusOn: '',
+                    focus: !this.state.focus,
+                    search: '',
+                })
+            });
+        } else {
+            return
+        }
     }
 
  

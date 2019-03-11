@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use Validator;
+use Illuminate\Support\Facades\Log;
 
 class CustomersController extends Controller
 {
@@ -37,7 +39,30 @@ class CustomersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::info(request());
+
+		$this->validate(request(), [
+        'name' => 'required',
+        'surname' => 'required',
+        'phone' => 'required',
+        'email' => 'required',
+        
+    ]);
+		
+
+		
+
+		$customer = new Customer();
+		$customer->name = request('name');
+		$customer->surname = request('surname');
+		$customer->phone = request('phone');
+		$customer->email = request('email');
+		
+		$customer->save();
+
+			
+
+			return response()->json($customer);
     }
 
     /**
