@@ -34,6 +34,11 @@ export default class RamMotors extends Component {
                     mot: '',
                     servis: '',
                     appointment: '',
+                    info:'',
+                    pending:0,
+                    created_at: '',
+                    updated_at: '',
+                    deleted_at: '',
                 },
 
                 editedCustomer: {
@@ -43,11 +48,13 @@ export default class RamMotors extends Component {
                     email: '',
                     notes: '',
                     cars: [],
+                    info:'',
                 },
 
                 focusOn: '',
                 focus: false,
                 chooseCustomer: true,
+                operation: '',
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -195,13 +202,13 @@ export default class RamMotors extends Component {
         })
     }
 
-    editObjecHandler(object) {  /// set up for start need to handle cars and customers
+    editCarHandler(object) {  /// set up for start need to handle cars and customers
 
         this.setState({
             focusOn: '',
-            editedObject: {...object},
+            editedCar: {...object},
             focus: !this.state.focus,
-        })
+        }, () => console.log(this.state.editedCar))
     }
  
     chooseCar() {
@@ -236,7 +243,7 @@ export default class RamMotors extends Component {
                 [key]: e.target.value
     
             }
-        }, console.log(this.state[editedObjectName]))
+        })
     }
     displayForm(editedObject){  /// form for cars needt to change to dynamic build
         
@@ -254,18 +261,19 @@ export default class RamMotors extends Component {
         return (
 
     <div className="form-wrapper">
-         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, editedObject, 'addNew') }>
+         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, 'update') }>
 
 
                 { Object.keys(editedObject).map((key) => {
-                
-              return(  <input 
+              return(  
+              
+              <input 
                 key={key}
                 className="focus-form-input"
                 placeholder={key}
-                style={key==='cars' ? style : null }
+                style={key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
                 type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
-                value={[editedObjectName][editedObject[key]]}
+                value={this.state[editedObjectName][key]}
                 onChange={(e) => this.formChangeHandler(e, key)}
                 
                 />)
@@ -298,8 +306,8 @@ export default class RamMotors extends Component {
 
     submitHandler(e, editedObjectName, operation){   // submit both of above new or edit  need to update state reset search value
         e.preventDefault();
-        
-        if (editedObjectName === 'editedCar' || operation === 'addNew' ) {
+     
+        if (editedObjectName === 'editedCar' && operation === 'addNew' ) {
             const editedCar = [...this.state.editedCar]
             axios.post(`/cars`, {
                 registration: editedCar.registration,
@@ -336,8 +344,8 @@ export default class RamMotors extends Component {
             });
 
         }
-      else if (editedObjectName === 'editedCar' || operation === 'update' ) {
-      
+      else if (editedObjectName === 'editedCar' && operation === 'update' ) {
+        console.log('submit right place')
             axios.put(`/cars/${editedCar.id}/update`, {
                 registration: editedCar.registration,
                 make: editedCar.make,
@@ -371,7 +379,7 @@ export default class RamMotors extends Component {
                     search: '',
                 })
             });
-        } else if (editedObjectName === 'editedCustomer'  || operation === 'addNew' ){
+        } else if (editedObjectName === 'editedCustomer'  && operation === 'addNew' ){
             console.log(this.state.editedCustomer);
             const editedCustomer = {...this.state.editedCustomer}
             
