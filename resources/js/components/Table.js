@@ -67,7 +67,7 @@ export default class Table extends Component {
                                 {this.props.tableName === 'displayCustomers' ?
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayData.map((data) => 
-                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editCusomerHandler(data)}>
+                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editHandler(data)}>
                                              <th className='table-item'>{data[Object.keys(data)[1]].toUpperCase()}</th>
                                              <th className='table-item'>{data[Object.keys(data)[2]]}</th>
                                              <th className='table-item'>{data[Object.keys(data)[3]]}</th>
@@ -106,7 +106,7 @@ export default class Table extends Component {
                         
                         <input className="search-input" onChange={(e) => this.props.searchHandler(e)} value={this.props.searchValue} placeholder="Click and type to search here ..." ></input> 
                       
-                        {console.log(this.props.searchValue)}
+                       
                         <button className="under-table-button" onClick={() => this.props.tableNameHandler('displayDeleted')}>
                         DELETED 
                         </button>

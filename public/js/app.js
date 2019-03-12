@@ -60293,6 +60293,16 @@ function (_Component) {
     }
   }, {
     key: "editCarHandler",
+    value: function editCarHandler(data) {
+      console.log(data);
+      this.setState({
+        editedCar: _objectSpread({}, data),
+        focusOn: '',
+        focus: !this.state.focus
+      }, console.log(this.state.editedCar));
+    }
+  }, {
+    key: "editCarHandler",
     value: function editCarHandler(object) {
       var _this5 = this;
 
@@ -60322,7 +60332,6 @@ function (_Component) {
   }, {
     key: "formChangeHandler",
     value: function formChangeHandler(e, key) {
-      console.log('formChanger');
       var editedObjectName = '';
 
       if (this.state.tableName == 'displayCars') {
@@ -60340,7 +60349,7 @@ function (_Component) {
     value: function displayForm(editedObject) {
       var _this6 = this;
 
-      /// form for cars needt to change to dynamic build
+      /// dynamic form 
       var editedObjectName = '';
 
       if (this.state.tableName == 'displayCars') {
@@ -60796,7 +60805,7 @@ function (_Component) {
           className: "table-data-row",
           key: data[Object.keys(data)[0]] + 'customer',
           onClick: function onClick() {
-            return _this2.props.editCusomerHandler(data);
+            return _this2.props.editHandler(data);
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
@@ -60844,7 +60853,7 @@ function (_Component) {
         },
         value: this.props.searchValue,
         placeholder: "Click and type to search here ..."
-      }), console.log(this.props.searchValue), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayDeleted');

@@ -201,6 +201,14 @@ export default class RamMotors extends Component {
             focus: !this.state.focus,
         })
     }
+    editCarHandler(data) {
+        console.log(data);
+        this.setState({
+            editedCar: {...data},
+            focusOn: '',
+            focus: !this.state.focus,
+        }, console.log(this.state.editedCar))
+    }
 
     editCarHandler(object) {  /// set up for start need to handle cars and customers
 
@@ -228,7 +236,6 @@ export default class RamMotors extends Component {
        )
     }
     formChangeHandler(e, key){
-        console.log('formChanger')
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
             editedObjectName = 'editedCar'
@@ -245,7 +252,8 @@ export default class RamMotors extends Component {
             }
         })
     }
-    displayForm(editedObject){  /// form for cars needt to change to dynamic build
+    
+    displayForm(editedObject){  /// dynamic form 
         
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
