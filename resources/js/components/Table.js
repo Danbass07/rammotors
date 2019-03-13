@@ -67,7 +67,7 @@ export default class Table extends Component {
                                 {this.props.tableName === 'displayCustomers' ?
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayData.map((data) => 
-                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editHandler(data)}>
+                                             <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editHandler(data, 'editedCustomer')}>
                                              <th className='table-item'>{data[Object.keys(data)[1]].toUpperCase()}</th>
                                              <th className='table-item'>{data[Object.keys(data)[2]]}</th>
                                              <th className='table-item'>{data[Object.keys(data)[3]]}</th>
@@ -83,7 +83,7 @@ export default class Table extends Component {
                                      <tbody className="table-data"  id="style-1">
                                      {this.props.displayData.map((data) => 
                                      
-                                     <tr className="table-data-row" key={data[Object.keys(data)[0]]} onClick={() => this.props.editCarHandler(data)}>
+                                     <tr className="table-data-row" key={data[Object.keys(data)[0]]} onClick={() => this.props.editHandler(data, 'editedCar')}>
                                      <th className='table-item'>{data[Object.keys(data)[2]].toUpperCase()}</th>
                                      <th className='table-item'>{data[Object.keys(data)[3]]}</th>
                                      <th className='table-item'>{data[Object.keys(data)[4]]}</th>

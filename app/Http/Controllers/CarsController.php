@@ -132,7 +132,7 @@ class CarsController extends Controller
 
 	public function store()	{
 			
-		Log::info(request());
+		
 
 		$this->validate(request(), [
         'registration' => 'required|unique:cars,registration|max:255',
@@ -180,7 +180,6 @@ class CarsController extends Controller
         
     ]);
 		
-     		
 		$car = Car::findOrfail($id);
 		$car->make = $request->make;
 		$car->mot = $request->mot;
@@ -192,9 +191,9 @@ class CarsController extends Controller
 				$car->pending = 0;
 		}
 
-		$car->info = request('info');
+		$car->info = $request->info;
 		$car->save();
-		return response();
+		return response()->json();
 	
 	}
 	public function updateayear($id, $type)	{

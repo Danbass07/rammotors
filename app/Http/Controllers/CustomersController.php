@@ -39,7 +39,7 @@ class CustomersController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info(request());
+        
 
 		$this->validate(request(), [
         'name' => 'required',
@@ -96,7 +96,28 @@ class CustomersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate(request(), [
+            'name' => 'required',
+            'surname' => 'required',
+            'phone' => 'required',
+            'email' => 'required',
+            
+        ]);
+            
+        Log::info(request());
+            
+    
+            $customer = Customer::findOrfail($id);
+            $customer->name = request('name');
+            $customer->surname = request('surname');
+            $customer->phone = request('phone');
+            $customer->email = request('email');
+            
+            $customer->save();
+    
+                
+    
+                return response()->json($customer);
     }
 
     /**

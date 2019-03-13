@@ -60102,6 +60102,7 @@ function (_Component) {
       confirmed: [],
       expired: [],
       deleted: [],
+      alerts: [],
       displayCars: [],
       displayCustomers: [],
       displayAlerts: [],
@@ -60114,6 +60115,8 @@ function (_Component) {
       search: '',
       searchResult: [],
       editedCar: {
+        id: 0,
+        customer_id: 0,
         registration: '',
         make: '',
         mot: '',
@@ -60287,33 +60290,41 @@ function (_Component) {
     value: function addNewButtonHandler() {
       // simply add new depend on active table name car or customer
       this.setState({
+        editedCar: {
+          id: 0,
+          customer_id: 0,
+          registration: '',
+          make: '',
+          mot: '',
+          servis: '',
+          appointment: '',
+          info: '',
+          pending: 0,
+          created_at: '',
+          updated_at: '',
+          deleted_at: ''
+        },
         focusOn: '',
-        focus: !this.state.focus
+        focus: !this.state.focus,
+        operation: 'addNew'
       });
-    }
-  }, {
-    key: "editCarHandler",
-    value: function editCarHandler(data) {
-      console.log(data);
-      this.setState({
-        editedCar: _objectSpread({}, data),
-        focusOn: '',
-        focus: !this.state.focus
-      }, console.log(this.state.editedCar));
-    }
-  }, {
-    key: "editCarHandler",
-    value: function editCarHandler(object) {
-      var _this5 = this;
+    } // editCarHandler(data) {
+    //     this.setState({
+    //         editedCar: {...data},
+    //         focusOn: '',
+    //         focus: !this.state.focus,
+    //     })
+    // }
 
-      /// set up for start need to handle cars and customers
-      this.setState({
-        focusOn: '',
-        editedCar: _objectSpread({}, object),
-        focus: !this.state.focus
-      }, function () {
-        return console.log(_this5.state.editedCar);
-      });
+  }, {
+    key: "editHandler",
+    value: function editHandler(object, objectName) {
+      var _this$setState3;
+
+      /// 
+      this.setState((_this$setState3 = {
+        focusOn: ''
+      }, _defineProperty(_this$setState3, objectName, _objectSpread({}, object)), _defineProperty(_this$setState3, "focus", !this.state.focus), _this$setState3));
     }
   }, {
     key: "chooseCar",
@@ -60346,8 +60357,8 @@ function (_Component) {
     }
   }, {
     key: "displayForm",
-    value: function displayForm(editedObject) {
-      var _this6 = this;
+    value: function displayForm(editedObject, operation) {
+      var _this5 = this;
 
       /// dynamic form 
       var editedObjectName = '';
@@ -60368,83 +60379,112 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         className: "focus-form",
         onSubmit: function onSubmit(e) {
-          return _this6.submitHandler(e, editedObjectName, 'update');
+          return _this5.submitHandler(e, editedObjectName, operation);
         }
       }, Object.keys(editedObject).map(function (key) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           key: key,
           className: "focus-form-input",
           placeholder: key,
-          style: key === 'cars' || key === 'updated_at' || key === 'created_at' || key === 'deleted_at' || key === 'pending' || key === 'id' || key === 'customer_id' ? style : null,
+          style: key === 'c_car' || key === 'c_car_1' || key === 'c_car_2' || key === 'cars' || key === 'updated_at' || key === 'created_at' || key === 'deleted_at' || key === 'pending' || key === 'id' || key === 'customer_id' ? style : null,
           type: key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text",
-          value: _this6.state[editedObjectName][key],
+          value: _this5.state[editedObjectName][key],
           onChange: function onChange(e) {
-            return _this6.formChangeHandler(e, key);
+            return _this5.formChangeHandler(e, key);
           }
         });
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "submit-button"
-      }, "Save Changes"), this.state.tableName === 'displayCustomers' ? this.chooseCar() : null));
+      }, "Save Changes")));
+    }
+  }, {
+    key: "displayList",
+    value: function displayList(id) {
+      ///// not dynamic yet
+      if (this.state.tableName === 'displayCustomers') {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "form-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "List Of Cars"), this.state.cars.map(function (car) {
+          return car.customer_id === id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: id + car.customer_id,
+            className: "display-list-item"
+          }, car.registration) : null;
+        }));
+      }
+
+      if (this.state.tableName === 'displayCars') {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "form-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "List Of Customers"), this.state.customers.map(function (customer) {
+          return customer.id === id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            key: id,
+            className: "display-list-item"
+          }, customer.name + ' ' + customer.surname) : null;
+        }));
+      }
+    }
+  }, {
+    key: "addYear",
+    value: function addYear(editedDate, editedDateName) {
+      var date = this.stringToDate(editedDate, "YYYY-mm-dd", "-");
+      var year = date.getFullYear() + 1;
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+      var c = year.toString() + "-" + month.toString() + "-" + day.toString();
+      this.setState({
+        editedCar: _objectSpread({}, this.state.editedCar, _defineProperty({}, editedDateName, c))
+      });
+    }
+  }, {
+    key: "displayActions",
+    value: function displayActions(id) {
+      var _this6 = this;
+
+      ///// not dynamic yet
+      if (this.state.tableName === 'displayCustomers') {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "form-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "DELETE"), this.chooseCar());
+      }
+
+      if (this.state.tableName === 'displayCars') {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "form-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: function onClick() {
+            return _this6.addYear(_this6.state.editedCar.mot, 'mot');
+          }
+        }, "Add Year MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: function onClick() {
+            return _this6.addYear(_this6.state.editedCar.servis, 'servis');
+          }
+        }, "Add Year Service"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: function onClick() {
+            return _this6.addYear(_this6.state.editedCar.appointment, 'appointment');
+          }
+        }, "Add Year Appointment"), this.state.alerts.map(function (alertedCar) {
+          if (id === alertedCar.id) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              key: id
+            }, "Send SMS");
+          }
+        }));
+      }
     }
   }, {
     key: "submitHandler",
-    value: function submitHandler(e, editedObjectName, operation) {
+    value: function submitHandler(e, editedObjectName) {
       var _this7 = this;
 
+      var operation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'addNew';
       // submit both of above new or edit  need to update state reset search value
       e.preventDefault();
 
       if (editedObjectName === 'editedCar' && operation === 'addNew') {
-        var _editedCar = _toConsumableArray(this.state.editedCar);
+        var editedCar = _objectSpread({}, this.state.editedCar);
 
         axios.post("/cars", {
-          registration: _editedCar.registration,
-          make: _editedCar.make,
-          mot: _editedCar.mot,
-          servis: _editedCar.servis,
-          appointment: _editedCar.appointment
-        }).then(function (response) {
-          axios.get('/cars').then(function (response) {
-            return _this7.setState({
-              cars: _toConsumableArray(response.data),
-              displayCars: _toConsumableArray(response.data)
-            });
-          });
-          axios.get('/cars/alerts').then(function (response) {
-            return _this7.setState({
-              alerts: _toConsumableArray(response.data),
-              displayAlerts: _toConsumableArray(response.data)
-            });
-          });
-          axios.get('/cars/confirmed').then(function (response) {
-            return _this7.setState({
-              confirmed: _toConsumableArray(response.data),
-              displayConfirmed: _toConsumableArray(response.data)
-            });
-          });
-          axios.get('/cars/pending').then(function (response) {
-            return _this7.setState({
-              pending: _toConsumableArray(response.data),
-              displayPending: _toConsumableArray(response.data)
-            });
-          });
-          axios.get('/cars/get_data_expired').then(function (response) {
-            return _this7.setState({
-              expired: _toConsumableArray(response.data),
-              displayExpired: _toConsumableArray(response.data)
-            });
-          });
-
-          _this7.setState({
-            focusOn: '',
-            focus: !_this7.state.focus,
-            search: ''
-          });
-        });
-      } else if (editedObjectName === 'editedCar' && operation === 'update') {
-        console.log('submit right place');
-        axios.put("/cars/".concat(editedCar.id, "/update"), {
           registration: editedCar.registration,
           make: editedCar.make,
           mot: editedCar.mot,
@@ -60488,9 +60528,54 @@ function (_Component) {
             search: ''
           });
         });
-      } else if (editedObjectName === 'editedCustomer' && operation === 'addNew') {
-        console.log(this.state.editedCustomer);
+      } else if (editedObjectName === 'editedCar' && operation === 'update') {
+        var _editedCar = _objectSpread({}, this.state.editedCar);
 
+        axios.put("/cars/".concat(_editedCar.id, "/update"), {
+          make: _editedCar.make,
+          mot: _editedCar.mot,
+          servis: _editedCar.servis,
+          appointment: _editedCar.appointment,
+          info: _editedCar.info
+        }).then(function (response) {
+          axios.get('/cars').then(function (response) {
+            return _this7.setState({
+              cars: _toConsumableArray(response.data),
+              displayCars: _toConsumableArray(response.data)
+            });
+          });
+          axios.get('/cars/alerts').then(function (response) {
+            return _this7.setState({
+              alerts: _toConsumableArray(response.data),
+              displayAlerts: _toConsumableArray(response.data)
+            });
+          });
+          axios.get('/cars/confirmed').then(function (response) {
+            return _this7.setState({
+              confirmed: _toConsumableArray(response.data),
+              displayConfirmed: _toConsumableArray(response.data)
+            });
+          });
+          axios.get('/cars/pending').then(function (response) {
+            return _this7.setState({
+              pending: _toConsumableArray(response.data),
+              displayPending: _toConsumableArray(response.data)
+            });
+          });
+          axios.get('/cars/get_data_expired').then(function (response) {
+            return _this7.setState({
+              expired: _toConsumableArray(response.data),
+              displayExpired: _toConsumableArray(response.data)
+            });
+          });
+
+          _this7.setState({
+            focusOn: '',
+            focus: !_this7.state.focus,
+            search: ''
+          });
+        });
+      } else if (editedObjectName === 'editedCustomer' && operation === 'addNew') {
         var editedCustomer = _objectSpread({}, this.state.editedCustomer);
 
         axios.post("/customers", {
@@ -60498,6 +60583,30 @@ function (_Component) {
           surname: editedCustomer.surname,
           phone: editedCustomer.phone,
           email: editedCustomer.email
+        }).then(function (response) {
+          axios.get('/customers').then(function (response) {
+            return _this7.setState({
+              customers: _toConsumableArray(response.data),
+              displayCustomers: _toConsumableArray(response.data)
+            });
+          });
+
+          _this7.setState({
+            focusOn: '',
+            focus: !_this7.state.focus,
+            search: ''
+          });
+        });
+      } else if (editedObjectName === 'editedCustomer' && operation === 'update') {
+        console.log(this.state.editedCustomer);
+
+        var _editedCustomer = _objectSpread({}, this.state.editedCustomer);
+
+        axios.put("/customers/".concat(_editedCustomer.id, "/update"), {
+          name: _editedCustomer.name,
+          surname: _editedCustomer.surname,
+          phone: _editedCustomer.phone,
+          email: _editedCustomer.email
         }).then(function (response) {
           axios.get('/customers').then(function (response) {
             return _this7.setState({
@@ -60532,9 +60641,9 @@ function (_Component) {
         }
       }, "X"), focusOn == '' && this.state.tableName == 'displayCars' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
-      }, this.displayForm(this.state.editedCar), " ") : null, focusOn == '' && this.state.tableName == 'displayCustomers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.displayForm(this.state.editedCar, 'update'), this.displayActions(this.state.editedCar.id), this.displayList(this.state.editedCar.customer_id), " ") : null, focusOn == '' && this.state.tableName == 'displayCustomers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
-      }, this.displayForm(this.state.editedCustomer), " ") : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null);
+      }, this.displayForm(this.state.editedCustomer, 'update'), this.displayActions(this.state.editedCustomer.id), this.displayList(this.state.editedCustomer.id), " ") : null, focusOn !== '' ? this.displayTable(this.state.focusOn) : null);
     } ////// helping fuctions 
 
   }, {
@@ -60575,6 +60684,23 @@ function (_Component) {
       return false;
     }
   }, {
+    key: "stringToDate",
+    value: function stringToDate(_date, _format, _delimiter) {
+      var formatLowerCase = _format.toLowerCase();
+
+      var formatItems = formatLowerCase.split(_delimiter);
+
+      var dateItems = _date.split(_delimiter);
+
+      var monthIndex = formatItems.indexOf("mm");
+      var dayIndex = formatItems.indexOf("dd");
+      var yearIndex = formatItems.indexOf("yyyy");
+      var month = parseInt(dateItems[monthIndex]);
+      month -= 1;
+      var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+      return formatedDate;
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this9 = this;
@@ -60599,8 +60725,8 @@ function (_Component) {
           return _this9.searchHandler(e);
         },
         searchValue: this.state.search,
-        editCarHandler: function editCarHandler(car) {
-          return _this9.editCarHandler(car);
+        editHandler: function editHandler(object, objectName) {
+          return _this9.editHandler(object, objectName);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
@@ -60805,7 +60931,7 @@ function (_Component) {
           className: "table-data-row",
           key: data[Object.keys(data)[0]] + 'customer',
           onClick: function onClick() {
-            return _this2.props.editHandler(data);
+            return _this2.props.editHandler(data, 'editedCustomer');
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
@@ -60826,7 +60952,7 @@ function (_Component) {
           className: "table-data-row",
           key: data[Object.keys(data)[0]],
           onClick: function onClick() {
-            return _this2.props.editCarHandler(data);
+            return _this2.props.editHandler(data, 'editedCar');
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
@@ -60911,8 +61037,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

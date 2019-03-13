@@ -47,7 +47,7 @@ Route::get('/customers/create', 'CustomersController@create')->name('customers.c
 Route::get('/customers/{id}/edit', 'CustomersController@edit')->name('customers.edit');
 Route::get('/customers/{id}/destroy', 'CustomersController@destroy')->name('customers.destroy');
 Route::post('/customers', 'CustomersController@store')->name('cars.store');
-Route::get('/customers/{id}/update', 'CustomersController@update')->name('customers.update');
+Route::put('/customers/{id}/update', 'CustomersController@update')->name('customers.update');
 
 Route::get('/get_customers_datatables', 'CustomersController@get_customers_datatables')->name('get_customers_datatables');	
 
