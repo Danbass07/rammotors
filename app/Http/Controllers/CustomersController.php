@@ -130,4 +130,21 @@ class CustomersController extends Controller
     {
         //
     }
+    public function addCar($owner, $car) {
+		
+		$customer = \App\Customer::find($owner);
+		$car = \App\Car::find($car);
+		$customer->cars()->save($car);
+
+			return response()->json();
+    } 
+    public function removeCar($owner, $car) {
+		
+		$customer = \App\Customer::find($owner);
+		$car = \App\Car::find($car);
+		$car->customer()->dissociate();
+		$car->save();
+
+			return response()->json();
+	} 
 }

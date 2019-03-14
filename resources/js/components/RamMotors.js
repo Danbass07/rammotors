@@ -215,6 +215,15 @@ export default class RamMotors extends Component {
                 updated_at: '',
                 deleted_at: '',
             },
+            editedCustomer: {
+                name: '',
+                surname: '',
+                phone: '',
+                email: '',
+                notes: '',
+                cars: [],
+                info:'',
+            },
             focusOn: '',
             focus: !this.state.focus,
             operation: 'addNew',
@@ -222,7 +231,9 @@ export default class RamMotors extends Component {
     }
     editCarHandler(data) {
         this.setState({
-            editedCar: {...data},
+            editedCar: {
+                ...data
+            },
             focusOn: '',
             focus: !this.state.focus,
         })
@@ -242,28 +253,22 @@ export default class RamMotors extends Component {
     chooseCar() {
 
        return  (
-        <form className="focus-form" onSubmit={(e) => this.submitHandler(e, 'editedCustomer', 'assign') }>
-       <select className="focus-form-input" value={this.s} >
+        <div>
+       <select className="focus-form-input" onChange={(e) => {this.setState({ optionChoice: e.target.value,})} } >
             {this.state.cars.map((car) => {
                 
                 if (!car.customer_id) {
               
-                 return   <option onClick={
-                     (e) => this.setState({optionChoice: e.target.value})
-                 } key={car.id} value={car.id}>
+                 return   <option key={car.id} value={car.id}>
                                 {car.registration}
                          </option>
                 }
             })}
            </select>
-           <button 
-                    type="submit" 
-                    className="submit-button"
+        <button onClick={(e) => this.submitHandler(e, 'editedCustomer', 'assign' )}>ASSIGN CAR TO THE OWNER </button>
+        </div>   
+           
 
-                    >
-                Assign Owner
-                    </button>
-        </form>
        )
     }
     formChangeHandler(e, key){
@@ -346,8 +351,11 @@ export default class RamMotors extends Component {
                     
                 return (  
                     car.customer_id === id ?
-                   <div key={id+car.customer_id} className="display-list-item">
+                   <div key={car.registration} className="display-list-item">
                    {car.registration}
+                   <button value={car.id} onClick={(e) =>this.submitHandler(e,'editedCustomer','remove')}>
+                   Remove
+                   </button>
                    </div>
                    : null )})
                 }
@@ -430,10 +438,37 @@ export default class RamMotors extends Component {
 
     submitHandler(e, editedObjectName, operation='addNew'){   // submit both of above new or edit  need to update state reset search value
         e.preventDefault();
+
+        if  (editedObjectName === 'editedCustomer' && operation === 'remove' ) {
+            let editedCustomer = {...this.state.editedCustomer}
+            axios.post(`/customers/${editedCustomer.id}/removeCar/${e.target.value}`,
+             {}).then(response => {
+                axios.get('/customers').then(response => this.setState({
+                    customers: [...response.data],
+                    displayCustomers: [...response.data],
+                }));
+                axios.get('/cars').then(response => this.setState({
+                    cars: [...response.data],
+                    displayCars: [...response.data],
+                }));
+ 
+            });
+        }
         if  (editedObjectName === 'editedCustomer' && operation === 'assign' ) {
+            
             const editedCustomer = {...this.state.editedCustomer}
-            console.log(editedCustomer.id)
-            console.log(this.state.optionChoice)
+            axios.post(`/customers/${editedCustomer.id}/addCar/${this.state.optionChoice}`,
+             {}).then(response => {
+                axios.get('/customers').then(response => this.setState({
+                    customers: [...response.data],
+                    displayCustomers: [...response.data],
+                }));
+                axios.get('/cars').then(response => this.setState({
+                    cars: [...response.data],
+                    displayCars: [...response.data],
+                }));
+ 
+            });
         }
         if (editedObjectName === 'editedCar' && operation === 'addNew' ) {
             const editedCar = {...this.state.editedCar}

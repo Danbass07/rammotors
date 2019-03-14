@@ -30,8 +30,7 @@ Route::get('/cars/{id}/destroy', 'CarsController@destroy')->name('cars.destroy')
 Route::get('/cars/{id}/undestroy', 'CarsController@undestroy')->name('cars.undestroy');
 Route::get('/cars/deleted', 'CarsController@deleted')->name('cars.deleted');
 Route::get('/cars/{id}/toNexmo', 'CarsController@toNexmo')->name('cars.toNexmo');
-Route::get('/cars/{id}/addOwner', 'CarsController@addOwner')->name('cars.addOwner');
-Route::get('/cars/{id}/removeOwner/{cid}', 'CarsController@removeOwner')->name('cars.removeOwner');
+
 Route::post('/cars', 'CarsController@store')->name('cars.store');
 Route::put('/cars/{id}/update', 'CarsController@update')->name('cars.update');
 Route::get('/cars/{id}/updateayear/{type}', 'CarsController@updateayear')->name('cars.updateayear');
@@ -48,7 +47,8 @@ Route::get('/customers/{id}/edit', 'CustomersController@edit')->name('customers.
 Route::get('/customers/{id}/destroy', 'CustomersController@destroy')->name('customers.destroy');
 Route::post('/customers', 'CustomersController@store')->name('cars.store');
 Route::put('/customers/{id}/update', 'CustomersController@update')->name('customers.update');
-
+Route::post('/customers/{id}/addCar/{cid}', 'CustomersController@addCar')->name('customers.addCar');
+Route::post('/customers/{id}/removeCar/{cid}', 'CustomersController@removeCar')->name('customers.removeCar');
 Route::get('/get_customers_datatables', 'CustomersController@get_customers_datatables')->name('get_customers_datatables');	
 
 		
