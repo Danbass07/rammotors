@@ -58,6 +58,7 @@ export default class RamMotors extends Component {
                 focus: false,
                 chooseCustomer: true,
                 operation: '',
+                optionChoice: '',
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -219,13 +220,13 @@ export default class RamMotors extends Component {
             operation: 'addNew',
         })
     }
-    // editCarHandler(data) {
-    //     this.setState({
-    //         editedCar: {...data},
-    //         focusOn: '',
-    //         focus: !this.state.focus,
-    //     })
-    // }
+    editCarHandler(data) {
+        this.setState({
+            editedCar: {...data},
+            focusOn: '',
+            focus: !this.state.focus,
+        })
+    }
 
     editHandler(object, objectName) {  /// 
 
@@ -241,17 +242,28 @@ export default class RamMotors extends Component {
     chooseCar() {
 
        return  (
-       <select className="focus-form-input">
+        <form className="focus-form" onSubmit={(e) => this.submitHandler(e, 'editedCustomer', 'assign') }>
+       <select className="focus-form-input" value={this.s} >
             {this.state.cars.map((car) => {
                 
                 if (!car.customer_id) {
               
-                 return   <option key={car.id} value={car.id}>
+                 return   <option onClick={
+                     (e) => this.setState({optionChoice: e.target.value})
+                 } key={car.id} value={car.id}>
                                 {car.registration}
                          </option>
                 }
             })}
            </select>
+           <button 
+                    type="submit" 
+                    className="submit-button"
+
+                    >
+                Assign Owner
+                    </button>
+        </form>
        )
     }
     formChangeHandler(e, key){
@@ -288,7 +300,7 @@ export default class RamMotors extends Component {
         return (
 
     <div className="form-wrapper">
-         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, operation) }>
+         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
 
 
                 { Object.keys(editedObject).map((key) => {
@@ -356,9 +368,11 @@ export default class RamMotors extends Component {
                    </div>
                    : null )})
                 }
+              
                 </div>
             )
         }
+        
  
     }
     addYear(editedDate, editedDateName) {
@@ -383,9 +397,8 @@ export default class RamMotors extends Component {
             return(
                 <div className="form-wrapper">
                     <h1>Actions</h1>
-                    <button>DELETE</button>
                     { this.chooseCar() }
-                  
+                    <button>DELETE</button>
                 </div>
             )
         }
@@ -407,7 +420,7 @@ export default class RamMotors extends Component {
                             )
                         }
                     })}
-
+                  <button>DELETE</button>
                 </div>
             )
         }
@@ -417,7 +430,11 @@ export default class RamMotors extends Component {
 
     submitHandler(e, editedObjectName, operation='addNew'){   // submit both of above new or edit  need to update state reset search value
         e.preventDefault();
-     
+        if  (editedObjectName === 'editedCustomer' && operation === 'assign' ) {
+            const editedCustomer = {...this.state.editedCustomer}
+            console.log(editedCustomer.id)
+            console.log(this.state.optionChoice)
+        }
         if (editedObjectName === 'editedCar' && operation === 'addNew' ) {
             const editedCar = {...this.state.editedCar}
             axios.post(`/cars`, {
@@ -512,7 +529,7 @@ export default class RamMotors extends Component {
                 })
             });
         }  else if (editedObjectName === 'editedCustomer'  && operation === 'update' ){
-            console.log(this.state.editedCustomer);
+      
             const editedCustomer = {...this.state.editedCustomer}
             
             axios.put(`/customers/${editedCustomer.id}/update`, {
