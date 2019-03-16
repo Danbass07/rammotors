@@ -227,9 +227,9 @@ class CarsController extends Controller
 	}
 	public function destroy($id) {
 		
-		\App\Car::destroy($id);
+		Car::destroy($id);
 		
-			return redirect('cars/dashboard');
+			return response()->json();
 		
 	 }
 

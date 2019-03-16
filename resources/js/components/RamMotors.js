@@ -96,6 +96,7 @@ export default class RamMotors extends Component {
           
     }
 
+    //// Handlers section 
     searchHandler(e) {          /// search or clear search value
 
         let filtering = this.state.tableName.toLowerCase().replace('display','');            // functions variables
@@ -170,19 +171,50 @@ export default class RamMotors extends Component {
        
     }
     
-    displayTable(table) {  // display full version of mini tables not all functions added yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return (
-            <div className="focus-field">
+    deleteHandler(object, id){
 
-                <Table tableName={this.state.focusOn} 
-                displayData={this.state[table]} 
-                clickHandler={(category) => this.clickHandler(category, this.state.focusOn)} 
-                editCarHandler={(car) => this.editCarHandler(car)} />
-            
-            </div>
-         
-        )
+        axios.get(`/${object}/${id}/destroy`).then( () => {
+            axios.get('/customers').then(response => this.setState({
+                customers: [...response.data],
+                displayCustomers: [...response.data],
+                focusOn: '',
+                focus: !this.state.focus,
+                search: '',
+            }));
+            axios.get('/cars').then(response => this.setState({
+                cars: [...response.data],
+                displayCars: [...response.data],
+            }));
+        })
+       
 
+    }
+    sendSmsHandler(id) {
+
+        axios.get(`/cars/${id}/toNexmo`).then( () => { 
+
+            axios.get('/cars/alerts').then(response => this.setState({
+                alerts: [...response.data],
+                displayAlerts: [...response.data],
+            }));
+            axios.get('/cars/confirmed').then(response => this.setState({
+                confirmed: [...response.data],
+                displayConfirmed: [...response.data],
+            }));
+            axios.get('/cars/pending').then(response => this.setState({
+                pending: [...response.data],
+                displayPending: [...response.data],
+            }));
+            axios.get('/cars/get_data_expired').then(response => this.setState({
+                expired: [...response.data],
+                displayExpired: [...response.data],
+            }));
+            axios.get('/cars/deleted').then(response => this.setState({
+                deleted: [...response.data],
+                displayDeleted: [...response.data],
+            }));
+
+        });
 
     }
 
@@ -198,7 +230,21 @@ export default class RamMotors extends Component {
         })
 
     }
+    displayTable(table) {  // display full version of mini tables not all functions added yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return (
+            <div className="focus-field">
 
+                <Table tableName={this.state.focusOn} 
+                displayData={this.state[table]} 
+                clickHandler={(category) => this.clickHandler(category, this.state.focusOn)} 
+                editCarHandler={(car) => this.editCarHandler(car)} />
+            
+            </div>
+         
+        )
+
+
+    }
     addNewButtonHandler() { // simply add new depend on active table name car or customer
         this.setState({
             editedCar: {
@@ -289,7 +335,8 @@ export default class RamMotors extends Component {
         })
     }
     
-    displayForm(editedObject, operation){  /// dynamic form 
+    displayForm(editedObject){  /// dynamic form for adding new object end editing existing one
+                                /// find better way to disable unwanted categories and ajusting types
         
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
@@ -304,44 +351,37 @@ export default class RamMotors extends Component {
        
         return (
 
-    <div className="form-wrapper">
-         <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
-
-
-                { Object.keys(editedObject).map((key) => {
-              return(  
-              
-              <input 
-                key={key}
-                className="focus-form-input"
-                placeholder={key}
-                style={key==='c_car' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
-                type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
-                value={this.state[editedObjectName][key]}
-                onChange={(e) => this.formChangeHandler(e, key)}
+            <div className="form-wrapper">
                 
-                />)
+                <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
+
+                    {Object.keys(editedObject).map((key) => {
+                        return(  
+                        
+                        <input 
+                            key={key}
+                            className="focus-form-input"
+                            placeholder={key}
+                            style={key==='c_car' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
+                            type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
+                            value={this.state[editedObjectName][key]}
+                            onChange={(e) => this.formChangeHandler(e, key)}
+                            
+                            />)
+                                
+                    })}
+
+                    <button type="submit" className="submit-button">Save Changes</button>
                     
-                })}
-
-         <button 
-                    type="submit" 
-                    className="submit-button"
-
-                    >
-                Save Changes
-                    </button>
-                   
-        </form>
-
-    
-    </div>
+                </form>
+            </div>
        
         )
     }
     
 
-    displayList(id) {  ///// not dynamic yet
+    displayList(id) {  ///// not dynamic yet might never be
+
         if (this.state.tableName === 'displayCustomers') {
 
             return(
@@ -362,6 +402,7 @@ export default class RamMotors extends Component {
                 </div>
             )
         }
+
         if (this.state.tableName === 'displayCars') {
 
             return(
@@ -383,22 +424,23 @@ export default class RamMotors extends Component {
         
  
     }
+
     addYear(editedDate, editedDateName) {
-        var date = this.stringToDate(editedDate,"YYYY-mm-dd", "-");
-                            
-                            
-        var year = date.getFullYear()+1;
-        var month = ("0" + (date.getMonth() + 1)).slice(-2);
-        var day = ("0" + date.getDate()).slice(-2);
-        var c = year.toString() +"-"+ month.toString() +"-"+ day.toString()
+        
+        let date = this.stringToDate(editedDate,"YYYY-mm-dd", "-");                 
+        let year = date.getFullYear()+1;
+        let month = ("0" + (date.getMonth() + 1)).slice(-2);
+        let day = ("0" + date.getDate()).slice(-2);
+        let yearLater = year.toString() +"-"+ month.toString() +"-"+ day.toString()
         this.setState({
             editedCar: {
                 ...this.state.editedCar,
-                [editedDateName]: c,
+                [editedDateName]: yearLater,
             }
         })
     }
-    displayActions(id) {  ///// not dynamic yet
+
+    displayActions(id) {  ///// not dynamic yet might never be
         
         if (this.state.tableName === 'displayCustomers') {
 
@@ -406,7 +448,7 @@ export default class RamMotors extends Component {
                 <div className="form-wrapper">
                     <h1>Actions</h1>
                     { this.chooseCar() }
-                    <button>DELETE</button>
+                    <button onClick={() => this.deleteHandler('customers', id)}>DELETE</button>
                 </div>
             )
         }
@@ -423,12 +465,12 @@ export default class RamMotors extends Component {
                         if   (id === alertedCar.id) {
                         
                             return (   
-                            <button key={id}>Send SMS</button>
+                            <button onClick={() => this.sendSmsHandler(id)} key={id}>Send SMS</button>
                         
                             )
                         }
                     })}
-                  <button>DELETE</button>
+                  <button onClick={() => this.deleteHandler('cars', id)}>DELETE</button>
                 </div>
             )
         }
@@ -437,10 +479,13 @@ export default class RamMotors extends Component {
    
 
     submitHandler(e, editedObjectName, operation='addNew'){   // submit both of above new or edit  need to update state reset search value
+        console.log("submitHandler")
+        console.log(this.state.operation)
         e.preventDefault();
 
         if  (editedObjectName === 'editedCustomer' && operation === 'remove' ) {
             let editedCustomer = {...this.state.editedCustomer}
+            console.log("submitHandler editedCustomer remove ")
             axios.post(`/customers/${editedCustomer.id}/removeCar/${e.target.value}`,
              {}).then(response => {
                 axios.get('/customers').then(response => this.setState({
@@ -455,7 +500,7 @@ export default class RamMotors extends Component {
             });
         }
         if  (editedObjectName === 'editedCustomer' && operation === 'assign' ) {
-            
+            console.log("submitHandler editedCustomer assign ")
             const editedCustomer = {...this.state.editedCustomer}
             axios.post(`/customers/${editedCustomer.id}/addCar/${this.state.optionChoice}`,
              {}).then(response => {
@@ -471,6 +516,7 @@ export default class RamMotors extends Component {
             });
         }
         if (editedObjectName === 'editedCar' && operation === 'addNew' ) {
+            console.log("submitHandler editedCar addNew ")
             const editedCar = {...this.state.editedCar}
             axios.post(`/cars`, {
                 registration: editedCar.registration,
@@ -509,6 +555,7 @@ export default class RamMotors extends Component {
         }
       else if (editedObjectName === 'editedCar' && operation === 'update' ) {
         const editedCar = {...this.state.editedCar}
+        console.log("submitHandler editedCar update ")
             axios.put(`/cars/${editedCar.id}/update`, {
                 make: editedCar.make,
                 mot: editedCar.mot,
@@ -543,7 +590,7 @@ export default class RamMotors extends Component {
                 })
             });
         } else if (editedObjectName === 'editedCustomer'  && operation === 'addNew' ){
-         
+            console.log("submitHandler editedCustomer addNew ")
             const editedCustomer = {...this.state.editedCustomer}
             
             axios.post(`/customers`, {
@@ -564,7 +611,7 @@ export default class RamMotors extends Component {
                 })
             });
         }  else if (editedObjectName === 'editedCustomer'  && operation === 'update' ){
-      
+            console.log("submitHandler editedCustomer update ")
             const editedCustomer = {...this.state.editedCustomer}
             
             axios.put(`/customers/${editedCustomer.id}/update`, {
@@ -585,6 +632,7 @@ export default class RamMotors extends Component {
                 })
             });
         } else {
+            console.log("submitHandler no conditons ")
             return
         }
     }
