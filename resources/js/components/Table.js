@@ -11,19 +11,27 @@ export default class Table extends Component {
     render() {
         return ( 
             <div className="wrapper">
-                {/* <div className="closing-div">X</div> */}
                 <div className="workfield"> 
                     
-                        <div className="header">
+                        <div className="header-row">
                             
-                            <div className='header-item' >
-                            {/* {this.props.tableName.toUpperCase().replace('DISPLAY','')} */}
-                            <button className="header-table-button" onClick={() => this.props.tableNameHandler('displayCars')}>CARS</button>
-                            <button className="header-table-button" onClick={() => this.props.tableNameHandler('displayCustomers')}>CUSTOMERS</button>
-                            </div>
+                           
+                                <button 
+                                    className={this.props.tableName === "displayCars" ? "header-table-button active" : "header-table-button"}
+                                    onClick={() => this.props.tableNameHandler('displayCars')}
+                                >
+                                    CARS
+                                </button>
+                                <button 
+                                    className={this.props.tableName === "displayCustomers" ? "header-table-button active" : "header-table-button"} 
+                                    onClick={() => this.props.tableNameHandler('displayCustomers')}
+                                >
+                                    CUSTOMERS
+                                </button>
+                           
                         </div>
                         {this.props.tableName === "displayCustomers"? 
-                        <div className="header">
+                        <div className="header-row">
                             <div onClick={() => this.props.clickHandler('name')} className="header-item">NAME</div>
                             <div onClick={() => this.props.clickHandler('surname')} className="header-item">SURNAME</div>
                             <div onClick={() => this.props.clickHandler('phone')} className="header-item">PHONE</div>
@@ -31,7 +39,7 @@ export default class Table extends Component {
                             <div onClick={() => this.props.clickHandler('notes')} className="header-item">NOTES</div>         
                         </div>
                         :
-                        <div className="header">
+                        <div className="header-row">
                             <div onClick={() => this.props.clickHandler('registration')} className="header-item">REGISTRATION</div>
                             <div onClick={() => this.props.clickHandler('make')} className="header-item">TYPE</div>
                             <div onClick={() => this.props.clickHandler('mot')} className="header-item">MOT</div>

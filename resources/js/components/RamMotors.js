@@ -293,6 +293,7 @@ export default class RamMotors extends Component {
                 ...object
             },
             focus: !this.state.focus,
+            operation: 'update',
         })
     }
  
@@ -362,7 +363,7 @@ export default class RamMotors extends Component {
                             key={key}
                             className="focus-form-input"
                             placeholder={key}
-                            style={key==='c_car' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
+                            style={key==='c_car_3' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
                             type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
                             value={this.state[editedObjectName][key]}
                             onChange={(e) => this.formChangeHandler(e, key)}
@@ -407,13 +408,13 @@ export default class RamMotors extends Component {
 
             return(
                 <div className="form-wrapper">
-                    <h1>List Of Customers</h1>
+                    <h1>OWNER</h1>
                 {this.state.customers.map(customer => {
                     
                 return (  
                     customer.id === id ?
-                   <div key={id} className="display-list-item">
-                   {customer.name+ ' '+customer.surname}
+                   <div key={id} className="display-list-item" onClick={() => this.editHandler(customer, 'editedCustomer')}>
+                    {customer.name + ' ' + customer.surname}
                    </div>
                    : null )})
                 }
@@ -479,13 +480,12 @@ export default class RamMotors extends Component {
    
 
     submitHandler(e, editedObjectName, operation='addNew'){   // submit both of above new or edit  need to update state reset search value
-        console.log("submitHandler")
-        console.log(this.state.operation)
+        
         e.preventDefault();
 
         if  (editedObjectName === 'editedCustomer' && operation === 'remove' ) {
             let editedCustomer = {...this.state.editedCustomer}
-            console.log("submitHandler editedCustomer remove ")
+        
             axios.post(`/customers/${editedCustomer.id}/removeCar/${e.target.value}`,
              {}).then(response => {
                 axios.get('/customers').then(response => this.setState({
@@ -500,7 +500,7 @@ export default class RamMotors extends Component {
             });
         }
         if  (editedObjectName === 'editedCustomer' && operation === 'assign' ) {
-            console.log("submitHandler editedCustomer assign ")
+           
             const editedCustomer = {...this.state.editedCustomer}
             axios.post(`/customers/${editedCustomer.id}/addCar/${this.state.optionChoice}`,
              {}).then(response => {
@@ -516,7 +516,7 @@ export default class RamMotors extends Component {
             });
         }
         if (editedObjectName === 'editedCar' && operation === 'addNew' ) {
-            console.log("submitHandler editedCar addNew ")
+          
             const editedCar = {...this.state.editedCar}
             axios.post(`/cars`, {
                 registration: editedCar.registration,
@@ -555,7 +555,7 @@ export default class RamMotors extends Component {
         }
       else if (editedObjectName === 'editedCar' && operation === 'update' ) {
         const editedCar = {...this.state.editedCar}
-        console.log("submitHandler editedCar update ")
+      
             axios.put(`/cars/${editedCar.id}/update`, {
                 make: editedCar.make,
                 mot: editedCar.mot,
@@ -590,7 +590,7 @@ export default class RamMotors extends Component {
                 })
             });
         } else if (editedObjectName === 'editedCustomer'  && operation === 'addNew' ){
-            console.log("submitHandler editedCustomer addNew ")
+          
             const editedCustomer = {...this.state.editedCustomer}
             
             axios.post(`/customers`, {
@@ -611,7 +611,7 @@ export default class RamMotors extends Component {
                 })
             });
         }  else if (editedObjectName === 'editedCustomer'  && operation === 'update' ){
-            console.log("submitHandler editedCustomer update ")
+     
             const editedCustomer = {...this.state.editedCustomer}
             
             axios.put(`/customers/${editedCustomer.id}/update`, {
@@ -632,7 +632,7 @@ export default class RamMotors extends Component {
                 })
             });
         } else {
-            console.log("submitHandler no conditons ")
+           
             return
         }
     }

@@ -60398,7 +60398,7 @@ function (_Component) {
       /// 
       this.setState((_this$setState3 = {
         focusOn: ''
-      }, _defineProperty(_this$setState3, objectName, _objectSpread({}, object)), _defineProperty(_this$setState3, "focus", !this.state.focus), _this$setState3));
+      }, _defineProperty(_this$setState3, objectName, _objectSpread({}, object)), _defineProperty(_this$setState3, "focus", !this.state.focus), _defineProperty(_this$setState3, "operation", 'update'), _this$setState3));
     }
   }, {
     key: "chooseCar",
@@ -60472,7 +60472,7 @@ function (_Component) {
           key: key,
           className: "focus-form-input",
           placeholder: key,
-          style: key === 'c_car' || key === 'c_car_1' || key === 'c_car_2' || key === 'cars' || key === 'updated_at' || key === 'created_at' || key === 'deleted_at' || key === 'pending' || key === 'id' || key === 'customer_id' ? style : null,
+          style: key === 'c_car_3' || key === 'c_car_1' || key === 'c_car_2' || key === 'cars' || key === 'updated_at' || key === 'created_at' || key === 'deleted_at' || key === 'pending' || key === 'id' || key === 'customer_id' ? style : null,
           type: key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text",
           value: _this8.state[editedObjectName][key],
           onChange: function onChange(e) {
@@ -60509,10 +60509,13 @@ function (_Component) {
       if (this.state.tableName === 'displayCars') {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "form-wrapper"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "List Of Customers"), this.state.customers.map(function (customer) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "OWNER"), this.state.customers.map(function (customer) {
           return customer.id === id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: id,
-            className: "display-list-item"
+            className: "display-list-item",
+            onClick: function onClick() {
+              return _this9.editHandler(customer, 'editedCustomer');
+            }
           }, customer.name + ' ' + customer.surname) : null;
         }));
       }
@@ -60583,14 +60586,11 @@ function (_Component) {
 
       var operation = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'addNew';
       // submit both of above new or edit  need to update state reset search value
-      console.log("submitHandler");
-      console.log(this.state.operation);
       e.preventDefault();
 
       if (editedObjectName === 'editedCustomer' && operation === 'remove') {
         var editedCustomer = _objectSpread({}, this.state.editedCustomer);
 
-        console.log("submitHandler editedCustomer remove ");
         axios.post("/customers/".concat(editedCustomer.id, "/removeCar/").concat(e.target.value), {}).then(function (response) {
           axios.get('/customers').then(function (response) {
             return _this11.setState({
@@ -60608,8 +60608,6 @@ function (_Component) {
       }
 
       if (editedObjectName === 'editedCustomer' && operation === 'assign') {
-        console.log("submitHandler editedCustomer assign ");
-
         var _editedCustomer = _objectSpread({}, this.state.editedCustomer);
 
         axios.post("/customers/".concat(_editedCustomer.id, "/addCar/").concat(this.state.optionChoice), {}).then(function (response) {
@@ -60629,8 +60627,6 @@ function (_Component) {
       }
 
       if (editedObjectName === 'editedCar' && operation === 'addNew') {
-        console.log("submitHandler editedCar addNew ");
-
         var editedCar = _objectSpread({}, this.state.editedCar);
 
         axios.post("/cars", {
@@ -60680,7 +60676,6 @@ function (_Component) {
       } else if (editedObjectName === 'editedCar' && operation === 'update') {
         var _editedCar = _objectSpread({}, this.state.editedCar);
 
-        console.log("submitHandler editedCar update ");
         axios.put("/cars/".concat(_editedCar.id, "/update"), {
           make: _editedCar.make,
           mot: _editedCar.mot,
@@ -60726,8 +60721,6 @@ function (_Component) {
           });
         });
       } else if (editedObjectName === 'editedCustomer' && operation === 'addNew') {
-        console.log("submitHandler editedCustomer addNew ");
-
         var _editedCustomer2 = _objectSpread({}, this.state.editedCustomer);
 
         axios.post("/customers", {
@@ -60750,8 +60743,6 @@ function (_Component) {
           });
         });
       } else if (editedObjectName === 'editedCustomer' && operation === 'update') {
-        console.log("submitHandler editedCustomer update ");
-
         var _editedCustomer3 = _objectSpread({}, this.state.editedCustomer);
 
         axios.put("/customers/".concat(_editedCustomer3.id, "/update"), {
@@ -60774,7 +60765,6 @@ function (_Component) {
           });
         });
       } else {
-        console.log("submitHandler no conditons ");
         return;
       }
     }
@@ -60999,21 +60989,19 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-item"
+        className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "header-table-button",
+        className: this.props.tableName === "displayCars" ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayCars');
         }
       }, "CARS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "header-table-button",
+        className: this.props.tableName === "displayCustomers" ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayCustomers');
         }
-      }, "CUSTOMERS"))), this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header"
+      }, "CUSTOMERS")), this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this2.props.clickHandler('name');
@@ -61040,7 +61028,7 @@ function (_Component) {
         },
         className: "header-item"
       }, "NOTES")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header"
+        className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
           return _this2.props.clickHandler('registration');
@@ -61190,8 +61178,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
