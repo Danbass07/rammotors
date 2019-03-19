@@ -8,7 +8,6 @@
 
 .workfield {
   width: 1400px;
-  height: 370px;
   align-items: center;
   border-radius: 5%;
   box-shadow: red 2px 2px 18px 3px;
@@ -50,7 +49,7 @@
 
 .table-container {
   overflow-y: auto;
-  height: 250px;
+  height: 290px;
 }
 
 .table-body {
@@ -268,6 +267,34 @@
   border-radius: 25px;
 }
 
+.submit-button-0 {
+  color: darkred;
+  background-color: white;
+  border-color: darkred;
+  border-radius: 25px;
+}
+
+.submit-button-1 {
+  color: darkred;
+  background-color: wheat;
+  border-color: darkred;
+  border-radius: 25px;
+}
+
+.submit-button-2 {
+  color: darkred;
+  background-color: orange;
+  border-color: darkred;
+  border-radius: 25px;
+}
+
+.submit-button-3 {
+  color: wheat;
+  background-color: red;
+  border-color: darkred;
+  border-radius: 25px;
+}
+
 .focus {
   position: fixed;
   top: 0;
@@ -309,6 +336,11 @@
   text-align: center;
   overflow: hidden;
   padding: 0;
+}
+
+.display-list-item {
+  font-size: 2em;
+  color: darkred;
 }
 
 /*!

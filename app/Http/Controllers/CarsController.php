@@ -38,55 +38,18 @@ class CarsController extends Controller
     	
     }
 
-   
-    public function get_datatables() {
-    	
-    	// $cars = Car::select(['id','make','registration','mot','servis','appointment','info',])
-    	// ->get();
-	 	
-     //    return Datatables::of($cars)->toJson();
 
-	    	return datatables()->of(Car::query())
-		    	 	->addColumn('action', function ($car) {
-
-		                return '<a href="/cars/'.$car->id.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-		           		 })
-
-		    	 	->editColumn('Id', 'ID: {{$id}}')
-		            ->toJson();
-	    	
-    }
 
 	public function get_data_expired() {
     	
-    		// return  datatables()->of(Car::query()->where('mot', '<', Carbon::now()))
-			//     	->addColumn('action', function ($car) {
 
-			//                 return '<a href="'.$car->id.'/destroy" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-remove"></i> DELETE</a>';
-			//             })
-
-			//         ->editColumn('Id', 'ID: {{$id}}')
-			//     	->toJson();
 			$cars = \App\Car::where('mot', '<', Carbon::now())->get();
 			return response()->json($cars);
 
     	
     }
 
-    public function get_data_next30days() {
-
-	    	return  datatables()->of(Car::query()->where('mot', '<', Carbon::now()))
-			    	->addColumn('action', function ($car) {
-			               
-			                return '<a href="'.$car->id.'/destroy" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-remove"></i> DELETE</a>';
-			            })
-
-			        ->editColumn('Id', 'ID: {{$id}}')
-			    	->toJson();
-
-    	
-    	
-    }
+   
 
     public function index() {
 			$cars = Car::all();
@@ -162,10 +125,6 @@ class CarsController extends Controller
 		
 	public function edit($id) {
 
-		$customers = \App\Customer::all();	
-		$car = \App\Car::findOrfail($id); 
-		
-			return View('cars.edit')->withCar($car)->withCustomers($customers);
 	}
 
 	public function update(Request $request, $id)	{

@@ -12,10 +12,10 @@ export default class Table extends Component {
         return ( 
             <div className="wrapper">
                 <div className="workfield"> 
-                    
-                        <div className="header-row">
+                <div className="header-row">
+                        {this.props.tableName === 'displayCars' || this.props.tableName === 'displayCustomers' ? 
                             
-                           
+                           <div>
                                 <button 
                                     className={this.props.tableName === "displayCars" ? "header-table-button active" : "header-table-button"}
                                     onClick={() => this.props.tableNameHandler('displayCars')}
@@ -28,6 +28,12 @@ export default class Table extends Component {
                                 >
                                     CUSTOMERS
                                 </button>
+                            </div>  : 
+                            <h2>
+                                {this.props.tableName.toUpperCase().replace('DISPLAY', '')}
+                            </h2>
+                                
+                                }
                            
                         </div>
                         {this.props.tableName === "displayCustomers"? 
@@ -76,7 +82,7 @@ export default class Table extends Component {
                                 <tbody className="table-data"  id="style-1">
                                     {this.props.displayData.map((data) => 
                                              <tr className="table-data-row" key={data[Object.keys(data)[0]]+'customer'} onClick={() => this.props.editHandler(data, 'editedCustomer')}>
-                                             <th className='table-item'>{data[Object.keys(data)[1]].toUpperCase()}</th>
+                                             <th className='table-item'>{data[Object.keys(data)[1]].toUpperCase()} </th>
                                              <th className='table-item'>{data[Object.keys(data)[2]]}</th>
                                              <th className='table-item'>{data[Object.keys(data)[3]]}</th>
                                              <th className='table-item'>{data[Object.keys(data)[4]]}</th>

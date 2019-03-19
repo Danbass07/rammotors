@@ -59,6 +59,7 @@ export default class RamMotors extends Component {
                 chooseCustomer: true,
                 operation: '',
                 optionChoice: '',
+                delete: 0,
         };
         this.compareValues = this.compareValues.bind(this);
     }
@@ -173,20 +174,28 @@ export default class RamMotors extends Component {
     
     deleteHandler(object, id){
 
-        axios.get(`/${object}/${id}/destroy`).then( () => {
-            axios.get('/customers').then(response => this.setState({
-                customers: [...response.data],
-                displayCustomers: [...response.data],
-                focusOn: '',
-                focus: !this.state.focus,
-                search: '',
-            }));
-            axios.get('/cars').then(response => this.setState({
-                cars: [...response.data],
-                displayCars: [...response.data],
-            }));
-        })
-       
+        this.setState({ delete: this.state.delete + 1},
+            () => {
+                if(this.state.delete == 4) {
+                    axios.get(`/${object}/${id}/destroy`).then( () => {
+                        axios.get('/customers').then(response => this.setState({
+                            customers: [...response.data],
+                            displayCustomers: [...response.data],
+                            focusOn: '',
+                            focus: !this.state.focus,
+                            search: '',
+                            delete: 0,
+                        }));
+                        axios.get('/cars').then(response => this.setState({
+                            cars: [...response.data],
+                            displayCars: [...response.data],
+                        }));
+                    })
+                }
+            }
+        )
+    
+        
 
     }
     sendSmsHandler(id) {
@@ -236,10 +245,15 @@ export default class RamMotors extends Component {
 
                 <Table tableName={this.state.focusOn} 
                 displayData={this.state[table]} 
-                clickHandler={(category) => this.clickHandler(category, this.state.focusOn)} 
-                editCarHandler={(car) => this.editCarHandler(car)} />
+                clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
+                tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
+                addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
+                searchHandler={(e) => this.searchHandler(e)}
+                searchValue={this.state.search}
+                editHandler={(object, objectName) => this.editHandler(object, objectName)}/>
             
             </div>
+
          
         )
 
@@ -355,7 +369,7 @@ export default class RamMotors extends Component {
             <div className="form-wrapper">
                 
                 <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
-
+                    <h2>{editedObjectName.replace('edited', '')} </h2>
                     {Object.keys(editedObject).map((key) => {
                         return(  
                         
@@ -457,21 +471,23 @@ export default class RamMotors extends Component {
 
             return(
                 <div className="form-wrapper">
+                <div className="focus-form" >
                     <h1>Actions</h1>
-                    <button  onClick={ () => this.addYear(this.state.editedCar.mot, 'mot') }>Add Year MOT</button>
-                    <button  onClick={ () => this.addYear(this.state.editedCar.servis, 'servis') }>Add Year Service</button>
-                    <button  onClick={ () => this.addYear(this.state.editedCar.appointment, 'appointment') }>Add Year Appointment</button>
+                    <button className="submit-button" onClick={ () => this.addYear(this.state.editedCar.mot, 'mot') }>Add Year MOT</button>
+                    <button className="submit-button" onClick={ () => this.addYear(this.state.editedCar.servis, 'servis') }>Add Year Service</button>
+                    <button className="submit-button" onClick={ () => this.addYear(this.state.editedCar.appointment, 'appointment') }>Add Year Appointment</button>
                     {this.state.alerts.map(alertedCar => {
                  
                         if   (id === alertedCar.id) {
                         
                             return (   
-                            <button onClick={() => this.sendSmsHandler(id)} key={id}>Send SMS</button>
+                            <button className="submit-button" onClick={() => this.sendSmsHandler(id)} key={id}>Send SMS</button>
                         
                             )
                         }
                     })}
-                  <button onClick={() => this.deleteHandler('cars', id)}>DELETE</button>
+                  <button className={"submit-button"+"-"+this.state.delete} onClick={() => this.deleteHandler('cars', id)}>DELETE</button>
+                  </div>
                 </div>
             )
         }
@@ -485,19 +501,18 @@ export default class RamMotors extends Component {
 
         if  (editedObjectName === 'editedCustomer' && operation === 'remove' ) {
             let editedCustomer = {...this.state.editedCustomer}
+                    axios.post(`/customers/${editedCustomer.id}/removeCar/${e.target.value}`,
+                    {}).then(response => {
+                       axios.get('/customers').then(response => this.setState({
+                           customers: [...response.data],
+                           displayCustomers: [...response.data],
+                       }));
+                       axios.get('/cars').then(response => this.setState({
+                           cars: [...response.data],
+                           displayCars: [...response.data],
+                       }));
         
-            axios.post(`/customers/${editedCustomer.id}/removeCar/${e.target.value}`,
-             {}).then(response => {
-                axios.get('/customers').then(response => this.setState({
-                    customers: [...response.data],
-                    displayCustomers: [...response.data],
-                }));
-                axios.get('/cars').then(response => this.setState({
-                    cars: [...response.data],
-                    displayCars: [...response.data],
-                }));
- 
-            });
+                   });
         }
         if  (editedObjectName === 'editedCustomer' && operation === 'assign' ) {
            

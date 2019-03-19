@@ -60141,7 +60141,8 @@ function (_Component) {
       focus: false,
       chooseCustomer: true,
       operation: '',
-      optionChoice: ''
+      optionChoice: '',
+      delete: 0
     };
     _this.compareValues = _this.compareValues.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -60261,22 +60262,29 @@ function (_Component) {
     value: function deleteHandler(object, id) {
       var _this4 = this;
 
-      axios.get("/".concat(object, "/").concat(id, "/destroy")).then(function () {
-        axios.get('/customers').then(function (response) {
-          return _this4.setState({
-            customers: _toConsumableArray(response.data),
-            displayCustomers: _toConsumableArray(response.data),
-            focusOn: '',
-            focus: !_this4.state.focus,
-            search: ''
+      this.setState({
+        delete: this.state.delete + 1
+      }, function () {
+        if (_this4.state.delete == 4) {
+          axios.get("/".concat(object, "/").concat(id, "/destroy")).then(function () {
+            axios.get('/customers').then(function (response) {
+              return _this4.setState({
+                customers: _toConsumableArray(response.data),
+                displayCustomers: _toConsumableArray(response.data),
+                focusOn: '',
+                focus: !_this4.state.focus,
+                search: '',
+                delete: 0
+              });
+            });
+            axios.get('/cars').then(function (response) {
+              return _this4.setState({
+                cars: _toConsumableArray(response.data),
+                displayCars: _toConsumableArray(response.data)
+              });
+            });
           });
-        });
-        axios.get('/cars').then(function (response) {
-          return _this4.setState({
-            cars: _toConsumableArray(response.data),
-            displayCars: _toConsumableArray(response.data)
-          });
-        });
+        }
       });
     }
   }, {
@@ -60341,10 +60349,20 @@ function (_Component) {
         tableName: this.state.focusOn,
         displayData: this.state[table],
         clickHandler: function clickHandler(category) {
-          return _this6.clickHandler(category, _this6.state.focusOn);
+          return _this6.clickHandler(category, _this6.state.tableName);
         },
-        editCarHandler: function editCarHandler(car) {
-          return _this6.editCarHandler(car);
+        tableNameHandler: function tableNameHandler(tableName) {
+          return _this6.tableNameHandler(tableName);
+        },
+        addNewButtonHandler: function addNewButtonHandler(item) {
+          return _this6.addNewButtonHandler(item);
+        },
+        searchHandler: function searchHandler(e) {
+          return _this6.searchHandler(e);
+        },
+        searchValue: this.state.search,
+        editHandler: function editHandler(object, objectName) {
+          return _this6.editHandler(object, objectName);
         }
       }));
     }
@@ -60467,7 +60485,7 @@ function (_Component) {
         onSubmit: function onSubmit(e) {
           return _this8.submitHandler(e, editedObjectName, _this8.state.operation);
         }
-      }, Object.keys(editedObject).map(function (key) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, editedObjectName.replace('edited', ''), " "), Object.keys(editedObject).map(function (key) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           key: key,
           className: "focus-form-input",
@@ -60551,21 +60569,27 @@ function (_Component) {
       if (this.state.tableName === 'displayCars') {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "form-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "focus-form"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "submit-button",
           onClick: function onClick() {
             return _this10.addYear(_this10.state.editedCar.mot, 'mot');
           }
         }, "Add Year MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "submit-button",
           onClick: function onClick() {
             return _this10.addYear(_this10.state.editedCar.servis, 'servis');
           }
         }, "Add Year Service"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "submit-button",
           onClick: function onClick() {
             return _this10.addYear(_this10.state.editedCar.appointment, 'appointment');
           }
         }, "Add Year Appointment"), this.state.alerts.map(function (alertedCar) {
           if (id === alertedCar.id) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "submit-button",
               onClick: function onClick() {
                 return _this10.sendSmsHandler(id);
               },
@@ -60573,10 +60597,11 @@ function (_Component) {
             }, "Send SMS");
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "submit-button" + "-" + this.state.delete,
           onClick: function onClick() {
             return _this10.deleteHandler('cars', id);
           }
-        }, "DELETE"));
+        }, "DELETE")));
       }
     }
   }, {
@@ -60990,7 +61015,7 @@ function (_Component) {
         className: "workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, this.props.tableName === 'displayCars' || this.props.tableName === 'displayCustomers' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.props.tableName === "displayCars" ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayCars');
@@ -61000,7 +61025,7 @@ function (_Component) {
         onClick: function onClick() {
           return _this2.props.tableNameHandler('displayCustomers');
         }
-      }, "CUSTOMERS")), this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "CUSTOMERS")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.props.tableName.toUpperCase().replace('DISPLAY', ''))), this.props.tableName === "displayCustomers" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
@@ -61076,7 +61101,7 @@ function (_Component) {
           }
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
-        }, data[Object.keys(data)[1]].toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+        }, data[Object.keys(data)[1]].toUpperCase(), " "), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
         }, data[Object.keys(data)[2]]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "table-item"
@@ -61178,8 +61203,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
