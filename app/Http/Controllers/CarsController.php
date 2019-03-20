@@ -244,7 +244,7 @@ class CarsController extends Controller
 		$car->pending = 1;
 		$car->save();
 			 
-			return redirect('cars/alerts');
+		return response()->json($cars);
 	}
 
 	public function dashboard() {

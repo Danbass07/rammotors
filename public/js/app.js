@@ -61203,8 +61203,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
