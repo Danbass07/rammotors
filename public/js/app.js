@@ -60084,15 +60084,20 @@ function (_Component) {
         className: "mini-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler('registration');
+          return _this2.props.sortingHandler('registration');
         },
         className: "mini-header-item"
       }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler('make');
+          return _this2.props.sortingHandler('make');
         },
         className: "mini-header-item"
-      }, "MAKE")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this2.props.sortingHandler('customers');
+        },
+        className: "mini-header-item"
+      }, "OWNER")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-table-container",
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
@@ -60100,7 +60105,7 @@ function (_Component) {
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
         className: "mini-table-head"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "MAKE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "OWNER"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "mini-table-data",
         id: "style-1"
       }, this.props.displayCars.map(function (car) {
@@ -60114,7 +60119,11 @@ function (_Component) {
           className: "mini-table-item"
         }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
           className: "mini-table-item"
-        }, car.make));
+        }, car.make), _this2.props.customers.map(function (customer) {
+          return customer.id === car.customer_id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
+            className: "mini-table-item"
+          }, customer.surname) : null;
+        }));
       }))))));
     }
   }]);
@@ -60981,6 +60990,7 @@ function (_Component) {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayAlerts",
+        customers: this.state.customers,
         displayCars: this.state.displayAlerts,
         sortingHandler: function sortingHandler(category) {
           return _this13.sortingHandler(category, 'displayAlerts');
@@ -60993,6 +61003,7 @@ function (_Component) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayPending",
+        customers: this.state.customers,
         displayCars: this.state.displayPending,
         sortingHandler: function sortingHandler(category) {
           return _this13.sortingHandler(category, 'displayPending');
@@ -61005,6 +61016,7 @@ function (_Component) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayConfirmed",
+        customers: this.state.customers,
         displayCars: this.state.displayConfirmed,
         sortingHandler: function sortingHandler(category) {
           return _this13.sortingHandler(category, 'displayConfirmed');
@@ -61017,6 +61029,7 @@ function (_Component) {
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: "displayExpired",
+        customers: this.state.customers,
         displayCars: this.state.displayExpired,
         sortingHandler: function sortingHandler(category) {
           return _this13.sortingHandler(category, 'displayExpired');

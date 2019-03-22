@@ -751,12 +751,14 @@ focus(focusOn){
                 <div className="rammotors-row">
                                   
                     <MiniTable tableName="displayAlerts" 
+                    customers={this.state.customers}
                     displayCars={this.state.displayAlerts} 
                     sortingHandler={(category) => this.sortingHandler(category, 'displayAlerts')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     <MiniTable tableName="displayPending" 
+                    customers={this.state.customers}
                     displayCars={this.state.displayPending} 
                     sortingHandler={(category) => this.sortingHandler(category, 'displayPending')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
@@ -764,12 +766,14 @@ focus(focusOn){
 
                     
                     <MiniTable tableName="displayConfirmed" 
+                    customers={this.state.customers}
                     displayCars={this.state.displayConfirmed} 
                     sortingHandler={(category) => this.sortingHandler(category, 'displayConfirmed')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     <MiniTable tableName="displayExpired" 
+                    customers={this.state.customers}
                     displayCars={this.state.displayExpired} 
                     sortingHandler={(category) => this.sortingHandler(category, 'displayExpired')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
