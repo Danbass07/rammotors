@@ -3,22 +3,21 @@
     border-radius: 25px;
     box-shadow: red 2px 2px 18px 3px;
     padding: 10px;
-    width: 300px;
+    width: 600px;
 }
 
 .focus-form {
     display: flex;
     flex-direction: column;
-    width: 250px;
-    margin: auto;
     font-size: 1.8em;
 }
 .focus-form-input {
-    margin-bottom: 5px;
+    margin-bottom: 35px;
     text-align: center;
     color: white;
     background-color: darkred;
     border-radius: 25px;
+    margin-left: auto;
 }
 .form-label {
     color: darkred;

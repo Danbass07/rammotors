@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Table from './Table';
 import MiniTable from './MiniTable';
+import ASSIGN_CAR_TO_THE_OWNER from './ASSIGN_CAR_TO_THE_OWNER';
 
 export default class RamMotors extends Component {
     constructor(props) {
@@ -63,38 +64,42 @@ export default class RamMotors extends Component {
         };
         this.compareValues = this.compareValues.bind(this);
     }
+
+    refreshData() {
+        axios.get('/customers').then(response => this.setState({
+            customers: [...response.data],
+            displayCustomers: [...response.data],
+        }));
+        axios.get('/cars').then(response => this.setState({
+            cars: [...response.data],
+            displayCars: [...response.data],
+        }));
+        axios.get('/cars/alerts').then(response => this.setState({
+            alerts: [...response.data],
+            displayAlerts: [...response.data],
+        }));
+        axios.get('/cars/confirmed').then(response => this.setState({
+            confirmed: [...response.data],
+            displayConfirmed: [...response.data],
+        }));
+        axios.get('/cars/pending').then(response => this.setState({
+            pending: [...response.data],
+            displayPending: [...response.data],
+        }));
+        axios.get('/cars/get_data_expired').then(response => this.setState({
+            expired: [...response.data],
+            displayExpired: [...response.data],
+        }));
+        axios.get('/cars/deleted').then(response => this.setState({
+            deleted: [...response.data],
+            displayDeleted: [...response.data],
+        }));
+
+    }
    
     componentWillMount() {               /// loading all resources
 
-            axios.get('/customers').then(response => this.setState({
-                customers: [...response.data],
-                displayCustomers: [...response.data],
-            }));
-            axios.get('/cars').then(response => this.setState({
-                cars: [...response.data],
-                displayCars: [...response.data],
-            }));
-            axios.get('/cars/alerts').then(response => this.setState({
-                alerts: [...response.data],
-                displayAlerts: [...response.data],
-            }));
-            axios.get('/cars/confirmed').then(response => this.setState({
-                confirmed: [...response.data],
-                displayConfirmed: [...response.data],
-            }));
-            axios.get('/cars/pending').then(response => this.setState({
-                pending: [...response.data],
-                displayPending: [...response.data],
-            }));
-            axios.get('/cars/get_data_expired').then(response => this.setState({
-                expired: [...response.data],
-                displayExpired: [...response.data],
-            }));
-            axios.get('/cars/deleted').then(response => this.setState({
-                deleted: [...response.data],
-                displayDeleted: [...response.data],
-            }));
-          
+        this.refreshData();
     }
 
     //// Handlers section 
@@ -157,7 +162,7 @@ export default class RamMotors extends Component {
     }
 
 
-    clickHandler(category, table){ // sorting alphabeticly DESC or ASC depend on clicked property (table head)
+    sortingHandler(category, table){ // sorting alphabeticly DESC or ASC depend on clicked property (table head)
 
         let sortingData;
 
@@ -200,36 +205,86 @@ export default class RamMotors extends Component {
     }
     sendSmsHandler(id) {
 
-        axios.get(`/cars/${id}/toNexmo`).then( () => { 
-
-            axios.get('/cars/alerts').then(response => this.setState({
-                alerts: [...response.data],
-                displayAlerts: [...response.data],
-            }));
-            axios.get('/cars/confirmed').then(response => this.setState({
-                confirmed: [...response.data],
-                displayConfirmed: [...response.data],
-            }));
-            axios.get('/cars/pending').then(response => this.setState({
-                pending: [...response.data],
-                displayPending: [...response.data],
-            }));
-            axios.get('/cars/get_data_expired').then(response => this.setState({
-                expired: [...response.data],
-                displayExpired: [...response.data],
-            }));
-            axios.get('/cars/deleted').then(response => this.setState({
-                deleted: [...response.data],
-                displayDeleted: [...response.data],
-            }));
-
-        });
+        axios.get(`/cars/${id}/toNexmo`).then( () => { this.refreshData() });
 
     }
 
 
 ///////////// methods depending on focus state
 ////////////// modal display and form to add or update
+focus(focusOn){
+    return (
+        <div className="focus">  
+            <div className="closing-div" onClick={() => this.setState({focus:!this.state.focus})}>X</div>
+            
+            {focusOn == '' && this.state.tableName == 'displayCars' ? <div className="focus-work-area"> 
+                {this.displayForm(this.state.editedCar, 'update')}
+                {this.displayActions(this.state.editedCar.id)}
+                {this.displayList(this.state.editedCar.customer_id)} </div> : null }
+
+            {focusOn == '' && this.state.tableName == 'displayCustomers' ? <div className="focus-work-area"> 
+                {this.displayForm(this.state.editedCustomer, 'update')}
+                {this.displayActions(this.state.editedCustomer.id)}
+                {this.displayList(this.state.editedCustomer.id)} </div> : null }
+                                  
+            {focusOn !== '' ? this.displayTable(this.state.focusOn) : null}
+
+        </div>
+    )
+}
+    displayForm(editedObject){  /// dynamic form for adding new object end editing existing one
+        /// find better way to disable unwanted categories and ajusting types
+        /// need to display form depend on focusOn state
+
+        let editedObjectName = ''; 
+        if(this.state.tableName == 'displayCars') {
+            editedObjectName = 'editedCar'
+        }
+        if(this.state.tableName == 'displayCustomers') {
+            editedObjectName = 'editedCustomer'
+        }
+        const style = {
+            display: 'none',
+        }
+        const inline = {
+            display: 'flex',
+            flexDirection: 'row',
+        }
+
+        return (
+
+            <div className="form-wrapper">
+
+                <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
+                <h2>{editedObjectName.replace('edited', '')} </h2>
+                {Object.keys(editedObject).map((key) => {
+                    return( 
+
+                        <div style={inline}>
+                            <label style={key==='c_car_3' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }>
+                                {key}
+                            </label>
+                            <input 
+                            key={key}
+                            className="focus-form-input"
+                            placeholder={key}
+                            style={key==='c_car_3' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
+                            type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
+                            value={this.state[editedObjectName][key]}
+                            onChange={(e) => this.formChangeHandler(e, key)}
+                            />
+                        </div>    
+                    )
+                        
+                })}
+
+                <button type="submit" className="submit-button">Save Changes</button>
+
+                </form>
+            </div>
+
+        )
+    }
 
     focusOnTableHandler(table) { ///  focus on or off
 
@@ -239,26 +294,8 @@ export default class RamMotors extends Component {
         })
 
     }
-    displayTable(table) {  // display full version of mini tables not all functions added yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        return (
-            <div className="focus-field">
-
-                <Table tableName={this.state.focusOn} 
-                displayData={this.state[table]} 
-                clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
-                tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
-                addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
-                searchHandler={(e) => this.searchHandler(e)}
-                searchValue={this.state.search}
-                editHandler={(object, objectName) => this.editHandler(object, objectName)}/>
-            
-            </div>
-
-         
-        )
 
 
-    }
     addNewButtonHandler() { // simply add new depend on active table name car or customer
         this.setState({
             editedCar: {
@@ -294,6 +331,7 @@ export default class RamMotors extends Component {
             editedCar: {
                 ...data
             },
+            tableName: 'displayCars',
             focusOn: '',
             focus: !this.state.focus,
         })
@@ -310,8 +348,31 @@ export default class RamMotors extends Component {
             operation: 'update',
         })
     }
+
+    ///// functions returns stuff need  convert to components
+
+    displayTable(table) {  // display full version of mini tables
+        return (
+            <div className="focus-field">
+
+                <Table tableName={this.state.focusOn} 
+                displayData={this.state[table]} 
+                sortingHandler={(category) => this.sortingHandler(category, this.state.tableName)} 
+                tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
+                addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
+                searchHandler={(e) => this.searchHandler(e)}
+                searchValue={this.state.search}
+                editHandler={(object, objectName) => this.editHandler(object, objectName)}/>
+            
+            </div>
+
+         
+        )
+
+
+    }
  
-    chooseCar() {
+    chooseCar() {  // <ASSIGN_CAR_TO_THE_OWNER editedCustomer={this.props.editedCustomer}>
 
        return  (
         <div>
@@ -332,6 +393,10 @@ export default class RamMotors extends Component {
 
        )
     }
+
+
+
+    /// functions dealing with forms
     formChangeHandler(e, key){
         let editedObjectName = ''; 
         if(this.state.tableName == 'displayCars') {
@@ -350,49 +415,7 @@ export default class RamMotors extends Component {
         })
     }
     
-    displayForm(editedObject){  /// dynamic form for adding new object end editing existing one
-                                /// find better way to disable unwanted categories and ajusting types
-        
-        let editedObjectName = ''; 
-        if(this.state.tableName == 'displayCars') {
-            editedObjectName = 'editedCar'
-        }
-        if(this.state.tableName == 'displayCustomers') {
-            editedObjectName = 'editedCustomer'
-        }
-        const style = {
-            display: 'none',
-        }
-       
-        return (
-
-            <div className="form-wrapper">
-                
-                <form className="focus-form" onSubmit={(e) => this.submitHandler(e, editedObjectName, this.state.operation) }>
-                    <h2>{editedObjectName.replace('edited', '')} </h2>
-                    {Object.keys(editedObject).map((key) => {
-                        return(  
-                        
-                        <input 
-                            key={key}
-                            className="focus-form-input"
-                            placeholder={key}
-                            style={key==='c_car_3' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
-                            type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
-                            value={this.state[editedObjectName][key]}
-                            onChange={(e) => this.formChangeHandler(e, key)}
-                            
-                            />)
-                                
-                    })}
-
-                    <button type="submit" className="submit-button">Save Changes</button>
-                    
-                </form>
-            </div>
-       
-        )
-    }
+ 
     
 
     displayList(id) {  ///// not dynamic yet might never be
@@ -400,7 +423,7 @@ export default class RamMotors extends Component {
         if (this.state.tableName === 'displayCustomers') {
 
             return(
-                <div className="form-wrapper">
+                <div className="list-wrapper">
                     <h1>List Of Cars</h1>
                 {this.state.cars.map(car => {
                     
@@ -421,7 +444,7 @@ export default class RamMotors extends Component {
         if (this.state.tableName === 'displayCars') {
 
             return(
-                <div className="form-wrapper">
+                <div className="list-wrapper">
                     <h1>OWNER</h1>
                 {this.state.customers.map(customer => {
                     
@@ -440,29 +463,17 @@ export default class RamMotors extends Component {
  
     }
 
-    addYear(editedDate, editedDateName) {
-        
-        let date = this.stringToDate(editedDate,"YYYY-mm-dd", "-");                 
-        let year = date.getFullYear()+1;
-        let month = ("0" + (date.getMonth() + 1)).slice(-2);
-        let day = ("0" + date.getDate()).slice(-2);
-        let yearLater = year.toString() +"-"+ month.toString() +"-"+ day.toString()
-        this.setState({
-            editedCar: {
-                ...this.state.editedCar,
-                [editedDateName]: yearLater,
-            }
-        })
-    }
+
 
     displayActions(id) {  ///// not dynamic yet might never be
         
         if (this.state.tableName === 'displayCustomers') {
 
             return(
-                <div className="form-wrapper">
+                <div className="list-wrapper">
                     <h1>Actions</h1>
-                    { this.chooseCar() }
+                    { this.chooseCar()}
+                    {/* <ASSIGN_CAR_TO_THE_OWNER editedCustomer={this.state.editedCustomer} cars={this.state.cars} refreshData={this.refreshData()}/> */}
                     <button onClick={() => this.deleteHandler('customers', id)}>DELETE</button>
                 </div>
             )
@@ -470,7 +481,7 @@ export default class RamMotors extends Component {
         if (this.state.tableName === 'displayCars') {
 
             return(
-                <div className="form-wrapper">
+                <div className="list-wrapper">
                 <div className="focus-form" >
                     <h1>Actions</h1>
                     <button className="submit-button" onClick={ () => this.addYear(this.state.editedCar.mot, 'mot') }>Add Year MOT</button>
@@ -653,30 +664,23 @@ export default class RamMotors extends Component {
     }
 
  
-    focus(focusOn){
-        return (
-            <div className="focus">  
-                <div className="closing-div" onClick={() => this.setState({focus:!this.state.focus})}>X</div>
-                
-                {focusOn == '' && this.state.tableName == 'displayCars' ? <div className="focus-work-area"> 
-                    {this.displayForm(this.state.editedCar, 'update')}
-                    {this.displayActions(this.state.editedCar.id)}
-                    {this.displayList(this.state.editedCar.customer_id)} </div> : null }
-
-                {focusOn == '' && this.state.tableName == 'displayCustomers' ? <div className="focus-work-area"> 
-                    {this.displayForm(this.state.editedCustomer, 'update')}
-                    {this.displayActions(this.state.editedCustomer.id)}
-                    {this.displayList(this.state.editedCustomer.id)} </div> : null }
-                                      
-                {focusOn !== '' ? this.displayTable(this.state.focusOn) : null}
-
-            </div>
-        )
-    }
 
 
     ////// helping fuctions 
-
+    addYear(editedDate, editedDateName) {
+        
+        let date = this.stringToDate(editedDate,"YYYY-mm-dd", "-");                 
+        let year = date.getFullYear()+1;
+        let month = ("0" + (date.getMonth() + 1)).slice(-2);
+        let day = ("0" + date.getDate()).slice(-2);
+        let yearLater = year.toString() +"-"+ month.toString() +"-"+ day.toString()
+        this.setState({
+            editedCar: {
+                ...this.state.editedCar,
+                [editedDateName]: yearLater,
+            }
+        })
+    }
     compareValues(key, ascending=true) {   /// sorting 
         return function(a, b) {
           if(!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
@@ -735,7 +739,7 @@ export default class RamMotors extends Component {
 
                     <Table tableName={this.state.tableName} 
                     displayData={this.state[this.state.tableName]} 
-                    clickHandler={(category) => this.clickHandler(category, this.state.tableName)} 
+                    sortingHandler={(category) => this.sortingHandler(category, this.state.tableName)} 
                     tableNameHandler={(tableName) => this.tableNameHandler(tableName)}
                     addNewButtonHandler={(item) => this.addNewButtonHandler(item)}
                     searchHandler={(e) => this.searchHandler(e)}
@@ -748,26 +752,26 @@ export default class RamMotors extends Component {
                                   
                     <MiniTable tableName="displayAlerts" 
                     displayCars={this.state.displayAlerts} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayAlerts')} 
+                    sortingHandler={(category) => this.sortingHandler(category, 'displayAlerts')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     <MiniTable tableName="displayPending" 
                     displayCars={this.state.displayPending} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayPending')} 
+                    sortingHandler={(category) => this.sortingHandler(category, 'displayPending')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     
                     <MiniTable tableName="displayConfirmed" 
                     displayCars={this.state.displayConfirmed} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayConfirmed')} 
+                    sortingHandler={(category) => this.sortingHandler(category, 'displayConfirmed')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
 
                     <MiniTable tableName="displayExpired" 
                     displayCars={this.state.displayExpired} 
-                    clickHandler={(category) => this.clickHandler(category, 'displayExpired')} 
+                    sortingHandler={(category) => this.sortingHandler(category, 'displayExpired')} 
                     editCarHandler={(car) => this.editCarHandler(car)} 
                     focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
                 </div>
