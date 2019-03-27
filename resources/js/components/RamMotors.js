@@ -268,9 +268,9 @@ focus(focusOn){
                             key={key}
                             className="focus-form-input"
                             placeholder={key}
-                            style={key==='c_car_3' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
+                            style={key==='c_car' || key==='c_car_1' || key==='c_car_2' || key==='cars' || key==='updated_at' || key==='created_at' || key==='deleted_at' || key==='pending' || key==='id' || key==='customer_id' ? style : null }
                             type={key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text"}
-                            value={this.state[editedObjectName][key]}
+                            value={key==='registration' ? this.state[editedObjectName][key].toUpperCase() : this.state[editedObjectName][key]}
                             onChange={(e) => this.formChangeHandler(e, key)}
                             />
                         </div>    
@@ -382,7 +382,7 @@ focus(focusOn){
                 if (!car.customer_id) {
               
                  return   <option key={car.id} value={car.id}>
-                                {car.registration}
+                               {car.registration.toUpperCase()}
                          </option>
                 }
             })}
@@ -430,7 +430,7 @@ focus(focusOn){
                 return (  
                     car.customer_id === id ?
                    <div key={car.registration} className="display-list-item">
-                   {car.registration}
+                  {car.registration.toUpperCase()}
                    <button value={car.id} onClick={(e) =>this.submitHandler(e,'editedCustomer','remove')}>
                    Remove
                    </button>

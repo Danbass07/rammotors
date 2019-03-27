@@ -60467,7 +60467,7 @@ function (_Component) {
           placeholder: key,
           style: key === 'c_car_3' || key === 'c_car_1' || key === 'c_car_2' || key === 'cars' || key === 'updated_at' || key === 'created_at' || key === 'deleted_at' || key === 'pending' || key === 'id' || key === 'customer_id' ? style : null,
           type: key === 'mot' || key === 'servis' || key === 'appointment' ? "date" : "text",
-          value: _this7.state[editedObjectName][key],
+          value: key === 'registration' ? _this7.state[editedObjectName][key].toUpperCase() : _this7.state[editedObjectName][key],
           onChange: function onChange(e) {
             return _this7.formChangeHandler(e, key);
           }
@@ -60588,7 +60588,7 @@ function (_Component) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
             key: car.id,
             value: car.id
-          }, car.registration);
+          }, car.registration.toUpperCase());
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: function onClick(e) {
@@ -60625,7 +60625,7 @@ function (_Component) {
           return car.customer_id === id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             key: car.registration,
             className: "display-list-item"
-          }, car.registration, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          }, car.registration.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
             value: car.id,
             onClick: function onClick(e) {
               return _this10.submitHandler(e, 'editedCustomer', 'remove');
