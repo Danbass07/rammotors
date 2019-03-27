@@ -474,7 +474,7 @@ focus(focusOn){
                     <h1>Actions</h1>
                     { this.chooseCar()}
                     {/* <ASSIGN_CAR_TO_THE_OWNER editedCustomer={this.state.editedCustomer} cars={this.state.cars} refreshData={this.refreshData()}/> */}
-                    <button onClick={() => this.deleteHandler('customers', id)}>DELETE</button>
+                    <button className={"submit-button"+"-"+this.state.delete} onClick={() => this.deleteHandler('customers', id)}>DELETE</button>
                 </div>
             )
         }
