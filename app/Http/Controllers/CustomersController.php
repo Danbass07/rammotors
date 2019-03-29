@@ -99,7 +99,6 @@ class CustomersController extends Controller
             'name' => 'required',
             'surname' => 'required',
             'phone' => 'required',
-            'email' => 'required',
             
         ]);
             
@@ -111,6 +110,7 @@ class CustomersController extends Controller
             $customer->surname = request('surname');
             $customer->phone = request('phone');
             $customer->email = request('email');
+            $customer->info = request('info');
             
             $customer->save();
     
