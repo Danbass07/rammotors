@@ -296,9 +296,6 @@ export default class RamMotors extends Component {
                             <div style={inline}>
                                 <label
                                     style={
-                                        key === "c_car_3" ||
-                                        key === "c_car_1" ||
-                                        key === "c_car_2" ||
                                         key === "cars" ||
                                         key === "updated_at" ||
                                         key === "created_at" ||
@@ -317,9 +314,6 @@ export default class RamMotors extends Component {
                                     className="focus-form-input"
                                     placeholder={key}
                                     style={
-                                        key === "c_car" ||
-                                        key === "c_car_1" ||
-                                        key === "c_car_2" ||
                                         key === "cars" ||
                                         key === "updated_at" ||
                                         key === "created_at" ||
@@ -822,7 +816,8 @@ export default class RamMotors extends Component {
                     name: editedCustomer.name,
                     surname: editedCustomer.surname,
                     phone: editedCustomer.phone,
-                    email: editedCustomer.email
+                    email: editedCustomer.email,
+                    info: editedCustomer.info
                 })
                 .then(response => {
                     axios.get("/customers").then(response =>
