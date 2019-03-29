@@ -55,33 +55,33 @@ export default class Table extends Component {
                     {this.props.tableName === "displayCustomers" ? (
                         <div className="header-row">
                             <div
-                                onClick={() => this.props.clickHandler("name")}
+                                onClick={() => this.props.sortingHandler("name")}
                                 className="header-item"
                             >
                                 NAME
                             </div>
                             <div
                                 onClick={() =>
-                                    this.props.clickHandler("surname")
+                                    this.props.sortingHandler("surname")
                                 }
                                 className="header-item"
                             >
                                 SURNAME
                             </div>
                             <div
-                                onClick={() => this.props.clickHandler("phone")}
+                                onClick={() => this.props.sortingHandler("phone")}
                                 className="header-item"
                             >
                                 PHONE
                             </div>
                             <div
-                                onClick={() => this.props.clickHandler("email")}
+                                onClick={() => this.props.sortingHandler("email")}
                                 className="header-item"
                             >
                                 EMAIL
                             </div>
                             <div
-                                onClick={() => this.props.clickHandler("notes")}
+                                onClick={() => this.props.sortingHandler("notes")}
                                 className="header-item"
                             >
                                 NOTES
@@ -91,27 +91,27 @@ export default class Table extends Component {
                         <div className="header-row">
                             <div
                                 onClick={() =>
-                                    this.props.clickHandler("registration")
+                                    this.props.sortingHandler("registration")
                                 }
                                 className="header-item"
                             >
                                 REGISTRATION
                             </div>
                             <div
-                                onClick={() => this.props.clickHandler("make")}
+                                onClick={() => this.props.sortingHandler("make")}
                                 className="header-item"
                             >
                                 TYPE
                             </div>
                             <div
-                                onClick={() => this.props.clickHandler("mot")}
+                                onClick={() => this.props.sortingHandler("mot")}
                                 className="header-item"
                             >
                                 MOT
                             </div>
                             <div
                                 onClick={() =>
-                                    this.props.clickHandler("servis")
+                                    this.props.sortingHandler("servis")
                                 }
                                 className="header-item"
                             >
@@ -119,7 +119,7 @@ export default class Table extends Component {
                             </div>
                             <div
                                 onClick={() =>
-                                    this.props.clickHandler("appointment")
+                                    this.props.sortingHandler("appointment")
                                 }
                                 className="header-item"
                             >

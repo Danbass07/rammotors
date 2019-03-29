@@ -61121,54 +61121,54 @@ function (_Component) {
         className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("name");
+          return _this2.props.sortingHandler("name");
         },
         className: "header-item"
       }, "NAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("surname");
+          return _this2.props.sortingHandler("surname");
         },
         className: "header-item"
       }, "SURNAME"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("phone");
+          return _this2.props.sortingHandler("phone");
         },
         className: "header-item"
       }, "PHONE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("email");
+          return _this2.props.sortingHandler("email");
         },
         className: "header-item"
       }, "EMAIL"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("notes");
+          return _this2.props.sortingHandler("notes");
         },
         className: "header-item"
       }, "NOTES")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("registration");
+          return _this2.props.sortingHandler("registration");
         },
         className: "header-item"
       }, "REGISTRATION"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("make");
+          return _this2.props.sortingHandler("make");
         },
         className: "header-item"
       }, "TYPE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("mot");
+          return _this2.props.sortingHandler("mot");
         },
         className: "header-item"
       }, "MOT"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("servis");
+          return _this2.props.sortingHandler("servis");
         },
         className: "header-item"
       }, "SERVICE"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         onClick: function onClick() {
-          return _this2.props.clickHandler("appointment");
+          return _this2.props.sortingHandler("appointment");
         },
         className: "header-item"
       }, "APPOINTMENT")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
