@@ -236,7 +236,7 @@ export default class Table extends Component {
 
                         <input
                             className="search-input"
-                            onChange={e => this.props.searchHandler(e)}
+                            onChange={e => this.props.searchHandler(e, this.props.tableName)}
                             value={this.props.searchValue}
                             placeholder="Click and type to search here ..."
                         />

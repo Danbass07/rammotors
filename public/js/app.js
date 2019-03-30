@@ -60302,11 +60302,11 @@ function (_Component) {
 
   }, {
     key: "searchHandler",
-    value: function searchHandler(e) {
+    value: function searchHandler(e, tableName) {
       var _this3 = this;
 
       /// search or clear search value
-      var filtering = this.state.tableName.toLowerCase().replace("display", ""); // functions variables
+      var filtering = tableName.toLowerCase().replace("display", ""); // functions variables
 
       var searchResult = [];
 
@@ -60335,7 +60335,7 @@ function (_Component) {
             }
           });
 
-          _this3.setState(_defineProperty({}, _this3.state.tableName, searchResult));
+          _this3.setState(_defineProperty({}, tableName, searchResult));
         });
       }
     }
@@ -60343,9 +60343,10 @@ function (_Component) {
     key: "tableNameHandler",
     value: function tableNameHandler(tableName) {
       /// synchronise actions to the according display table name
-      this.searchHandler();
+      this.searchHandler(undefined, tableName);
       this.setState({
-        tableName: tableName
+        tableName: tableName,
+        search: ""
       });
     }
   }, {
@@ -60549,7 +60550,7 @@ function (_Component) {
         tableName: this.state.focusOn,
         displayData: this.state[table],
         sortingHandler: function sortingHandler(category) {
-          return _this8.sortingHandler(category, _this8.state.tableName);
+          return _this8.sortingHandler(category, table);
         },
         tableNameHandler: function tableNameHandler(tableName) {
           return _this8.tableNameHandler(tableName);
@@ -60557,8 +60558,8 @@ function (_Component) {
         addNewButtonHandler: function addNewButtonHandler(item) {
           return _this8.addNewButtonHandler(item);
         },
-        searchHandler: function searchHandler(e) {
-          return _this8.searchHandler(e);
+        searchHandler: function searchHandler(e, tableName) {
+          return _this8.searchHandler(e, tableName);
         },
         searchValue: this.state.search,
         editHandler: function editHandler(object, objectName) {
@@ -60978,7 +60979,7 @@ function (_Component) {
           return _this13.addNewButtonHandler(item);
         },
         searchHandler: function searchHandler(e) {
-          return _this13.searchHandler(e);
+          return _this13.searchHandler(e, _this13.state.tableName);
         },
         searchValue: this.state.search,
         editHandler: function editHandler(object, objectName) {
@@ -61233,7 +61234,7 @@ function (_Component) {
       }, "ADD NEW"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "search-input",
         onChange: function onChange(e) {
-          return _this2.props.searchHandler(e);
+          return _this2.props.searchHandler(e, _this2.props.tableName);
         },
         value: this.props.searchValue,
         placeholder: "Click and type to search here ..."

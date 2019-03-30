@@ -115,10 +115,10 @@ export default class RamMotors extends Component {
     }
 
     //// Handlers section
-    searchHandler(e) {
+    searchHandler(e, tableName) {
         /// search or clear search value
 
-        let filtering = this.state.tableName
+        let filtering = tableName
             .toLowerCase()
             .replace("display", ""); // functions variables
         let searchResult = [];
@@ -162,7 +162,7 @@ export default class RamMotors extends Component {
                     });
 
                     this.setState({
-                        [this.state.tableName]: searchResult //then update display state with same table name
+                        [tableName]: searchResult //then update display state with same table name
                     });
                 }
             );
@@ -171,9 +171,11 @@ export default class RamMotors extends Component {
 
     tableNameHandler(tableName) {
         /// synchronise actions to the according display table name
-        this.searchHandler();
+        this.searchHandler(undefined, tableName);
         this.setState({
-            tableName: tableName
+            tableName: tableName,
+            search: "",
+
         });
     }
 
@@ -398,7 +400,9 @@ export default class RamMotors extends Component {
     editCarHandler(data) {
         this.setState({
             editedCar: {
+
                 ...data
+
             },
             tableName: "displayCars",
             focusOn: "",
@@ -429,13 +433,13 @@ export default class RamMotors extends Component {
                     tableName={this.state.focusOn}
                     displayData={this.state[table]}
                     sortingHandler={category =>
-                        this.sortingHandler(category, this.state.tableName)
+                        this.sortingHandler(category, table)
                     }
                     tableNameHandler={tableName =>
                         this.tableNameHandler(tableName)
                     }
                     addNewButtonHandler={item => this.addNewButtonHandler(item)}
-                    searchHandler={e => this.searchHandler(e)}
+                    searchHandler={(e, tableName) => this.searchHandler(e, tableName)}
                     searchValue={this.state.search}
                     editHandler={(object, objectName) =>
                         this.editHandler(object, objectName)
@@ -922,7 +926,7 @@ export default class RamMotors extends Component {
                         addNewButtonHandler={item =>
                             this.addNewButtonHandler(item)
                         }
-                        searchHandler={e => this.searchHandler(e)}
+                        searchHandler={e => this.searchHandler(e, this.state.tableName)}
                         searchValue={this.state.search}
                         editHandler={(object, objectName) =>
                             this.editHandler(object, objectName)
