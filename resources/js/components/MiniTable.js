@@ -25,28 +25,28 @@ export default class MiniTable extends Component {
                             onClick={() => this.props.sortingHandler("registration")}
                             className="mini-header-item"
                         >
-                            REGISTRATION
+                            MAKE
                         </div>
                         <div
                             onClick={() => this.props.sortingHandler("make")}
                             className="mini-header-item"
                         >
-                            MAKE
+                            NAME
                         </div>
                         <div
                             onClick={() => this.props.sortingHandler("customers")}
                             className="mini-header-item"
                         >
-                            OWNER
+                            SURNAME
                         </div>
                     </div>
                     <div className="mini-table-container" id="style-1">
                         <table className="mini-table-body" id="style-1">
                             <thead className="mini-table-head">
                                 <tr>
-                                    <th>REGISTRATION</th>
                                     <th>MAKE</th>
-                                    <th>OWNER</th>
+                                    <th>NAME</th>
+                                    <th>SURNAME</th>
                                 </tr>
                             </thead>
 
@@ -54,25 +54,30 @@ export default class MiniTable extends Component {
                                 {this.props.displayCars.map(car => {
                                     return (
                                         <tr
+                                            key={car.id}
                                             className="mini-table-data-row"
                                             key={car.id + car.registration}
-                                            onClick={() =>
-                                                this.props.editCarHandler(car)
-                                            }
+                                         
                                         >
-                                            <th className="mini-table-item">
-                                                {car.registration.toUpperCase()}
+                                            <th onClick={() =>
+                                                            this.props.editCarHandler(car)
+                                                        }
+                                                className="mini-table-item">
+                                            {car.make}
                                             </th>
-                                            <th className="mini-table-item">
-                                                {car.make}
-                                            </th>
+                                           
 
                                             {this.props.customers.map(
                                                 customer => {
                                                     return customer.id === car.customer_id ? (
+                                                        <React.Fragment>
                                                         <th className="mini-table-item">
+                                                        {customer.name}
+                                                        </th>
+                                                        <th key={customer.id} className="mini-table-item">
                                                             {customer.surname}
                                                         </th>
+                                                        </React.Fragment>
                                                     ) : null;
                                                 }
                                             )}

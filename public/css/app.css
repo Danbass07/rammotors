@@ -34,7 +34,7 @@
 }
 
 .header-table-button {
-  width: 480px;
+  width: 300px;
   height: 45px;
   color: darkred;
   background-color: darkgrey;
@@ -164,7 +164,7 @@
 }
 
 .mini-table-item {
-  width: 170px;
+  width: 114px;
 }
 
 .mini-closing-div {
@@ -292,6 +292,17 @@
   background-color: red;
   border-color: darkred;
   border-radius: 25px;
+}
+
+.action-button {
+  color: darkred;
+  background-color: orange;
+  border-color: darkred;
+  border-radius: 50%;
+  font-size: 0.8em;
+  width: 45px;
+  height: 45px;
+  padding-top: 7px;
 }
 
 .focus {

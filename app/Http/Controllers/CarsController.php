@@ -93,10 +93,10 @@ class CarsController extends Controller
 
 
 
-	public function store()	{
+	public function store(Request $request)	{
 			
 		
-
+Log::info($request);
 		$this->validate(request(), [
         'registration' => 'required|unique:cars,registration|max:255',
         'make' => 'required',

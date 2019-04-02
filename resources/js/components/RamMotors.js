@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Table from "./Table";
+import Form from "./Form";
 import MiniTable from "./MiniTable";
 import ASSIGN_CAR_TO_THE_OWNER from "./ASSIGN_CAR_TO_THE_OWNER";
 
@@ -22,8 +23,9 @@ export default class RamMotors extends Component {
             displayConfirmed: [],
             displayExpired: [],
             displayDeleted: [],
+      
 
-            tableName: "displayCars",
+            tableName: "displayAlerts",
             ascending: true,
             search: "",
             searchResult: [],
@@ -53,7 +55,7 @@ export default class RamMotors extends Component {
                 info: ""
             },
 
-            focusOn: "",
+            focusOn: "editedCar",
             focus: false,
             chooseCustomer: true,
             operation: "",
@@ -122,7 +124,7 @@ export default class RamMotors extends Component {
             .toLowerCase()
             .replace("display", ""); // functions variables
         let searchResult = [];
-
+console.log(filtering);
         if (e === undefined) {
             // if we change table clear search results
             this.state[filtering].map(item => {
@@ -171,7 +173,7 @@ export default class RamMotors extends Component {
 
     tableNameHandler(tableName) {
         /// synchronise actions to the according display table name
-        this.searchHandler(undefined, tableName);
+        this.searchHandler(undefined, tableName);// clean search
         this.setState({
             tableName: tableName,
             search: "",
@@ -228,7 +230,19 @@ export default class RamMotors extends Component {
 
     ///////////// methods depending on focus state
     ////////////// modal display and form to add or update
-    focus(focusOn) {
+    editHandler(object, objectName) {
+        ///
+
+        this.setState({
+            focusOn: [objectName],
+            [objectName]: {
+                ...object
+            },
+            focus: !this.state.focus,
+        });
+    }
+
+    displayFocus(focusOn) {
         return (
             <div className="focus">
                 <div
@@ -238,9 +252,14 @@ export default class RamMotors extends Component {
                     X
                 </div>
 
-                {focusOn == "" && this.state.tableName == "displayCars" ? (
+                {focusOn == "editedCar" && this.state.tableName == "displayCars" ? (
                     <div className="focus-work-area">
-                        {this.displayForm(this.state.editedCar, "update")}
+                        <Form 
+                        editedObject={this.state.editedCar}
+                        editedObjectName={"editedCar"}
+                        refreshData={() => this.refreshData()}
+                        focusOnTableHandler={() => this.focusOnTableHandler()}
+                        />
                         {this.displayActions(this.state.editedCar.id)}
                         {this.displayList(
                             this.state.editedCar.customer_id
@@ -248,113 +267,36 @@ export default class RamMotors extends Component {
                     </div>
                 ) : null}
 
-                {focusOn == "" && this.state.tableName == "displayCustomers" ? (
+                {focusOn == "editedCustomer" && this.state.tableName == "displayCustomers" ? (
                     <div className="focus-work-area">
-                        {this.displayForm(this.state.editedCustomer, "update")}
+                          <Form 
+                        editedObject={this.state.editedCustomer}
+                        editedObjectName={"editedCustomer"}
+                        refreshData={() => this.refreshData()}
+                        focusOnTableHandler={() => this.focusOnTableHandler()}
+                        />
                         {this.displayActions(this.state.editedCustomer.id)}
                         {this.displayList(this.state.editedCustomer.id)}{" "}
                     </div>
                 ) : null}
 
-                {focusOn !== "" ? this.displayTable(this.state.focusOn) : null}
+                {focusOn == "newCar" || focusOn == "newCustomer"? (
+                    <div className="focus-work-area">
+                          <Form 
+                        editedObject={this.state.editedCustomer}
+                        editedObjectName={this.state.focusOn}
+                        refreshData={() => this.refreshData()}
+                        focusOnTableHandler={() => this.focusOnTableHandler()}
+                        />
+                    
+                    </div>
+                ) : null}
+
+                {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null}
             </div>
         );
     }
-    displayForm(editedObject) {
-        /// dynamic form for adding new object end editing existing one
-        /// find better way to disable unwanted categories and ajusting types
-        /// need to display form depend on focusOn state
-
-        let editedObjectName = "";
-        if (this.state.tableName == "displayCars") {
-            editedObjectName = "editedCar";
-        }
-        if (this.state.tableName == "displayCustomers") {
-            editedObjectName = "editedCustomer";
-        }
-        const style = {
-            display: "none"
-        };
-        const inline = {
-            display: "flex",
-            flexDirection: "row"
-        };
-
-        return (
-            <div className="form-wrapper">
-                <form
-                    className="focus-form"
-                    onSubmit={e =>
-                        this.submitHandler(
-                            e,
-                            editedObjectName,
-                            this.state.operation
-                        )
-                    }
-                >
-                    <h2>{editedObjectName.replace("edited", "")} </h2>
-                    {Object.keys(editedObject).map(key => {
-                        return (
-                            <div style={inline}>
-                                <label
-                                    style={
-                                        key === "cars" ||
-                                        key === "updated_at" ||
-                                        key === "created_at" ||
-                                        key === "deleted_at" ||
-                                        key === "pending" ||
-                                        key === "id" ||
-                                        key === "customer_id"
-                                            ? style
-                                            : null
-                                    }
-                                >
-                                    {key}
-                                </label>
-                                <input
-                                    key={key}
-                                    className="focus-form-input"
-                                    placeholder={key}
-                                    style={
-                                        key === "cars" ||
-                                        key === "updated_at" ||
-                                        key === "created_at" ||
-                                        key === "deleted_at" ||
-                                        key === "pending" ||
-                                        key === "id" ||
-                                        key === "customer_id"
-                                            ? style
-                                            : null
-                                    }
-                                    type={
-                                        key === "mot" ||
-                                        key === "servis" ||
-                                        key === "appointment"
-                                            ? "date"
-                                            : "text"
-                                    }
-                                    value={
-                                        key === "registration"
-                                            ? this.state[editedObjectName][
-                                                  key
-                                              ].toUpperCase()
-                                            : this.state[editedObjectName][key]
-                                    }
-                                    onChange={e =>
-                                        this.formChangeHandler(e, key)
-                                    }
-                                />
-                            </div>
-                        );
-                    })}
-
-                    <button type="submit" className="submit-button">
-                        Save Changes
-                    </button>
-                </form>
-            </div>
-        );
-    }
+  
 
     focusOnTableHandler(table) {
         ///  focus on or off
@@ -366,79 +308,42 @@ export default class RamMotors extends Component {
         });
     }
 
-    addNewButtonHandler() {
+    addNewButtonHandler(tableName) {
         // simply add new depend on active table name car or customer
+        let focusOn =  ''
+        if (tableName === 'displayCars') {
+             focusOn = 'newCar'
+        } else {
+             focusOn = 'newCustomer'
+        }
         this.setState({
-            editedCar: {
-                id: 0,
-                customer_id: 0,
-                registration: "",
-                make: "",
-                mot: "",
-                servis: "",
-                appointment: "",
-                info: "",
-                pending: 0,
-                created_at: "",
-                updated_at: "",
-                deleted_at: ""
-            },
-            editedCustomer: {
-                name: "",
-                surname: "",
-                phone: "",
-                email: "",
-                notes: "",
-                cars: [],
-                info: ""
-            },
-            focusOn: "",
+            focusOn: focusOn,
             focus: !this.state.focus,
-            operation: "addNew"
-        });
-    }
-    editCarHandler(data) {
-        this.setState({
-            editedCar: {
-
-                ...data
-
-            },
-            tableName: "displayCars",
-            focusOn: "",
-            focus: !this.state.focus
+            operation: ""
         });
     }
 
-    editHandler(object, objectName) {
-        ///
 
-        this.setState({
-            focusOn: "",
-            [objectName]: {
-                ...object
-            },
-            focus: !this.state.focus,
-            operation: "update"
-        });
-    }
+
 
     ///// functions returns stuff need  convert to components
 
-    displayTable(table) {
+    displayTable(tableName) {
         // display full version of mini tables
         return (
             <div className="focus-field">
+           
                 <Table
-                    tableName={this.state.focusOn}
-                    displayData={this.state[table]}
+                    tableName={this.state.tableName}
+                    focusOn={this.state.focusOn}
+                    displayData={this.state[tableName]}
                     sortingHandler={category =>
                         this.sortingHandler(category, table)
                     }
                     tableNameHandler={tableName =>
                         this.tableNameHandler(tableName)
                     }
-                    addNewButtonHandler={item => this.addNewButtonHandler(item)}
+                    addNewButtonHandler={tableName => this.addNewButtonHandler(tableName)}
                     searchHandler={(e, tableName) => this.searchHandler(e, tableName)}
                     searchValue={this.state.search}
                     editHandler={(object, objectName) =>
@@ -481,23 +386,7 @@ export default class RamMotors extends Component {
         );
     }
 
-    /// functions dealing with forms
-    formChangeHandler(e, key) {
-        let editedObjectName = "";
-        if (this.state.tableName == "displayCars") {
-            editedObjectName = "editedCar";
-        }
-        if (this.state.tableName == "displayCustomers") {
-            editedObjectName = "editedCustomer";
-        }
-
-        this.setState({
-            [editedObjectName]: {
-                ...this.state[editedObjectName],
-                [key]: e.target.value
-            }
-        });
-    }
+  
 
     displayList(id) {
         ///// not dynamic yet might never be
@@ -577,36 +466,7 @@ export default class RamMotors extends Component {
                 <div className="list-wrapper">
                     <div className="focus-form">
                         <h1>Actions</h1>
-                        <button
-                            className="submit-button"
-                            onClick={() =>
-                                this.addYear(this.state.editedCar.mot, "mot")
-                            }
-                        >
-                            Add Year MOT
-                        </button>
-                        <button
-                            className="submit-button"
-                            onClick={() =>
-                                this.addYear(
-                                    this.state.editedCar.servis,
-                                    "servis"
-                                )
-                            }
-                        >
-                            Add Year Service
-                        </button>
-                        <button
-                            className="submit-button"
-                            onClick={() =>
-                                this.addYear(
-                                    this.state.editedCar.appointment,
-                                    "appointment"
-                                )
-                            }
-                        >
-                            Add Year Appointment
-                        </button>
+                        
                         {this.state.alerts.map(alertedCar => {
                             if (id === alertedCar.id) {
                                 return (
@@ -634,7 +494,7 @@ export default class RamMotors extends Component {
         }
     }
 
-    submitHandler(e, editedObjectName, operation = "addNew") {
+    submitHandler(e, editedObjectName, operation) {
         // submit both of above new or edit  need to update state reset search value
 
         e.preventDefault();
@@ -687,176 +547,17 @@ export default class RamMotors extends Component {
                     );
                 });
         }
-        if (editedObjectName === "editedCar" && operation === "addNew") {
-            const editedCar = { ...this.state.editedCar };
-            axios
-                .post(`/cars`, {
-                    registration: editedCar.registration,
-                    make: editedCar.make,
-                    mot: editedCar.mot,
-                    servis: editedCar.servis,
-                    appointment: editedCar.appointment
-                })
-                .then(response => {
-                    axios.get("/cars").then(response =>
-                        this.setState({
-                            cars: [...response.data],
-                            displayCars: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/alerts").then(response =>
-                        this.setState({
-                            alerts: [...response.data],
-                            displayAlerts: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/confirmed").then(response =>
-                        this.setState({
-                            confirmed: [...response.data],
-                            displayConfirmed: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/pending").then(response =>
-                        this.setState({
-                            pending: [...response.data],
-                            displayPending: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/get_data_expired").then(response =>
-                        this.setState({
-                            expired: [...response.data],
-                            displayExpired: [...response.data]
-                        })
-                    );
-                    this.setState({
-                        focusOn: "",
-                        focus: !this.state.focus,
-                        search: ""
-                    });
-                });
-        } else if (editedObjectName === "editedCar" && operation === "update") {
-            const editedCar = { ...this.state.editedCar };
-
-            axios
-                .put(`/cars/${editedCar.id}/update`, {
-                    make: editedCar.make,
-                    mot: editedCar.mot,
-                    servis: editedCar.servis,
-                    appointment: editedCar.appointment,
-                    info: editedCar.info
-                })
-                .then(response => {
-                    axios.get("/cars").then(response =>
-                        this.setState({
-                            cars: [...response.data],
-                            displayCars: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/alerts").then(response =>
-                        this.setState({
-                            alerts: [...response.data],
-                            displayAlerts: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/confirmed").then(response =>
-                        this.setState({
-                            confirmed: [...response.data],
-                            displayConfirmed: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/pending").then(response =>
-                        this.setState({
-                            pending: [...response.data],
-                            displayPending: [...response.data]
-                        })
-                    );
-                    axios.get("/cars/get_data_expired").then(response =>
-                        this.setState({
-                            expired: [...response.data],
-                            displayExpired: [...response.data]
-                        })
-                    );
-                    this.setState({
-                        focusOn: "",
-                        focus: !this.state.focus,
-                        search: ""
-                    });
-                });
-        } else if (
-            editedObjectName === "editedCustomer" &&
-            operation === "addNew"
-        ) {
-            const editedCustomer = { ...this.state.editedCustomer };
-
-            axios
-                .post(`/customers`, {
-                    name: editedCustomer.name,
-                    surname: editedCustomer.surname,
-                    phone: editedCustomer.phone,
-                    email: editedCustomer.email
-                })
-                .then(response => {
-                    axios.get("/customers").then(response =>
-                        this.setState({
-                            customers: [...response.data],
-                            displayCustomers: [...response.data]
-                        })
-                    );
-
-                    this.setState({
-                        focusOn: "",
-                        focus: !this.state.focus,
-                        search: ""
-                    });
-                });
-        } else if (
-            editedObjectName === "editedCustomer" &&
-            operation === "update"
-        ) {
-            const editedCustomer = { ...this.state.editedCustomer };
-
-            axios
-                .put(`/customers/${editedCustomer.id}/update`, {
-                    name: editedCustomer.name,
-                    surname: editedCustomer.surname,
-                    phone: editedCustomer.phone,
-                    email: editedCustomer.email,
-                    info: editedCustomer.info
-                })
-                .then(response => {
-                    axios.get("/customers").then(response =>
-                        this.setState({
-                            customers: [...response.data],
-                            displayCustomers: [...response.data]
-                        })
-                    );
-
-                    this.setState({
-                        focusOn: "",
-                        focus: !this.state.focus,
-                        search: ""
-                    });
-                });
-        } else {
+    
+       
+        
+        
+         else {
             return;
         }
     }
 
     ////// helping fuctions
-    addYear(editedDate, editedDateName) {
-        let date = this.stringToDate(editedDate, "YYYY-mm-dd", "-");
-        let year = date.getFullYear() + 1;
-        let month = ("0" + (date.getMonth() + 1)).slice(-2);
-        let day = ("0" + date.getDate()).slice(-2);
-        let yearLater =
-            year.toString() + "-" + month.toString() + "-" + day.toString();
-        this.setState({
-            editedCar: {
-                ...this.state.editedCar,
-                [editedDateName]: yearLater
-            }
-        });
-    }
+  
     compareValues(key, ascending = true) {
         /// sorting
         return function(a, b) {
@@ -891,40 +592,27 @@ export default class RamMotors extends Component {
         }
         return false;
     }
-    stringToDate(_date, _format, _delimiter) {
-        var formatLowerCase = _format.toLowerCase();
-        var formatItems = formatLowerCase.split(_delimiter);
-        var dateItems = _date.split(_delimiter);
-        var monthIndex = formatItems.indexOf("mm");
-        var dayIndex = formatItems.indexOf("dd");
-        var yearIndex = formatItems.indexOf("yyyy");
-        var month = parseInt(dateItems[monthIndex]);
-        month -= 1;
-        var formatedDate = new Date(
-            dateItems[yearIndex],
-            month,
-            dateItems[dayIndex]
-        );
-        return formatedDate;
-    }
+  
 
     render() {
         return (
             <div className="rammotors">
-                {this.state.focus ? this.focus(this.state.focusOn) : null}
+                {this.state.focus ? this.displayFocus(this.state.focusOn) : null}
 
                 <div className="rammotors-row">
+                
                     <Table
+                    
                         tableName={this.state.tableName}
-                        displayData={this.state[this.state.tableName]}
+                        displayData={this.state.focusOn !== 'newCar' ? this.state[this.state.tableName] : this.state.displayCars }
                         sortingHandler={category =>
                             this.sortingHandler(category, this.state.tableName)
                         }
                         tableNameHandler={tableName =>
                             this.tableNameHandler(tableName)
                         }
-                        addNewButtonHandler={item =>
-                            this.addNewButtonHandler(item)
+                        addNewButtonHandler={ ( )=>
+                            this.addNewButtonHandler(this.state.tableName)
                         }
                         searchHandler={e => this.searchHandler(e, this.state.tableName)}
                         searchValue={this.state.search}

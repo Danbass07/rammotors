@@ -12,8 +12,23 @@ export default class Table extends Component {
                 <div className="workfield">
                     <div className="header-row">
                         {this.props.tableName === "displayCars" ||
-                        this.props.tableName === "displayCustomers" ? (
+                        this.props.tableName === "displayCustomers" ||
+                        this.props.tableName === "displayAlerts"? (
                             <div>
+                                 <button
+                                    className={
+                                        this.props.tableName === "displayAlerts"
+                                            ? "header-table-button active"
+                                            : "header-table-button"
+                                    }
+                                    onClick={() =>
+                                        this.props.tableNameHandler(
+                                            "displayAlerts"
+                                        )
+                                    }
+                                >
+                                    ALERTS
+                                </button>
                                 <button
                                     className={
                                         this.props.tableName === "displayCars"
@@ -225,10 +240,9 @@ export default class Table extends Component {
                     <div className="under-table-field">
                         <button
                             className="under-table-button"
+
                             onClick={() =>
-                                this.props.addNewButtonHandler(
-                                    this.props.tableName
-                                )
+                                this.props.addNewButtonHandler()
                             }
                         >
                             ADD NEW
