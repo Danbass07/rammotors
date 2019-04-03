@@ -23,8 +23,6 @@ export default class TableTwo extends Component {
                     surname: "",
                     phone: "",
                     email: "",
-                    notes: "",
-                    cars: [],
                     info: ""
                 },
             ],
@@ -152,7 +150,7 @@ export default class TableTwo extends Component {
                                                      if (data[0] !== 'id' && data[0] !== 'updated_at' && data[0] !== 'created_at' && data[0] !== 'deleted_at')
                                                         return (
                                                             <th className="table-item">
-                                                            {data[0]} 
+                                                            {data[1]} 
                                                         </th>
                                                         )
                                                     

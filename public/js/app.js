@@ -61345,8 +61345,6 @@ function (_Component) {
         surname: "",
         phone: "",
         email: "",
-        notes: "",
-        cars: [],
         info: ""
       }]
     };
@@ -61418,7 +61416,7 @@ function (_Component) {
         }, Object.entries(data).map(function (data) {
           if (data[0] !== 'id' && data[0] !== 'updated_at' && data[0] !== 'created_at' && data[0] !== 'deleted_at') return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
             className: "table-item"
-          }, data[0]);
+          }, data[1]);
         }));
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "under-table-field"
