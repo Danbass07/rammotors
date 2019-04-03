@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import Table from "./Table";
+import TableTwo from "./TableTwo";
 import Form from "./Form";
 import MiniTable from "./MiniTable";
 import ASSIGN_CAR_TO_THE_OWNER from "./ASSIGN_CAR_TO_THE_OWNER";
-
+let blele = ''
 export default class RamMotors extends Component {
     constructor(props) {
         super(props);
@@ -63,6 +64,7 @@ export default class RamMotors extends Component {
             delete: 0
         };
         this.compareValues = this.compareValues.bind(this);
+       
     }
 
     refreshData() {
@@ -114,6 +116,7 @@ export default class RamMotors extends Component {
         /// loading all resources
 
         this.refreshData();
+        blele = this.state.displayAlerts
     }
 
     //// Handlers section
@@ -124,7 +127,7 @@ export default class RamMotors extends Component {
             .toLowerCase()
             .replace("display", ""); // functions variables
         let searchResult = [];
-console.log(filtering);
+
         if (e === undefined) {
             // if we change table clear search results
             this.state[filtering].map(item => {
@@ -173,11 +176,15 @@ console.log(filtering);
 
     tableNameHandler(tableName) {
         /// synchronise actions to the according display table name
-        this.searchHandler(undefined, tableName);// clean search
+        // clean search
         this.setState({
             tableName: tableName,
             search: "",
 
+        }, () => {
+            this.searchHandler(undefined, tableName);
+            blele = this.state[tableName];
+        
         });
     }
 
@@ -328,12 +335,14 @@ console.log(filtering);
 
     ///// functions returns stuff need  convert to components
 
-    displayTable(tableName) {
+    displayTable(data1,data2, data3) {
         // display full version of mini tables
+        let data = [data1 , data2 , data3]
+     
         return (
-            <div className="focus-field">
+            <div>
            
-                <Table
+                {/* <Table
                     tableName={this.state.tableName}
                     focusOn={this.state.focusOn}
                     displayData={this.state[tableName]}
@@ -349,7 +358,28 @@ console.log(filtering);
                     editHandler={(object, objectName) =>
                         this.editHandler(object, objectName)
                     }
+                /> */}
+                         <TableTwo
+                    
+                    tableName={'displayCars'}
+                    displayData={data2}
+                    displayDataArray={data}
+                    sortingHandler={category =>
+                        this.sortingHandler(category, this.state.tableName)
+                    }
+                    tableNameHandler={tableName =>
+                        this.tableNameHandler(tableName)
+                    }
+                    addNewButtonHandler={ ( )=>
+                        this.addNewButtonHandler(this.state.tableName)
+                    }
+                    searchHandler={e => this.searchHandler(e, this.state.tableName)}
+                    searchValue={this.state.search}
+                    editHandler={(object, objectName) =>
+                        this.editHandler(object, objectName)
+                    }
                 />
+        
             </div>
         );
     }
@@ -595,16 +625,16 @@ console.log(filtering);
   
 
     render() {
+       
         return (
             <div className="rammotors">
                 {this.state.focus ? this.displayFocus(this.state.focusOn) : null}
 
                 <div className="rammotors-row">
-                
-                    <Table
+                    {/* <Table
                     
                         tableName={this.state.tableName}
-                        displayData={this.state.focusOn !== 'newCar' ? this.state[this.state.tableName] : this.state.displayCars }
+                        displayData={blele}
                         sortingHandler={category =>
                             this.sortingHandler(category, this.state.tableName)
                         }
@@ -619,7 +649,8 @@ console.log(filtering);
                         editHandler={(object, objectName) =>
                             this.editHandler(object, objectName)
                         }
-                    />
+                    /> */}
+                    {this.displayTable([...this.state.cars], [...this.state.customers], [...this.state.alerts])}
                 </div>
 
                 <div className="rammotors-row">

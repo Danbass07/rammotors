@@ -54,9 +54,9 @@ export default class MiniTable extends Component {
                                 {this.props.displayCars.map(car => {
                                     return (
                                         <tr
-                                            key={car.id}
+                                            key={car.id+this.props.tableName}
                                             className="mini-table-data-row"
-                                            key={car.id + car.registration}
+                                           
                                          
                                         >
                                             <th onClick={() =>
@@ -70,8 +70,8 @@ export default class MiniTable extends Component {
                                             {this.props.customers.map(
                                                 customer => {
                                                     return customer.id === car.customer_id ? (
-                                                        <React.Fragment>
-                                                        <th className="mini-table-item">
+                                                        <React.Fragment key={customer.name} >
+                                                        <th key={customer.name} className="mini-table-item">
                                                         {customer.name}
                                                         </th>
                                                         <th key={customer.id} className="mini-table-item">

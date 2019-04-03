@@ -7,6 +7,7 @@ export default class Table extends Component {
     }
 
     render() {
+        console.log(this.props.tableName)
         return (
             <div className="wrapper">
                 <div className="workfield">
@@ -167,7 +168,10 @@ export default class Table extends Component {
                             )}
                             {this.props.tableName === "displayCustomers" ? (
                                 <tbody className="table-data" id="style-1">
-                                    {this.props.displayData.map(data => (
+                                    {this.props.displayData.map(data => {
+                                        console.log(data)
+                                        return (
+                                        
                                         <tr
                                             className="table-data-row"
                                             key={
@@ -184,7 +188,8 @@ export default class Table extends Component {
                                             <th className="table-item">
                                                 {data[
                                                     Object.keys(data)[1]
-                                                ].toUpperCase()}{" "}
+                                                ]}
+                                              
                                             </th>
                                             <th className="table-item">
                                                 {data[Object.keys(data)[2]]}
@@ -199,7 +204,7 @@ export default class Table extends Component {
                                                 {data[Object.keys(data)[5]]}
                                             </th>
                                         </tr>
-                                    ))}
+                                    )})}
                                 </tbody>
                             ) : (
                                 <tbody className="table-data" id="style-1">
