@@ -25,7 +25,17 @@ export default class TableTwo extends Component {
                     email: "",
                     info: ""
                 },
+                {
+                    registration: "",
+                    make: "",
+                    mot: "",
+                    servis: "",
+                    appointment: "",
+                    info: "",
+            
+                },
             ],
+            tableNumber: 2,
           
         };
     }
@@ -44,50 +54,35 @@ export default class TableTwo extends Component {
             <div className="wrapper">
                 <div className="workfield">
                     <div className="header-row">
-                        {this.props.tableName === "displayCars" ||
-                        this.props.tableName === "displayCustomers" ||
-                        this.props.tableName === "displayAlerts"? (
+                        {this.state.tableNumber !== '' ? (
                             <div>
                                  <button
                                     className={
-                                        this.props.tableName === "displayAlerts"
+                                        this.state.tableNumber === 2
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>
-                                        this.props.tableNameHandler(
-                                            "displayAlerts"
-                                        )
-                                    }
+                                    onClick={() =>{ this.setState({tableNumber: 2})}}
                                 >
                                     ALERTS
                                 </button>
                                 <button
                                     className={
-                                        this.props.tableName === "displayCars"
+                                        this.state.tableNumber === 0
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>
-                                        this.props.tableNameHandler(
-                                            "displayCars"
-                                        )
-                                    }
+                                    onClick={() =>{ this.setState({tableNumber: 0})}}
                                 >
                                     CARS
                                 </button>
                                 <button
                                     className={
-                                        this.props.tableName ===
-                                        "displayCustomers"
+                                        this.state.tableNumber === 1
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>
-                                        this.props.tableNameHandler(
-                                            "displayCustomers"
-                                        )
-                                    }
+                                    onClick={() =>{ this.setState({tableNumber: 1})}}
                                 >
                                     CUSTOMERS
                                 </button>
@@ -106,10 +101,10 @@ export default class TableTwo extends Component {
 
                     <div className="header-row">
 
-                        {Object.keys(this.state.header[1]).map(key => {
+                        {Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
                             return (
 
-                                <div
+                                <div key={key+index}
                                 onClick={() =>
                                     this.props.sortingHandler(key)
                                 }
@@ -128,12 +123,12 @@ export default class TableTwo extends Component {
                      
     
                                 <tbody className="table-data" id="style-1">
-                                    {this.props.displayData.map((data, index) => {
+                                    {this.props.displayDataArray[this.state.tableNumber].map((data, index) => {
                                         return (
 
                                             <tr
                                             className="table-data-row"
-                                            key={index}
+                                            key={'row'+index}
                                             onClick={() =>
                                                 this.props.editHandler(
                                                     data,
@@ -141,18 +136,24 @@ export default class TableTwo extends Component {
                                                 )
                                             }
                                             >
-
                                             {Object.entries(data).map((data) => {
+                                                return (
+                                                    Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
+                                                
+                                                        if (data[0].toString() === key.toString()) {
+                                                            return (
+                                                                <td key={'data'+ index} className="table-item">
+                                                                {data[1]} 
+                                                            </td>
+                                                            )
+                                                        }
+                                                    })
+                                                )
+                                               
+                                                    
 
-
-                                            
-                                                   
-                                                     if (data[0] !== 'id' && data[0] !== 'updated_at' && data[0] !== 'created_at' && data[0] !== 'deleted_at')
-                                                        return (
-                                                            <th className="table-item">
-                                                            {data[1]} 
-                                                        </th>
-                                                        )
+                                                
+                                               
                                                     
                                                     
                                                     

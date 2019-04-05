@@ -61346,7 +61346,15 @@ function (_Component) {
         phone: "",
         email: "",
         info: ""
-      }]
+      }, {
+        registration: "",
+        make: "",
+        mot: "",
+        servis: "",
+        appointment: "",
+        info: ""
+      }],
+      tableNumber: 2
     };
     return _this;
   }
@@ -61373,25 +61381,32 @@ function (_Component) {
         className: "workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
-      }, this.props.tableName === "displayCars" || this.props.tableName === "displayCustomers" || this.props.tableName === "displayAlerts" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: this.props.tableName === "displayAlerts" ? "header-table-button active" : "header-table-button",
+      }, this.state.tableNumber !== '' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: this.state.tableNumber === 2 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          return _this2.props.tableNameHandler("displayAlerts");
+          _this2.setState({
+            tableNumber: 2
+          });
         }
       }, "ALERTS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: this.props.tableName === "displayCars" ? "header-table-button active" : "header-table-button",
+        className: this.state.tableNumber === 0 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          return _this2.props.tableNameHandler("displayCars");
+          _this2.setState({
+            tableNumber: 0
+          });
         }
       }, "CARS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: this.props.tableName === "displayCustomers" ? "header-table-button active" : "header-table-button",
+        className: this.state.tableNumber === 1 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          return _this2.props.tableNameHandler("displayCustomers");
+          _this2.setState({
+            tableNumber: 1
+          });
         }
       }, "CUSTOMERS")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.props.tableName.toUpperCase().replace("DISPLAY", ""))), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
-      }, Object.keys(this.state.header[1]).map(function (key) {
+      }, Object.keys(this.state.header[this.state.tableNumber]).map(function (key, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: key + index,
           onClick: function onClick() {
             return _this2.props.sortingHandler(key);
           },
@@ -61406,17 +61421,22 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "table-data",
         id: "style-1"
-      }, this.props.displayData.map(function (data, index) {
+      }, this.props.displayDataArray[this.state.tableNumber].map(function (data, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
           className: "table-data-row",
-          key: index,
+          key: 'row' + index,
           onClick: function onClick() {
             return _this2.props.editHandler(data, "editedCar");
           }
         }, Object.entries(data).map(function (data) {
-          if (data[0] !== 'id' && data[0] !== 'updated_at' && data[0] !== 'created_at' && data[0] !== 'deleted_at') return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", {
-            className: "table-item"
-          }, data[1]);
+          return Object.keys(_this2.state.header[_this2.state.tableNumber]).map(function (key, index) {
+            if (data[0].toString() === key.toString()) {
+              return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+                key: 'data' + index,
+                className: "table-item"
+              }, data[1]);
+            }
+          });
         }));
       })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "under-table-field"
@@ -61490,8 +61510,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
