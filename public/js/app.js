@@ -60577,7 +60577,6 @@ function (_Component) {
     value: function componentWillMount() {
       /// loading all resources
       this.refreshData();
-      blele = this.state.displayAlerts;
     } //// Handlers section
 
   }, {
@@ -60690,12 +60689,22 @@ function (_Component) {
   }, {
     key: "editHandler",
     value: function editHandler(object, objectName) {
-      var _this$setState3;
-
       ///
-      this.setState((_this$setState3 = {
-        focusOn: [objectName]
-      }, _defineProperty(_this$setState3, objectName, _objectSpread({}, object)), _defineProperty(_this$setState3, "focus", !this.state.focus), _this$setState3));
+      if (objectName === 'registration') {
+        this.setState({
+          focusOn: 'editedCar',
+          editedCar: _objectSpread({}, object),
+          tableName: "displayCars",
+          focus: !this.state.focus
+        });
+      } else if (objectName === 'name') {
+        this.setState({
+          focusOn: 'editedCustomer',
+          editedCustomer: _objectSpread({}, object),
+          tableName: "displayCustomers",
+          focus: !this.state.focus
+        });
+      }
     }
   }, {
     key: "displayFocus",
@@ -60777,11 +60786,11 @@ function (_Component) {
 
   }, {
     key: "displayTable",
-    value: function displayTable(data1, data2, data3) {
+    value: function displayTable(data1, data2, data4, data3) {
       var _this8 = this;
 
       // display full version of mini tables
-      var data = [data1, data2, data3];
+      var data = [data1, data2, data3, data4];
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableTwo__WEBPACK_IMPORTED_MODULE_2__["default"], {
         tableName: 'displayCars',
         displayData: data2,
@@ -61001,7 +61010,7 @@ function (_Component) {
         className: "rammotors"
       }, this.state.focus ? this.displayFocus(this.state.focusOn) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
-      }, this.displayTable(_toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.displayTable(_toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deleted))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_MiniTable__WEBPACK_IMPORTED_MODULE_4__["default"], {
         tableName: "displayAlerts",
@@ -61329,9 +61338,6 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TableTwo).call(this, props));
     _this.state = {
-      displayCars: [],
-      displayCustomers: [],
-      displayAlerts: [],
       displayData: [],
       header: [{
         registration: "",
@@ -61344,7 +61350,13 @@ function (_Component) {
         name: "",
         surname: "",
         phone: "",
-        email: "",
+        info: ""
+      }, {
+        registration: "",
+        make: "",
+        mot: "",
+        servis: "",
+        appointment: "",
         info: ""
       }, {
         registration: "",
@@ -61354,27 +61366,108 @@ function (_Component) {
         appointment: "",
         info: ""
       }],
-      tableNumber: 2
+      tableNumber: 2,
+      ascending: true,
+      search: ''
     };
     return _this;
   }
 
   _createClass(TableTwo, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "searchHandler",
+    value: function searchHandler(e) {
+      var _this2 = this;
+
+      /// search or clear search value
+      // functions variables
+      var searchResult = [];
+      var search;
+
+      if (e === undefined) {
+        // if we change table clear search results
+        search = '';
+      } else {
+        search = e.target.value;
+      } // if we fill search input
+
+
+      var searchedDisplayData = _toConsumableArray(this.state.displayData);
+
       this.setState({
-        displayCars: _toConsumableArray(this.props.displayDataArray[0]),
-        displayCustomers: _toConsumableArray(this.props.displayDataArray[1]),
-        displayAlerts: _toConsumableArray(this.props.displayDataArray[2]),
-        displayData: _toConsumableArray(this.props.displayData)
+        search: search // set search value
+
+      }, function () {
+        // and imieditly perform search filter
+        _this2.props.displayDataArray[_this2.state.tableNumber].map(function (item) {
+          for (var property in item) {
+            if (item.hasOwnProperty(property) && typeof item[property] === "string") {
+              if (item[property].toLowerCase().includes(_this2.state.search) && !searchResult.includes(item)) {
+                searchResult.push(item);
+              }
+            }
+          }
+        });
+
+        searchedDisplayData[_this2.state.tableNumber] = searchResult;
+
+        _this2.setState({
+          //then update display state with same table name
+          displayData: _toConsumableArray(searchedDisplayData)
+        });
       });
+    }
+  }, {
+    key: "sortingHandler",
+    value: function sortingHandler(category) {
+      // sorting alphabeticly DESC or ASC depend on clicked property (table head)
+      var sortingData;
+      sortingData = _toConsumableArray(this.state.displayData);
+      sortingData[this.state.tableNumber] = sortingData[this.state.tableNumber].sort(this.compareValues(category, this.state.ascending));
+      this.setState({
+        displayData: _toConsumableArray(sortingData),
+        ascending: !this.state.ascending
+      });
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.props !== nextProps) {
+        this.setState({
+          displayData: _toConsumableArray(this.props.displayDataArray)
+        }, console.log(this.props.displayDataArray));
+      }
+    } ////// helping fuctions
+
+  }, {
+    key: "compareValues",
+    value: function compareValues(key) {
+      var ascending = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      /// sorting
+      return function (a, b) {
+        if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+          // property doesn't exist on either object
+          return 0;
+        }
+
+        var varA = typeof a[key] === "string" /// letter case insensitive
+        ? a[key].toUpperCase() : a[key];
+        var varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+        var comparison = 0;
+
+        if (varA > varB) {
+          comparison = 1;
+        } else if (varA < varB) {
+          comparison = -1;
+        }
+
+        return ascending == false ? comparison * -1 : comparison;
+      };
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
-      // console.log(this.state)
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -61384,21 +61477,31 @@ function (_Component) {
       }, this.state.tableNumber !== '' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 2 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          _this2.setState({
+          _this3.searchHandler();
+
+          _this3.setState({
             tableNumber: 2
           });
         }
       }, "ALERTS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 0 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          _this2.setState({
+          _this3.searchHandler();
+
+          _this3.sortingHandler('id');
+
+          _this3.setState({
             tableNumber: 0
           });
         }
       }, "CARS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 1 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
-          _this2.setState({
+          _this3.searchHandler();
+
+          _this3.sortingHandler('id');
+
+          _this3.setState({
             tableNumber: 1
           });
         }
@@ -61408,7 +61511,7 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           key: key + index,
           onClick: function onClick() {
-            return _this2.props.sortingHandler(key);
+            return _this3.sortingHandler(key);
           },
           className: "header-item"
         }, key.toUpperCase());
@@ -61421,41 +61524,43 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
         className: "table-data",
         id: "style-1"
-      }, this.props.displayDataArray[this.state.tableNumber].map(function (data, index) {
+      }, this.state.displayData[this.state.tableNumber] !== undefined ? this.state.displayData[this.state.tableNumber].map(function (rowdata, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
           className: "table-data-row",
-          key: 'row' + index,
-          onClick: function onClick() {
-            return _this2.props.editHandler(data, "editedCar");
-          }
-        }, Object.entries(data).map(function (data) {
-          return Object.keys(_this2.state.header[_this2.state.tableNumber]).map(function (key, index) {
+          key: 'row' + index
+        }, Object.entries(rowdata).map(function (data) {
+          return Object.keys(_this3.state.header[_this3.state.tableNumber]).map(function (key, index) {
             if (data[0].toString() === key.toString()) {
               return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", {
+                onClick: function onClick() {
+                  return _this3.props.editHandler(rowdata, key);
+                },
                 key: 'data' + index,
                 className: "table-item"
-              }, data[1]);
+              }, typeof data[1] === 'string' ? data[1].toUpperCase() : data[1]);
             }
           });
         }));
-      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }) : null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "under-table-field"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
         onClick: function onClick() {
-          return _this2.props.addNewButtonHandler();
+          return _this3.props.addNewButtonHandler();
         }
       }, "ADD NEW"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         className: "search-input",
         onChange: function onChange(e) {
-          return _this2.props.searchHandler(e, _this2.props.tableName);
+          return _this3.searchHandler(e, _this3.props.tableName);
         },
-        value: this.props.searchValue,
+        value: this.state.search,
         placeholder: "Click and type to search here ..."
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
         onClick: function onClick() {
-          return _this2.props.tableNameHandler("displayDeleted");
+          return _this3.setState({
+            tableNumber: 3
+          });
         }
       }, "DELETED"))));
     }
@@ -61510,8 +61615,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Daniel\websites\Ram_motors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

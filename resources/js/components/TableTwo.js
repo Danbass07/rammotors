@@ -4,10 +4,10 @@ export default class TableTwo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            displayCars: [],
-            displayCustomers: [],
-            displayAlerts: [],
-            displayData: [],
+   
+            displayData: [
+                
+            ],
             header: [
                  {
                     registration: "",
@@ -22,8 +22,16 @@ export default class TableTwo extends Component {
                     name: "",
                     surname: "",
                     phone: "",
-                    email: "",
                     info: ""
+                },
+                {
+                    registration: "",
+                    make: "",
+                    mot: "",
+                    servis: "",
+                    appointment: "",
+                    info: "",
+            
                 },
                 {
                     registration: "",
@@ -36,20 +44,119 @@ export default class TableTwo extends Component {
                 },
             ],
             tableNumber: 2,
+            ascending: true,
+            search: '',
           
         };
     }
-    componentWillMount() {
+    searchHandler(e) {
+        /// search or clear search value
+
+    // functions variables
+        let searchResult = [];
+        let search 
+        if (e === undefined) {
+            // if we change table clear search results
+         
+            search = ''
+        } else { search = e.target.value}
+           
+            // if we fill search input
+            let searchedDisplayData = [...this.state.displayData]
+            this.setState(
+                {
+                    search: search // set search value
+                },
+
+                () => {
+                    // and imieditly perform search filter
+
+                    this.props.displayDataArray[this.state.tableNumber].map(item => {
+                        for (const property in item) {
+                            if (
+                                item.hasOwnProperty(property) &&
+                                typeof item[property] === "string"
+                            ) {
+                                if (
+                                    item[property]
+                                        .toLowerCase()
+                                        .includes(this.state.search) &&
+                                    !searchResult.includes(item)
+                                ) {
+                                    searchResult.push(item);
+                                }
+                            }
+                        }
+                    });
+                    searchedDisplayData[this.state.tableNumber] = searchResult
+                    this.setState({
+                        //then update display state with same table name
+                        displayData: [...searchedDisplayData],
+                    });
+                }
+            );
+        
+    }
+    sortingHandler(category) {
+        // sorting alphabeticly DESC or ASC depend on clicked property (table head)
+     
+        let sortingData;
+
+        sortingData = [...this.state.displayData];
+       
+        sortingData[this.state.tableNumber] = sortingData[this.state.tableNumber].sort(
+            this.compareValues(category, this.state.ascending)
+        );
         this.setState({
-            displayCars: [...this.props.displayDataArray[0]],
-            displayCustomers: [...this.props.displayDataArray[1]],
-            displayAlerts: [...this.props.displayDataArray[2]],
-            displayData: [ ...this.props.displayData ],
-        })
+
+            displayData: [...sortingData],
+            ascending: !this.state.ascending
+        });
+    }
+  
+    componentWillReceiveProps(nextProps)
+ {
+     if(this.props !== nextProps) {
+
+        this.setState({
+     
+            displayData: [... this.props.displayDataArray],
+        },console.log(this.props.displayDataArray))
+    
+
+     }
+
+ }
+
+    ////// helping fuctions
+  
+    compareValues(key, ascending = true) {
+        /// sorting
+        return function(a, b) {
+            if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+                // property doesn't exist on either object
+                return 0;
+            }
+
+            const varA =
+                typeof a[key] === "string" /// letter case insensitive
+                    ? a[key].toUpperCase()
+                    : a[key];
+            const varB =
+                typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+
+            let comparison = 0;
+            if (varA > varB) {
+                comparison = 1;
+            } else if (varA < varB) {
+                comparison = -1;
+            }
+            return ascending == false ? comparison * -1 : comparison;
+        };
     }
 
+
     render() {
-        // console.log(this.state)
         return (
             <div className="wrapper">
                 <div className="workfield">
@@ -62,7 +169,7 @@ export default class TableTwo extends Component {
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>{ this.setState({tableNumber: 2})}}
+                                    onClick={() =>{this.searchHandler();  this.setState({tableNumber: 2,})}}
                                 >
                                     ALERTS
                                 </button>
@@ -72,7 +179,7 @@ export default class TableTwo extends Component {
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>{ this.setState({tableNumber: 0})}}
+                                    onClick={() =>{ this.searchHandler(); this.sortingHandler('id'); this.setState({tableNumber: 0})}}
                                 >
                                     CARS
                                 </button>
@@ -82,7 +189,7 @@ export default class TableTwo extends Component {
                                             ? "header-table-button active"
                                             : "header-table-button"
                                     }
-                                    onClick={() =>{ this.setState({tableNumber: 1})}}
+                                    onClick={() =>{ this.searchHandler(); this.sortingHandler('id'); this.setState({tableNumber: 1})}}
                                 >
                                     CUSTOMERS
                                 </button>
@@ -106,7 +213,7 @@ export default class TableTwo extends Component {
 
                                 <div key={key+index}
                                 onClick={() =>
-                                    this.props.sortingHandler(key)
+                                    this.sortingHandler(key)
                                 }
                                 className="header-item"
                             >
@@ -123,49 +230,38 @@ export default class TableTwo extends Component {
                      
     
                                 <tbody className="table-data" id="style-1">
-                                    {this.props.displayDataArray[this.state.tableNumber].map((data, index) => {
-                                        return (
+                          
+                                    {this.state.displayData[this.state.tableNumber] !== undefined ? this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
+                                     
+                                      return (
 
                                             <tr
                                             className="table-data-row"
                                             key={'row'+index}
-                                            onClick={() =>
-                                                this.props.editHandler(
-                                                    data,
-                                                    "editedCar"
-                                                )
-                                            }
+                                        
                                             >
-                                            {Object.entries(data).map((data) => {
+                                            {Object.entries(rowdata).map((data) => {
                                                 return (
                                                     Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
                                                 
                                                         if (data[0].toString() === key.toString()) {
                                                             return (
-                                                                <td key={'data'+ index} className="table-item">
-                                                                {data[1]} 
+                                                                <td
+                                                                onClick={() => this.props.editHandler( rowdata, key ) }
+                                                                key={'data'+ index} 
+                                                                className="table-item">
+                                                                {typeof(data[1]) === 'string' ? data[1].toUpperCase() : data[1] } 
                                                             </td>
                                                             )
                                                         }
                                                     })
-                                                )
-                                               
-                                                    
-
-                                                
-                                               
-                                                    
-                                                    
-                                                    
-                                                      
-    
-                                                    
+                                                ) 
                                             })}
                                              
       
                                         </tr>
                                         
-                                    )})}      
+                                    )}) : null }      
                                 </tbody> 
                             
                         </table>
@@ -183,15 +279,15 @@ export default class TableTwo extends Component {
 
                         <input
                             className="search-input"
-                            onChange={e => this.props.searchHandler(e, this.props.tableName)}
-                            value={this.props.searchValue}
+                            onChange={e => this.searchHandler(e, this.props.tableName)}
+                            value={this.state.search}
                             placeholder="Click and type to search here ..."
                         />
 
                         <button
                             className="under-table-button"
                             onClick={() =>
-                                this.props.tableNameHandler("displayDeleted")
+                                this.setState({tableNumber: 3,})
                             }
                         >
                             DELETED

@@ -116,7 +116,6 @@ export default class RamMotors extends Component {
         /// loading all resources
 
         this.refreshData();
-        blele = this.state.displayAlerts
     }
 
     //// Handlers section
@@ -239,14 +238,28 @@ export default class RamMotors extends Component {
     ////////////// modal display and form to add or update
     editHandler(object, objectName) {
         ///
+        if (objectName === 'registration') {
+            this.setState({
+                focusOn: 'editedCar',
+                editedCar: {
+                    ...object
+                },
+                tableName: "displayCars",
+                focus: !this.state.focus,
+            });
 
-        this.setState({
-            focusOn: [objectName],
-            [objectName]: {
-                ...object
-            },
-            focus: !this.state.focus,
-        });
+        } else if (objectName === 'name') { 
+            this.setState({
+                focusOn: 'editedCustomer',
+                editedCustomer: {
+                    ...object
+                },
+                tableName: "displayCustomers",
+                focus: !this.state.focus,
+            });
+        }
+
+     
     }
 
     displayFocus(focusOn) {
@@ -335,9 +348,9 @@ export default class RamMotors extends Component {
 
     ///// functions returns stuff need  convert to components
 
-    displayTable(data1,data2, data3) {
+    displayTable(data1,data2,  data4, data3) {
         // display full version of mini tables
-        let data = [data1 , data2 , data3]
+        let data = [data1 , data2 , data3, data4]
      
         return (
             <div>
@@ -650,7 +663,7 @@ export default class RamMotors extends Component {
                             this.editHandler(object, objectName)
                         }
                     /> */}
-                    {this.displayTable([...this.state.cars], [...this.state.customers], [...this.state.alerts])}
+                    {this.displayTable([...this.state.cars], [...this.state.customers], [...this.state.alerts], [...this.state.deleted])}
                 </div>
 
                 <div className="rammotors-row">
