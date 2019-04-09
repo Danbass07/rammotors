@@ -3,8 +3,7 @@ import Table from "./Table";
 import TableTwo from "./TableTwo";
 import Form from "./Form";
 import MiniTable from "./MiniTable";
-import ASSIGN_CAR_TO_THE_OWNER from "./ASSIGN_CAR_TO_THE_OWNER";
-let blele = ''
+
 export default class RamMotors extends Component {
     constructor(props) {
         super(props);
@@ -63,29 +62,32 @@ export default class RamMotors extends Component {
             optionChoice: "",
             delete: 0
         };
-        this.compareValues = this.compareValues.bind(this);
+       // this.compareValues = this.compareValues.bind(this);
        
     }
 
     refreshData() {
-        axios.get("/customers").then(response =>
-            this.setState({
-                customers: [...response.data],
-                displayCustomers: [...response.data]
-            })
-        );
-        axios.get("/cars").then(response =>
-            this.setState({
-                cars: [...response.data],
-                displayCars: [...response.data]
-            })
-        );
         axios.get("/cars/alerts").then(response =>
             this.setState({
                 alerts: [...response.data],
                 displayAlerts: [...response.data]
             })
         );
+        
+        axios.get("/cars/deleted").then(response =>
+            this.setState({
+                deleted: [...response.data],
+                displayDeleted: [...response.data]
+            })
+        );
+      
+        axios.get("/cars").then(response =>
+            this.setState({
+                cars: [...response.data],
+                displayCars: [...response.data]
+            })
+        );
+      
         axios.get("/cars/confirmed").then(response =>
             this.setState({
                 confirmed: [...response.data],
@@ -104,12 +106,13 @@ export default class RamMotors extends Component {
                 displayExpired: [...response.data]
             })
         );
-        axios.get("/cars/deleted").then(response =>
+        axios.get("/customers").then(response =>
             this.setState({
-                deleted: [...response.data],
-                displayDeleted: [...response.data]
+                customers: [...response.data],
+                displayCustomers: [...response.data]
             })
         );
+ 
     }
 
     componentWillMount() {
@@ -118,149 +121,12 @@ export default class RamMotors extends Component {
         this.refreshData();
     }
 
-    //// Handlers section
-    searchHandler(e, tableName) {
-        /// search or clear search value
 
-        let filtering = tableName
-            .toLowerCase()
-            .replace("display", ""); // functions variables
-        let searchResult = [];
 
-        if (e === undefined) {
-            // if we change table clear search results
-            this.state[filtering].map(item => {
-                searchResult.push(item);
-            });
-            this.setState({
-                search: "",
-                [this.state.tableName]: searchResult
-            });
-        } else {
-            // if we fill search input
-
-            this.setState(
-                {
-                    search: e.target.value // set search value
-                },
-
-                () => {
-                    // and imieditly perform search filter
-
-                    this.state[filtering].map(item => {
-                        for (const property in item) {
-                            if (
-                                item.hasOwnProperty(property) &&
-                                typeof item[property] === "string"
-                            ) {
-                                if (
-                                    item[property]
-                                        .toLowerCase()
-                                        .includes(this.state.search) &&
-                                    !searchResult.includes(item)
-                                ) {
-                                    searchResult.push(item);
-                                }
-                            }
-                        }
-                    });
-
-                    this.setState({
-                        [tableName]: searchResult //then update display state with same table name
-                    });
-                }
-            );
-        }
-    }
-
-    tableNameHandler(tableName) {
-        /// synchronise actions to the according display table name
-        // clean search
-        this.setState({
-            tableName: tableName,
-            search: "",
-
-        }, () => {
-            this.searchHandler(undefined, tableName);
-            blele = this.state[tableName];
-        
-        });
-    }
-
-    sortingHandler(category, table) {
-        // sorting alphabeticly DESC or ASC depend on clicked property (table head)
-
-        let sortingData;
-
-        sortingData = [...this.state[table]];
-
-        const neworder = sortingData.sort(
-            this.compareValues(category, this.state.ascending)
-        );
-
-        this.setState({
-            [table]: [...neworder],
-            ascending: !this.state.ascending
-        });
-    }
-
-    deleteHandler(object, id) {
-        this.setState({ delete: this.state.delete + 1 }, () => {
-            if (this.state.delete == 4) {
-                axios.get(`/${object}/${id}/destroy`).then(() => {
-                    axios.get("/customers").then(response =>
-                        this.setState({
-                            customers: [...response.data],
-                            displayCustomers: [...response.data],
-                            focusOn: "",
-                            focus: !this.state.focus,
-                            search: "",
-                            delete: 0
-                        })
-                    );
-                    axios.get("/cars").then(response =>
-                        this.setState({
-                            cars: [...response.data],
-                            displayCars: [...response.data]
-                        })
-                    );
-                });
-            }
-        });
-    }
-    sendSmsHandler(id) {
-        axios.get(`/cars/${id}/toNexmo`).then(() => {
-            this.refreshData();
-        });
-    }
 
     ///////////// methods depending on focus state
     ////////////// modal display and form to add or update
-    editHandler(object, objectName) {
-        ///
-        if (objectName === 'registration') {
-            this.setState({
-                focusOn: 'editedCar',
-                editedCar: {
-                    ...object
-                },
-                tableName: "displayCars",
-                focus: !this.state.focus,
-            });
 
-        } else if (objectName === 'name') { 
-            this.setState({
-                focusOn: 'editedCustomer',
-                editedCustomer: {
-                    ...object
-                },
-                tableName: "displayCustomers",
-                focus: !this.state.focus,
-            });
-        }
-
-     
-    }
 
     displayFocus(focusOn) {
         return (
@@ -318,87 +184,72 @@ export default class RamMotors extends Component {
     }
   
 
-    focusOnTableHandler(table) {
-        ///  focus on or off
+    // focusOnTableHandler(table) {
+    //     ///  focus on or off
 
-        this.setState({
-            //////  need to know if click is from focus on type and keep focus on just change content
-            focusOn: table,
-            focus: !this.state.focus
-        });
-    }
+    //     this.setState({
+    //         //////  need to know if click is from focus on type and keep focus on just change content
+    //         focusOn: table,
+    //         focus: !this.state.focus
+    //     });
+    // }
 
-    addNewButtonHandler(tableName) {
-        // simply add new depend on active table name car or customer
-        let focusOn =  ''
-        if (tableName === 'displayCars') {
-             focusOn = 'newCar'
-        } else {
-             focusOn = 'newCustomer'
-        }
-        this.setState({
-            focusOn: focusOn,
-            focus: !this.state.focus,
-            operation: ""
-        });
-    }
+
 
 
 
 
     ///// functions returns stuff need  convert to components
 
-    displayTable(data1,data2,  data4, data3) {
-        // display full version of mini tables
-        let data = [data1 , data2 , data3, data4]
+    displayTable(size, data1, data2,  data4, data3) {
+        // display tables in 2 version2  mini or big 
+        
+        let data = [4];
+        if (size === 'big') {
+            data = [data1 , data2 , data4, data3] 
+        } else { data[0] = data1  }
+        
      
         return (
             <div>
            
-                {/* <Table
-                    tableName={this.state.tableName}
-                    focusOn={this.state.focusOn}
-                    displayData={this.state[tableName]}
-                    sortingHandler={category =>
-                        this.sortingHandler(category, table)
-                    }
-                    tableNameHandler={tableName =>
-                        this.tableNameHandler(tableName)
-                    }
-                    addNewButtonHandler={tableName => this.addNewButtonHandler(tableName)}
-                    searchHandler={(e, tableName) => this.searchHandler(e, tableName)}
-                    searchValue={this.state.search}
-                    editHandler={(object, objectName) =>
-                        this.editHandler(object, objectName)
-                    }
-                /> */}
-                         <TableTwo
-                    
-                    tableName={'displayCars'}
-                    displayData={data2}
-                    displayDataArray={data}
-                    sortingHandler={category =>
-                        this.sortingHandler(category, this.state.tableName)
-                    }
-                    tableNameHandler={tableName =>
-                        this.tableNameHandler(tableName)
-                    }
-                    addNewButtonHandler={ ( )=>
-                        this.addNewButtonHandler(this.state.tableName)
-                    }
-                    searchHandler={e => this.searchHandler(e, this.state.tableName)}
-                    searchValue={this.state.search}
-                    editHandler={(object, objectName) =>
-                        this.editHandler(object, objectName)
-                    }
-                />
+                         <TableTwo displayDataArray={data} editHandler={(data, key) => this.editHandler( data, key )}/>
         
             </div>
         );
     }
+    
+    deleteHandler(object, id) {
+        this.setState({ delete: this.state.delete + 1 }, () => {
+            if (this.state.delete == 4) {
+                axios.get(`/${object}/${id}/destroy`).then(() => {
+                    axios.get("/customers").then(response =>
+                        this.setState({
+                            customers: [...response.data],
+                            displayCustomers: [...response.data],
+                            focusOn: "",
+                            focus: !this.state.focus,
+                            search: "",
+                            delete: 0
+                        })
+                    );
+                    axios.get("/cars").then(response =>
+                        this.setState({
+                            cars: [...response.data],
+                            displayCars: [...response.data]
+                        })
+                    );
+                });
+            }
+        });
+    }
+    sendSmsHandler(id) {
+        axios.get(`/cars/${id}/toNexmo`).then(() => {
+            this.refreshData();
+        });
+    }
 
     chooseCar() {
-        // <ASSIGN_CAR_TO_THE_OWNER editedCustomer={this.props.editedCustomer}>
 
         return (
             <div>
@@ -599,75 +450,22 @@ export default class RamMotors extends Component {
         }
     }
 
-    ////// helping fuctions
-  
-    compareValues(key, ascending = true) {
-        /// sorting
-        return function(a, b) {
-            if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
-                // property doesn't exist on either object
-                return 0;
-            }
-
-            const varA =
-                typeof a[key] === "string" /// letter case insensitive
-                    ? a[key].toUpperCase()
-                    : a[key];
-            const varB =
-                typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
-
-            let comparison = 0;
-            if (varA > varB) {
-                comparison = 1;
-            } else if (varA < varB) {
-                comparison = -1;
-            }
-            return ascending == false ? comparison * -1 : comparison;
-        };
-    }
-
-    contains(a, obj) {
-        /// that was firt method i found I could use indexof but maybe later
-        for (var i = 0; i < a.length; i++) {
-            if (a[i].id === obj.id) {
-                return true;
-            }
-        }
-        return false;
-    }
-  
 
     render() {
-       
         return (
             <div className="rammotors">
                 {this.state.focus ? this.displayFocus(this.state.focusOn) : null}
 
                 <div className="rammotors-row">
-                    {/* <Table
-                    
-                        tableName={this.state.tableName}
-                        displayData={blele}
-                        sortingHandler={category =>
-                            this.sortingHandler(category, this.state.tableName)
-                        }
-                        tableNameHandler={tableName =>
-                            this.tableNameHandler(tableName)
-                        }
-                        addNewButtonHandler={ ( )=>
-                            this.addNewButtonHandler(this.state.tableName)
-                        }
-                        searchHandler={e => this.searchHandler(e, this.state.tableName)}
-                        searchValue={this.state.search}
-                        editHandler={(object, objectName) =>
-                            this.editHandler(object, objectName)
-                        }
-                    /> */}
-                    {this.displayTable([...this.state.cars], [...this.state.customers], [...this.state.alerts], [...this.state.deleted])}
+                    {this.displayTable('big', [...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted] )}
                 </div>
+                
 
                 <div className="rammotors-row">
-                    <MiniTable
+                {this.displayTable('small', [...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted] )
+                }
+
+                    {/* <MiniTable
                         tableName="displayAlerts"
                         customers={this.state.customers}
                         displayCars={this.state.displayAlerts}
@@ -716,8 +514,8 @@ export default class RamMotors extends Component {
                         editCarHandler={car => this.editCarHandler(car)}
                         focusOnTableHandler={table =>
                             this.focusOnTableHandler(table)
-                        }
-                    />
+                        }/> */}
+                    
                 </div>
             </div>
         );

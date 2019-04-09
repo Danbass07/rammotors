@@ -43,7 +43,7 @@ class CarsController extends Controller
 	public function get_data_expired() {
     	
 
-			$cars = \App\Car::where('mot', '<', Carbon::now())->get();
+			$cars = \App\Car::with('customer')->where('mot', '<', Carbon::now())->get();
 			return response()->json($cars);
 
     	
@@ -52,7 +52,7 @@ class CarsController extends Controller
    
 
     public function index() {
-			$cars = Car::all();
+			$cars = Car::with('customer')->get();
     		return response()->json($cars);
 
     }
@@ -70,7 +70,7 @@ class CarsController extends Controller
            
 		
 		
-		$carsmotcoming = \App\Car::where('mot', '<', Carbon::now()->addWeeks(4))
+		$carsmotcoming = \App\Car::with('customer')->where('mot', '<', Carbon::now()->addWeeks(4))
 			->where('mot','>',Carbon::now())
 			->where('pending','=', 0)
 			->where('appointment','<',Carbon::now())
@@ -96,7 +96,6 @@ class CarsController extends Controller
 	public function store(Request $request)	{
 			
 		
-Log::info($request);
 		$this->validate(request(), [
         'registration' => 'required|unique:cars,registration|max:255',
         'make' => 'required',

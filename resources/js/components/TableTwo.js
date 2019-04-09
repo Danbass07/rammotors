@@ -9,13 +9,19 @@ export default class TableTwo extends Component {
                 
             ],
             header: [
-                 {
+                 {  
+                     
+                    
                     registration: "",
                     make: "",
                     mot: "",
                     servis: "",
-                    appointment: "",
                     info: "",
+                    customer: {
+                        name: "",
+                        surname: ""
+                    },
+                
             
                 },
                 {
@@ -29,8 +35,11 @@ export default class TableTwo extends Component {
                     make: "",
                     mot: "",
                     servis: "",
-                    appointment: "",
                     info: "",
+                    customer: {
+                        name: "",
+                        surname: ""
+                    },
             
                 },
                 {
@@ -43,7 +52,7 @@ export default class TableTwo extends Component {
             
                 },
             ],
-            tableNumber: 2,
+            tableNumber: 0,
             ascending: true,
             search: '',
           
@@ -121,7 +130,7 @@ export default class TableTwo extends Component {
         this.setState({
      
             displayData: [... this.props.displayDataArray],
-        },console.log(this.props.displayDataArray))
+        })
     
 
      }
@@ -157,11 +166,15 @@ export default class TableTwo extends Component {
 
 
     render() {
+        if (this.state.displayData[this.state.tableNumber]===undefined) {
+            return (<div>Table Has No Data</div>)
+        }
+       
         return (
             <div className="wrapper">
                 <div className="workfield">
                     <div className="header-row">
-                        {this.state.tableNumber !== '' ? (
+                        {this.props.displayDataArray.length === 4 ? (
                             <div>
                                  <button
                                     className={
@@ -196,9 +209,7 @@ export default class TableTwo extends Component {
                             </div>
                         ) : (
                             <h2>
-                                {this.props.tableName
-                                    .toUpperCase()
-                                    .replace("DISPLAY", "")}
+                             MINI TABLE
                             </h2>
                         )}
                     </div> {/* end of header row*/}
@@ -231,7 +242,7 @@ export default class TableTwo extends Component {
     
                                 <tbody className="table-data" id="style-1">
                           
-                                    {this.state.displayData[this.state.tableNumber] !== undefined ? this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
+                                    { this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
                                      
                                       return (
 
@@ -241,32 +252,62 @@ export default class TableTwo extends Component {
                                         
                                             >
                                             {Object.entries(rowdata).map((data) => {
+                                            
+
                                                 return (
                                                     Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
-                                                
+                                                        
                                                         if (data[0].toString() === key.toString()) {
+                                                        
                                                             return (
                                                                 <td
-                                                                onClick={() => this.props.editHandler( rowdata, key ) }
                                                                 key={'data'+ index} 
                                                                 className="table-item">
-                                                                {typeof(data[1]) === 'string' ? data[1].toUpperCase() : data[1] } 
+                                                                {typeof( data[1]) !== 'object' ? 
+                                                                typeof(data[1]) === 'string' ? 
+                                                                <p onClick={() => this.props.editHandler( rowdata, key ) }>
+                                                                {data[1].toUpperCase()}</p> : data[1] : 
+                                                                data[1] === null ? ' ' : 
+                                                                
+                                                                Object.keys(this.state.header[this.state.tableNumber][key]).map((key, index) => {
+                                                                    return (
+                                                                        Object.entries(data[1]).map( innerdata => {
+                                                                        
+                                                                            return (
+                                                                                innerdata[0].toString() === key.toString() ?
+    
+                                                                               <p onClick={() => this.props.editHandler( innerdata, key ) }>{innerdata[1].toUpperCase()}</p>  : null
+                                                                            )
+
+                                                                            
+                                                                           
+                                                                         })
+                                                                    )
+
+                                                                   
+                                                                    
+                                                                }) 
+                                                                } 
                                                             </td>
                                                             )
                                                         }
+                                                        
                                                     })
                                                 ) 
+
+                                            
+                                               
                                             })}
                                              
       
                                         </tr>
                                         
-                                    )}) : null }      
+                                    )}) }    
                                 </tbody> 
                             
                         </table>
                     </div>
-                    <div className="under-table-field">
+                    {this.props.displayDataArray.length === 4 ? <div className="under-table-field">
                         <button
                             className="under-table-button"
 
@@ -292,7 +333,7 @@ export default class TableTwo extends Component {
                         >
                             DELETED
                         </button>
-                    </div>
+                    </div> : null}
                 </div>
             </div>
         );

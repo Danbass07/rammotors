@@ -48,7 +48,6 @@ class CustomersController extends Controller
         
     ]);
 		
-Log::info($request);
 		
 
 		$customer = new Customer();
