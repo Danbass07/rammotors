@@ -258,7 +258,7 @@ class CarsController extends Controller
 
 	public function pending() {
 
-		$cars = \App\Car::where('pending', '=', 1)->get();
+		$cars = \App\Car::with('customer')->where('pending', '=', 1)->get();
 
 
 		return response()->json($cars);
@@ -266,7 +266,7 @@ class CarsController extends Controller
 
 	public function confirmed() {
 
-		$cars = \App\Car::where('appointment', '>', Carbon::now())
+		$cars = \App\Car::with('customer')->where('appointment', '>', Carbon::now())
 						->get();
 
 

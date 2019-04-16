@@ -126,7 +126,16 @@ export default class RamMotors extends Component {
 
     ///////////// methods depending on focus state
     ////////////// modal display and form to add or update
-
+    editHandler(object, objectName){
+        this.setState({
+            focusOn: 'Edit',
+            editedObject:  {
+                ...object
+            },
+            focus: !this.state.focus,
+            objectName: [objectName],
+        });
+    }
 
     displayFocus(focusOn) {
         return (
@@ -137,6 +146,22 @@ export default class RamMotors extends Component {
                 >
                     X
                 </div>
+                
+                {focusOn == "Edit"  ? (
+                    <div className="focus-work-area">
+                        <Form 
+                        clearFocus={() => this.setState({ focus: !this.state.focus })}
+                        editedObject={this.state.editedObject}
+                        editedObjectName={this.state.objectName}
+                        refreshData={() => this.refreshData()}
+                        focusOnTableHandler={() => this.focusOnTableHandler()}
+                        />
+                        {this.displayActions(this.state.editedCar.id)}
+                        {this.displayList(
+                            this.state.editedCar.customer_id
+                        )}{" "}
+                    </div>
+                ) : null}
 
                 {focusOn == "editedCar" && this.state.tableName == "displayCars" ? (
                     <div className="focus-work-area">
@@ -205,15 +230,18 @@ export default class RamMotors extends Component {
         // display tables in 2 version2  mini or big 
         
         let data = [4];
+        let tableName = ''
         if (size === 'big') {
             data = [data1 , data2 , data4, data3] 
-        } else { data[0] = data1  }
+
+        } else { data[0] = data1
+            tableName = data2  }
         
      
         return (
             <div>
            
-                         <TableTwo displayDataArray={data} editHandler={(data, key) => this.editHandler( data, key )}/>
+                         <TableTwo tableName={tableName} displayDataArray={data} editHandler={(data, key) => this.editHandler(data, key)}/>
         
             </div>
         );
@@ -462,8 +490,10 @@ export default class RamMotors extends Component {
                 
 
                 <div className="rammotors-row">
-                {this.displayTable('small', [...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted] )
-                }
+                {this.displayTable('small', [...this.state.alerts], 'ALERTS' )}
+                {this.displayTable('small', [...this.state.pending], 'PENDING' )}
+                {this.displayTable('small', [...this.state.confirmed], 'CONFIRMED' )}
+                {this.displayTable('small', [...this.state.expired], 'EXPIRED' )}
 
                     {/* <MiniTable
                         tableName="displayAlerts"

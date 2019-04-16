@@ -59975,7 +59975,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Form).call(this, props));
     _this.state = {
-      editedCar: {
+      editedCars: {
         id: 0,
         customer_id: 0,
         registration: "",
@@ -59989,7 +59989,7 @@ function (_Component) {
         updated_at: "",
         deleted_at: ""
       },
-      editedCustomer: {
+      editedCustomers: {
         name: "",
         surname: "",
         phone: "",
@@ -60020,7 +60020,8 @@ function (_Component) {
         notes: "",
         cars: [],
         info: ""
-      }
+      },
+      editedObject: {}
     };
     return _this;
   }
@@ -60031,8 +60032,8 @@ function (_Component) {
       var _this2 = this;
 
       // submit both of above new or edit  need to update state reset search value
-      console.log('submnit trigger');
-      console.log(editedObjectName);
+      console.log('submit trigger');
+      console.log(editedObjectName.toString());
       e.preventDefault();
 
       if (editedObjectName === "newCar") {
@@ -60046,11 +60047,11 @@ function (_Component) {
           appointment: newCar.appointment
         }).then(function () {
           _this2.props.refreshData();
-
-          _this2.props.focusOnTableHandler();
         });
-      } else if (editedObjectName === "editedCar") {
-        var editedCar = _objectSpread({}, this.state.editedCar);
+      } else if (editedObjectName.toString() === "editedCars") {
+        console.log('submit trigger Cars');
+
+        var editedCar = _objectSpread({}, this.state[editedObjectName.toString()]);
 
         axios.put("/cars/".concat(editedCar.id, "/update"), {
           make: editedCar.make,
@@ -60060,11 +60061,9 @@ function (_Component) {
           info: editedCar.info
         }).then(function () {
           _this2.props.refreshData();
-
-          _this2.props.focusOnTableHandler();
         });
-      } else if (editedObjectName === "editedCustomer") {
-        var editedCustomer = _objectSpread({}, this.state.editedCustomer);
+      } else if (editedObjectName.toString() === "editedCustomers") {
+        var editedCustomer = _objectSpread({}, this.state[editedObjectName.toString()]);
 
         axios.put("/customers/".concat(editedCustomer.id, "/update"), {
           name: editedCustomer.name,
@@ -60074,10 +60073,8 @@ function (_Component) {
           info: editedCustomer.info
         }).then(function () {
           _this2.props.refreshData();
-
-          _this2.props.focusOnTableHandler();
         });
-      } else if (editedObjectName === "newCustomer") {
+      } else if (editedObjectName.toString() === "newCustomer") {
         var newCustomer = _objectSpread({}, this.state.newCustomer);
 
         console.log(editedObjectName);
@@ -60089,12 +60086,12 @@ function (_Component) {
           info: newCustomer.info
         }).then(function () {
           _this2.props.refreshData();
-
-          _this2.props.focusOnTableHandler();
         });
       } else {
         return;
       }
+
+      this.props.clearFocus();
     }
   }, {
     key: "formChangeHandler",
@@ -60109,7 +60106,9 @@ function (_Component) {
       } else if (this.props.editedObjectName === "newCustomer") {
         this.setState(_defineProperty({}, this.props.editedObjectName, _objectSpread({}, this.state.newCustomer)));
       } else {
-        this.setState(_defineProperty({}, this.props.editedObjectName, _objectSpread({}, this.props.editedObject)));
+        var _this$setState4;
+
+        this.setState((_this$setState4 = {}, _defineProperty(_this$setState4, this.props.editedObjectName, _objectSpread({}, this.props.editedObject)), _defineProperty(_this$setState4, "editedObject", _objectSpread({}, this.props.editedObject)), _this$setState4));
       }
     }
   }, {
@@ -60161,26 +60160,26 @@ function (_Component) {
         onSubmit: function onSubmit(e) {
           return _this3.submitHandler(e, _this3.props.editedObjectName);
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, this.props.editedObjectName.replace("edited", ""), " "), Object.keys(this.state[this.props.editedObjectName]).map(function (key) {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, " "), Object.entries(this.state.editedObject).map(function (data) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: key,
+          key: data[0],
           style: inline
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          style: key === "cars" || key === "updated_at" || key === "created_at" || key === "deleted_at" || key === "pending" || key === "id" || key === "customer_id" ? style : null
-        }, key), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          key: key,
+          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" ? style : null
+        }, data[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          key: data[0],
           className: "focus-form-input",
-          placeholder: key,
-          style: key === "cars" || key === "updated_at" || key === "created_at" || key === "deleted_at" || key === "pending" || key === "id" || key === "customer_id" ? style : null,
-          type: key === "mot" || key === "servis" || key === "appointment" ? "date" : "text",
-          value: key === "registration" ? _this3.state[_this3.props.editedObjectName][key].toUpperCase() : _this3.state[_this3.props.editedObjectName][key],
+          placeholder: data[0],
+          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" ? style : null,
+          type: data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? "date" : "text",
+          value: data[0] === "registration" ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
           onChange: function onChange(e) {
-            return _this3.formChangeHandler(e, key, _this3.props.editedObjectName);
+            return _this3.formChangeHandler(e, data[0], _this3.props.editedObjectName);
           }
-        }), key === "mot" || key === "servis" || key === "appointment" ? _this3.props.editedObjectName !== 'newCar' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? _this3.props.editedObjectName !== 'newCar' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "action-button",
           onClick: function onClick() {
-            return _this3.addYear(_this3.state[_this3.props.editedObjectName][key], key);
+            return _this3.addYear(_this3.state[_this3.props.editedObjectName][data[0]], data[0]);
           }
         }, "+1 Y") : null : null);
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -60488,6 +60487,16 @@ function (_Component) {
     ////////////// modal display and form to add or update
 
   }, {
+    key: "editHandler",
+    value: function editHandler(object, objectName) {
+      this.setState({
+        focusOn: 'Edit',
+        editedObject: _objectSpread({}, object),
+        focus: !this.state.focus,
+        objectName: [objectName]
+      });
+    }
+  }, {
     key: "displayFocus",
     value: function displayFocus(focusOn) {
       var _this3 = this;
@@ -60501,7 +60510,23 @@ function (_Component) {
             focus: !_this3.state.focus
           });
         }
-      }, "X"), focusOn == "editedCar" && this.state.tableName == "displayCars" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "X"), focusOn == "Edit" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-work-area"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        clearFocus: function clearFocus() {
+          return _this3.setState({
+            focus: !_this3.state.focus
+          });
+        },
+        editedObject: this.state.editedObject,
+        editedObjectName: this.state.objectName,
+        refreshData: function refreshData() {
+          return _this3.refreshData();
+        },
+        focusOnTableHandler: function focusOnTableHandler() {
+          return _this3.focusOnTableHandler();
+        }
+      }), this.displayActions(this.state.editedCar.id), this.displayList(this.state.editedCar.customer_id), " ") : null, focusOn == "editedCar" && this.state.tableName == "displayCars" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_3__["default"], {
         editedObject: this.state.editedCar,
@@ -60552,14 +60577,17 @@ function (_Component) {
 
       // display tables in 2 version2  mini or big 
       var data = [4];
+      var tableName = '';
 
       if (size === 'big') {
         data = [data1, data2, data4, data3];
       } else {
         data[0] = data1;
+        tableName = data2;
       }
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TableTwo__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        tableName: tableName,
         displayDataArray: data,
         editHandler: function editHandler(data, key) {
           return _this4.editHandler(data, key);
@@ -60763,7 +60791,7 @@ function (_Component) {
         className: "rammotors-row"
       }, this.displayTable('big', _toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deleted))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
-      }, this.displayTable('small', _toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deleted))));
+      }, this.displayTable('small', _toConsumableArray(this.state.alerts), 'ALERTS'), this.displayTable('small', _toConsumableArray(this.state.pending), 'PENDING'), this.displayTable('small', _toConsumableArray(this.state.confirmed), 'CONFIRMED'), this.displayTable('small', _toConsumableArray(this.state.expired), 'EXPIRED')));
     }
   }]);
 
@@ -61037,6 +61065,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TableTwo).call(this, props));
     _this.state = {
+      tableNames: ['Cars', 'Customers', 'Alerts'],
       displayData: [],
       header: [{
         registration: "",
@@ -61135,8 +61164,22 @@ function (_Component) {
     }
   }, {
     key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    value: function componentWillReceiveProps(nextProps) /// not dynamic easy fix but better with props
+    {
       if (this.props !== nextProps) {
+        if (this.props.displayDataArray.length < 4) {
+          this.setState({
+            displayData: _toConsumableArray(this.props.displayDataArray),
+            header: [{
+              make: "",
+              customer: {
+                name: "",
+                surname: ""
+              }
+            }]
+          });
+        }
+
         this.setState({
           displayData: _toConsumableArray(this.props.displayDataArray)
         });
@@ -61177,12 +61220,18 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Table Has No Data");
       }
 
+      var mini = '';
+
+      if (this.props.displayDataArray.length < 4) {
+        mini = 'mini-';
+      }
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "wrapper"
+        className: mini + "wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "workfield"
+        className: mini + "workfield"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-row"
+        className: mini + "header-row"
       }, this.props.displayDataArray.length === 4 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 2 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
@@ -61192,7 +61241,7 @@ function (_Component) {
             tableNumber: 2
           });
         }
-      }, "ALERTS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, this.state.tableNames[2]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 0 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           _this3.searchHandler();
@@ -61203,7 +61252,7 @@ function (_Component) {
             tableNumber: 0
           });
         }
-      }, "CARS"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, this.state.tableNames[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 1 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           _this3.searchHandler();
@@ -61214,7 +61263,9 @@ function (_Component) {
             tableNumber: 1
           });
         }
-      }, "CUSTOMERS")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "MINI TABLE")), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.tableNames[1])) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header-row"
+      }, this.props.tableName)), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
       }, Object.keys(this.state.header[this.state.tableNumber]).map(function (key, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -61222,20 +61273,21 @@ function (_Component) {
           onClick: function onClick() {
             return _this3.sortingHandler(key);
           },
-          className: "header-item"
-        }, key.toUpperCase());
+          className: mini + "header-item"
+        }, key === 'servis' ? 'SERVICE' : key.toUpperCase() /// little datatable bad spelling to much bother to change ATM ////// :)
+        );
       })), "  ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "table-container",
+        className: mini + "table-container",
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
-        className: "table-body",
+        className: mini + "table-body",
         id: "style-1"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", {
-        className: "table-data",
+        className: mini + "table-data",
         id: "style-1"
       }, this.state.displayData[this.state.tableNumber].map(function (rowdata, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
-          className: "table-data-row",
+          className: mini + "table-data-row",
           key: 'row' + index
         }, Object.entries(rowdata).map(function (data) {
           return Object.keys(_this3.state.header[_this3.state.tableNumber]).map(function (key, index) {
@@ -61244,15 +61296,16 @@ function (_Component) {
                 key: 'data' + index,
                 className: "table-item"
               }, _typeof(data[1]) !== 'object' ? typeof data[1] === 'string' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-                onClick: function onClick() {
-                  return _this3.props.editHandler(rowdata, key);
+                onClick: function onClick(e) {
+                  return _this3.props.editHandler(rowdata, "edited" + _this3.state.tableNames[_this3.state.tableNumber]);
                 }
-              }, data[1].toUpperCase()) : data[1] : data[1] === null ? ' ' : Object.keys(_this3.state.header[_this3.state.tableNumber][key]).map(function (key, index) {
+              }, data[1].toUpperCase()) : data[1] : data[1] === null ? ' ' : Object.keys(_this3.state.header[_this3.state.tableNumber][key]).map(function (key) {
                 return Object.entries(data[1]).map(function (innerdata) {
                   return innerdata[0].toString() === key.toString() ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
                     onClick: function onClick() {
-                      return _this3.props.editHandler(innerdata, key);
-                    }
+                      return _this3.props.editHandler(data[1], "edited" + _this3.state.tableNames[1]);
+                    } //// very very not DYNAMIC Need to FIX
+
                   }, innerdata[1].toUpperCase()) : null;
                 });
               }));

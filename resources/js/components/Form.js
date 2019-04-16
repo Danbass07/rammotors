@@ -4,7 +4,7 @@ export default class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            editedCar: {
+            editedCars: {
                 id: 0,
                 customer_id: 0,
                 registration: "",
@@ -19,7 +19,7 @@ export default class Form extends Component {
                 deleted_at: ""
             },
 
-            editedCustomer: {
+            editedCustomers: {
                 name: "",
                 surname: "",
                 phone: "",
@@ -51,12 +51,13 @@ export default class Form extends Component {
                 cars: [],
                 info: ""
             },
+            editedObject: {}
         };
     }
-    submitHandler(e, editedObjectName) {
+    submitHandler(e,  editedObjectName) {
         // submit both of above new or edit  need to update state reset search value
-        console.log('submnit trigger');
-        console.log(editedObjectName);
+        console.log('submit trigger');
+        console.log(editedObjectName.toString());
         e.preventDefault();
 
     if  (editedObjectName === "newCar" ) {
@@ -72,12 +73,11 @@ export default class Form extends Component {
                 appointment: newCar.appointment
             }).then(() => {
                 this.props.refreshData();
-                this.props.focusOnTableHandler()
                 });     
 
-    } else if (editedObjectName === "editedCar" ) {
-
-            const editedCar = { ...this.state.editedCar };
+    } else if (editedObjectName.toString() === "editedCars" ) {
+        console.log('submit trigger Cars');
+            const editedCar = { ...this.state[editedObjectName.toString()] };
 
             axios
                 .put(`/cars/${editedCar.id}/update`, {
@@ -88,13 +88,12 @@ export default class Form extends Component {
                     info: editedCar.info
                 }).then(() => {
                     this.props.refreshData();
-                    this.props.focusOnTableHandler()
                     });
                         
              
-    } else if  (editedObjectName === "editedCustomer" ) {
+    } else if  (editedObjectName.toString() === "editedCustomers" ) {
 
-            const editedCustomer = { ...this.state.editedCustomer };
+            const editedCustomer = { ...this.state[editedObjectName.toString()] };
 
             axios
                 .put(`/customers/${editedCustomer.id}/update`, {
@@ -105,10 +104,9 @@ export default class Form extends Component {
                     info: editedCustomer.info
                 }).then(() => {
                     this.props.refreshData();
-                    this.props.focusOnTableHandler()
                     });
 
-        }  else if (editedObjectName === "newCustomer" ) {
+        }  else if (editedObjectName.toString() === "newCustomer" ) {
             const newCustomer = { ...this.state.newCustomer };
             console.log(editedObjectName);
             axios
@@ -120,12 +118,12 @@ export default class Form extends Component {
                     info: newCustomer.info
                 }).then(() => {
                     this.props.refreshData();
-                    this.props.focusOnTableHandler()
                     });
 
             } else {
             return;
         }
+        this.props.clearFocus()
     }
 
     formChangeHandler(e, key, editedObjectName) {
@@ -161,7 +159,8 @@ componentWillMount() {
             [this.props.editedObjectName]: {
                   ...this.props.editedObject,
             
-              }
+              },
+              editedObject:{...this.props.editedObject,}
           });
     }
     
@@ -223,60 +222,63 @@ addYear(editedDate, editedProperty) {
                             )
                         }
                     >
-                        <h2>{this.props.editedObjectName.replace("edited", "")} </h2>
-                        {Object.keys(this.state[this.props.editedObjectName]).map(key => {
+                        <h2>{//this.props.editedObjectName.replace("edited", "")
+                        } </h2>
+                        {Object.entries(this.state.editedObject).map(data => {
                             return (
-                                <div key={key} style={inline}>
+                                <div key={data[0]} style={inline}>
                                     <label
                                         style={
-                                            key === "cars" ||
-                                            key === "updated_at" ||
-                                            key === "created_at" ||
-                                            key === "deleted_at" ||
-                                            key === "pending" ||
-                                            key === "id" ||
-                                            key === "customer_id"
+                                            data[0] === "cars" ||
+                                            data[0] === "updated_at" ||
+                                            data[0] === "created_at" ||
+                                            data[0] === "deleted_at" ||
+                                            data[0] === "pending" ||
+                                            data[0] === "id" ||
+                                            data[0] === "customer_id"||
+                                            data[0] === "customer"
                                                 ? style
                                                 : null
                                         }
                                     >
-                                        {key}
+                                        {data[0]}
                                     </label>
                                     <input
-                                        key={key}
+                                        key={data[0]}
                                         className="focus-form-input"
-                                        placeholder={key}
-                                        style={
-                                            key === "cars" ||
-                                            key === "updated_at" ||
-                                            key === "created_at" ||
-                                            key === "deleted_at" ||
-                                            key === "pending" ||
-                                            key === "id" ||
-                                            key === "customer_id"
+                                        placeholder={data[0]}
+                                        style={ 
+                                            data[0] === "cars" ||
+                                            data[0] === "updated_at" ||
+                                            data[0] === "created_at" ||
+                                            data[0] === "deleted_at" ||
+                                            data[0] === "pending" ||
+                                            data[0] === "id" ||
+                                            data[0] === "customer_id"||
+                                            data[0] === "customer"
                                                 ? style
                                                 : null
                                         }
                                         type={
-                                            key === "mot" ||
-                                            key === "servis" ||
-                                            key === "appointment"
+                                            data[0] === "mot" ||
+                                            data[0] === "servis" ||
+                                            data[0] === "appointment"
                                                 ? "date"
                                                 : "text"
                                         }
                                         value={
-                                            key === "registration"
+                                            data[0] === "registration"
                                                 ? this.state[this.props.editedObjectName][
-                                                      key
+                                                    data[0]
                                                   ].toUpperCase()
-                                                : this.state[this.props.editedObjectName][key]
+                                                : this.state[this.props.editedObjectName][data[0]]
                                         }
                                         onChange={e =>
-                                            this.formChangeHandler(e, key, this.props.editedObjectName)
+                                            this.formChangeHandler(e, data[0], this.props.editedObjectName)
                                         }
                                     />
-                                    {   key === "mot" || key === "servis" ||   key === "appointment" ? this.props.editedObjectName !== 'newCar' ? <div className="action-button" onClick={() =>
-                                        this.addYear(this.state[this.props.editedObjectName][key], key)}
+                                    {   data[0] === "mot" || data[0] === "servis" ||   data[0] === "appointment" ? this.props.editedObjectName !== 'newCar' ? <div className="action-button" onClick={() =>
+                                        this.addYear(this.state[this.props.editedObjectName][data[0]], data[0])}
                         >+1 Y</div> : null : null }
                                 </div>
                             );

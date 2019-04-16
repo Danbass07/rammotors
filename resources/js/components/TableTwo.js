@@ -4,6 +4,9 @@ export default class TableTwo extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tableNames: [
+                'Cars', 'Customers', 'Alerts'
+            ],
    
             displayData: [
                 
@@ -123,13 +126,34 @@ export default class TableTwo extends Component {
         });
     }
   
-    componentWillReceiveProps(nextProps)
+    componentWillReceiveProps(nextProps)  /// not dynamic easy fix but better with props
  {
      if(this.props !== nextProps) {
-
+        if (this.props.displayDataArray.length < 4 )  {
+            this.setState({
+     
+                displayData: [... this.props.displayDataArray],
+                header: [
+                    {  
+                        
+                       
+                       
+                       make: "",
+                 
+                       customer: {
+                           name: "",
+                           surname: ""
+                       },
+                   
+               
+                   },
+                ]
+            })
+           }
         this.setState({
      
             displayData: [... this.props.displayDataArray],
+      
         })
     
 
@@ -169,11 +193,14 @@ export default class TableTwo extends Component {
         if (this.state.displayData[this.state.tableNumber]===undefined) {
             return (<div>Table Has No Data</div>)
         }
-       
+        let mini = ''
+       if (this.props.displayDataArray.length < 4 )  {
+        mini = 'mini-'
+       }
         return (
-            <div className="wrapper">
-                <div className="workfield">
-                    <div className="header-row">
+            <div className={mini+"wrapper"}>
+                <div className={mini+"workfield"}>
+                    <div className={mini+"header-row"}>
                         {this.props.displayDataArray.length === 4 ? (
                             <div>
                                  <button
@@ -184,7 +211,7 @@ export default class TableTwo extends Component {
                                     }
                                     onClick={() =>{this.searchHandler();  this.setState({tableNumber: 2,})}}
                                 >
-                                    ALERTS
+                                    {this.state.tableNames[2]}
                                 </button>
                                 <button
                                     className={
@@ -194,7 +221,7 @@ export default class TableTwo extends Component {
                                     }
                                     onClick={() =>{ this.searchHandler(); this.sortingHandler('id'); this.setState({tableNumber: 0})}}
                                 >
-                                    CARS
+                                    {this.state.tableNames[0]}
                                 </button>
                                 <button
                                     className={
@@ -204,13 +231,13 @@ export default class TableTwo extends Component {
                                     }
                                     onClick={() =>{ this.searchHandler(); this.sortingHandler('id'); this.setState({tableNumber: 1})}}
                                 >
-                                    CUSTOMERS
+                                    {this.state.tableNames[1]}
                                 </button>
                             </div>
                         ) : (
-                            <h2>
-                             MINI TABLE
-                            </h2>
+                            <div className={"mini-header-row"}>
+                             {this.props.tableName}
+                            </div>
                         )}
                     </div> {/* end of header row*/}
         
@@ -226,9 +253,10 @@ export default class TableTwo extends Component {
                                 onClick={() =>
                                     this.sortingHandler(key)
                                 }
-                                className="header-item"
+                                className={mini+"header-item"}
                             >
-                               {key.toUpperCase()}
+                               {key === 'servis' ? 'SERVICE' : key.toUpperCase() /// little datatable bad spelling to much bother to change ATM ////// :)
+                               } 
                             </div>
 
                             )})}
@@ -236,18 +264,18 @@ export default class TableTwo extends Component {
                  
                     </div>  {/* end of header row*/}
                     
-                    <div className="table-container" id="style-1">
-                        <table className="table-body" id="style-1">
+                    <div className={mini+"table-container"} id="style-1">
+                        <table className={mini+"table-body"} id="style-1">
                      
     
-                                <tbody className="table-data" id="style-1">
+                                <tbody className={mini+"table-data"} id="style-1">
                           
                                     { this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
                                      
                                       return (
 
                                             <tr
-                                            className="table-data-row"
+                                            className={mini+"table-data-row"}
                                             key={'row'+index}
                                         
                                             >
@@ -265,18 +293,27 @@ export default class TableTwo extends Component {
                                                                 className="table-item">
                                                                 {typeof( data[1]) !== 'object' ? 
                                                                 typeof(data[1]) === 'string' ? 
-                                                                <p onClick={() => this.props.editHandler( rowdata, key ) }>
-                                                                {data[1].toUpperCase()}</p> : data[1] : 
+                                                                <p onClick={(e) => 
+                                                                this.props.editHandler( rowdata,  "edited"+this.state.tableNames[this.state.tableNumber]) }>
+                                                                {data[1].toUpperCase()}
+                                                                </p> : data[1] : 
                                                                 data[1] === null ? ' ' : 
                                                                 
-                                                                Object.keys(this.state.header[this.state.tableNumber][key]).map((key, index) => {
+                                                                Object.keys(this.state.header[this.state.tableNumber][key]).map((key) => {
                                                                     return (
                                                                         Object.entries(data[1]).map( innerdata => {
                                                                         
                                                                             return (
                                                                                 innerdata[0].toString() === key.toString() ?
     
-                                                                               <p onClick={() => this.props.editHandler( innerdata, key ) }>{innerdata[1].toUpperCase()}</p>  : null
+                                                                               <p onClick={() => this.props.editHandler( data[1] , 
+
+                                                                               "edited"+this.state.tableNames[1]) //// very very not DYNAMIC Need to FIX
+                                                                               
+                                                                               
+                                                                               }>
+                                                                               {innerdata[1].toUpperCase()}
+                                                                               </p>  : null
                                                                             )
 
                                                                             

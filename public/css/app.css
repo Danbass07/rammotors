@@ -134,6 +134,12 @@
   justify-content: space-around;
 }
 
+.mini-header-row {
+  background-color: darkred;
+  color: wheat;
+  font-size: 1.2em;
+}
+
 .mini-header-item {
   width: 114px;
   height: 30px;
