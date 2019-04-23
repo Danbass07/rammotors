@@ -22,9 +22,13 @@
     justify-content: space-around;
 }
 .mini-header-row{
+    display: flex;
+    flex-direction: row;
     background-color: darkred;
     color: wheat;
     font-size: 1.2em;
+    justify-content: space-around;
+    wid
 }
 
 .mini-header-item{

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Table from "./Table";
-import Form from "./Form";
+import Focus from "./Focus";
 
 export default class RamMotors extends Component {
     constructor(props) {
@@ -14,59 +14,59 @@ export default class RamMotors extends Component {
             deleted: [],
             alerts: [],
 
-            displayCars: [],
-            displayCustomers: [],
-            displayAlerts: [],
-            displayPending: [],
-            displayConfirmed: [],
-            displayExpired: [],
-            displayDeleted: [],
+            // displayCars: [],
+            // displayCustomers: [],
+            // displayAlerts: [],
+            // displayPending: [],
+            // displayConfirmed: [],
+            // displayExpired: [],
+            // displayDeleted: [],
       
 
-            tableName: "displayAlerts",
-            ascending: true,
-            search: "",
-            searchResult: [],
+            // tableName: "displayAlerts",
+            // ascending: true,
+            // search: "",
+            // searchResult: [],
 
-            editedCars: {
-                id: 0,
-                customer_id: 0,
-                registration: "",
-                make: "",
-                mot: "",
-                servis: "",
-                appointment: "",
-                info: "",
-                pending: 0,
-                created_at: "",
-                updated_at: "",
-                deleted_at: ""
-            },
+            // editedCars: {
+            //     id: 0,
+            //     customer_id: 0,
+            //     registration: "",
+            //     make: "",
+            //     mot: "",
+            //     servis: "",
+            //     appointment: "",
+            //     info: "",
+            //     pending: 0,
+            //     created_at: "",
+            //     updated_at: "",
+            //     deleted_at: ""
+            // },
 
-            editedCustomers: {
-                name: "",
-                surname: "",
-                phone: "",
-                email: "",
-                notes: "",
-                cars: [],
-                info: ""
-            },
+            // editedCustomers: {
+            //     name: "",
+            //     surname: "",
+            //     phone: "",
+            //     email: "",
+            //     notes: "",
+            //     cars: [],
+            //     info: ""
+            // },
 
-            newCar: { 
-                id: 0,
-                customer_id: 0,
-                registration: "",
-                make: "",
-                mot: "",
-                servis: "",
-                appointment: "",
-                info: "",
-                pending: 0,
-                created_at: "",
-                updated_at: "",
-                deleted_at: ""
-            },
+            // newCar: { 
+            //     id: 0,
+            //     customer_id: 0,
+            //     registration: "",
+            //     make: "",
+            //     mot: "",
+            //     servis: "",
+            //     appointment: "",
+            //     info: "",
+            //     pending: 0,
+            //     created_at: "",
+            //     updated_at: "",
+            //     deleted_at: ""
+            // },
 
             focusOn: "editedCar",
             focus: false,
@@ -160,58 +160,66 @@ export default class RamMotors extends Component {
 
     displayFocus(focusOn) {
         return (
-            <div className="focus">
-                <div
-                    className="closing-div"
-                    onClick={() => this.setState({ focus: !this.state.focus })}
-                >
-                    X
-                </div>
+            
+            <Focus 
+            focusOn={this.state.focusOn}
+            object={this.state.editedObject}
+            editedObjectName={this.state.objectName}
+            clearFocus={() => this.setState({ focus: !this.state.focus })}
+            refreshData={() => this.refreshData()}
+            />
+            // <div className="focus">
+            //     <div
+            //         className="closing-div"
+            //         onClick={() => this.setState({ focus: !this.state.focus })}
+            //     >
+            //         X
+            //     </div>
                 
-                {focusOn == "Edit"  ? (
-                    <div className="focus-work-area">
-                        <Form 
-                        clearFocus={() => this.setState({ focus: !this.state.focus })}
-                        editedObject={this.state.editedObject}
-                        editedObjectName={this.state.objectName}
-                        refreshData={() => this.refreshData()}
-                        focusOnTableHandler={() => this.focusOnTableHandler()}
-                        />
-                        {this.displayActions(this.state[this.state.objectName].id)}
-                        {this.displayList(
-                            this.state.editedCars.customer_id
-                        )}{" "}
-                    </div>
-                ) : null}
+            //     {focusOn == "Edit"  ? (
+            //         <div className="focus-work-area">
+            //             <Form 
+            //             clearFocus={() => this.setState({ focus: !this.state.focus })}
+            //             editedObject={this.state.editedObject}
+            //             editedObjectName={this.state.objectName}
+            //             refreshData={() => this.refreshData()}
+            //             focusOnTableHandler={() => this.focusOnTableHandler()}
+            //             />
+            //             {/* {this.displayActions(this.state[this.state.objectName].id)}
+            //             {this.displayList(
+            //                 this.state.editedCars.customer_id
+            //             )} */}
+            //         </div>
+            //     ) : null}
 
 
-                {focusOn == "newCar" ? (
+            //     {focusOn == "newCar" ? (
                   
-                    <div className="focus-work-area">
-                          <Form 
-                        clearFocus={() => this.setState({ focus: !this.state.focus })}
-                        editedObjectName={"newCar"}
-                        refreshData={() => this.refreshData()}
-                        focusOnTableHandler={() => this.focusOnTableHandler()}
-                        />
+            //         <div className="focus-work-area">
+            //               <Form 
+            //             clearFocus={() => this.setState({ focus: !this.state.focus })}
+            //             editedObjectName={"newCar"}
+            //             refreshData={() => this.refreshData()}
+            //             focusOnTableHandler={() => this.focusOnTableHandler()}
+            //             />
                     
-                    </div>
-                ) : null}
-                   { focusOn == "newCustomer"? (
+            //         </div>
+            //     ) : null}
+            //        { focusOn == "newCustomer"? (
                   
-                  <div className="focus-work-area">
-                        <Form 
-                      clearFocus={() => this.setState({ focus: !this.state.focus })}
-                      editedObjectName={"newCustomer"}
-                      refreshData={() => this.refreshData()}
-                      focusOnTableHandler={() => this.focusOnTableHandler()}
-                      />
+            //       <div className="focus-work-area">
+            //             <Form 
+            //           clearFocus={() => this.setState({ focus: !this.state.focus })}
+            //           editedObjectName={"newCustomer"}
+            //           refreshData={() => this.refreshData()}
+            //           focusOnTableHandler={() => this.focusOnTableHandler()}
+            //           />
                   
-                  </div>
-              ) : null}
+            //       </div>
+            //   ) : null}
 
-                {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null}
-            </div>
+            //     {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null}
+            // </div>
         );
     }
   
@@ -244,7 +252,7 @@ export default class RamMotors extends Component {
                          tableName={tableName} 
                          displayDataArray={data} 
                          editHandler={(data, key) => this.editHandler(data, key)}
-                            focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                        focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
         
             </div>
         );
@@ -417,67 +425,67 @@ export default class RamMotors extends Component {
         }
     }
 
-    submitHandler(e, editedObjectName, operation) {
-        // submit both of above new or edit  need to update state reset search value
+    // submitHandler(e, editedObjectName, operation) {
+    //     // submit both of above new or edit  need to update state reset search value
 
-        e.preventDefault();
+    //     e.preventDefault();
 
-        if (editedObjectName === "editedCustomer" && operation === "remove") {
-            let editedCustomer = { ...this.state.editedCustomer };
-            axios
-                .post(
-                    `/customers/${editedCustomer.id}/removeCar/${
-                        e.target.value
-                    }`,
-                    {}
-                )
-                .then(response => {
-                    axios.get("/customers").then(response =>
-                        this.setState({
-                            customers: [...response.data],
-                            displayCustomers: [...response.data]
-                        })
-                    );
-                    axios.get("/cars").then(response =>
-                        this.setState({
-                            cars: [...response.data],
-                            displayCars: [...response.data]
-                        })
-                    );
-                });
-        }
-        if (editedObjectName === "editedCustomer" && operation === "assign") {
-            const editedCustomer = { ...this.state.editedCustomer };
-            axios
-                .post(
-                    `/customers/${editedCustomer.id}/addCar/${
-                        this.state.optionChoice
-                    }`,
-                    {}
-                )
-                .then(response => {
-                    axios.get("/customers").then(response =>
-                        this.setState({
-                            customers: [...response.data],
-                            displayCustomers: [...response.data]
-                        })
-                    );
-                    axios.get("/cars").then(response =>
-                        this.setState({
-                            cars: [...response.data],
-                            displayCars: [...response.data]
-                        })
-                    );
-                });
-        }
+    //     if (editedObjectName === "editedCustomer" && operation === "remove") {
+    //         let editedCustomer = { ...this.state.editedCustomer };
+    //         axios
+    //             .post(
+    //                 `/customers/${editedCustomer.id}/removeCar/${
+    //                     e.target.value
+    //                 }`,
+    //                 {}
+    //             )
+    //             .then(response => {
+    //                 axios.get("/customers").then(response =>
+    //                     this.setState({
+    //                         customers: [...response.data],
+    //                         displayCustomers: [...response.data]
+    //                     })
+    //                 );
+    //                 axios.get("/cars").then(response =>
+    //                     this.setState({
+    //                         cars: [...response.data],
+    //                         displayCars: [...response.data]
+    //                     })
+    //                 );
+    //             });
+    //     }
+    //     if (editedObjectName === "editedCustomer" && operation === "assign") {
+    //         const editedCustomer = { ...this.state.editedCustomer };
+    //         axios
+    //             .post(
+    //                 `/customers/${editedCustomer.id}/addCar/${
+    //                     this.state.optionChoice
+    //                 }`,
+    //                 {}
+    //             )
+    //             .then(response => {
+    //                 axios.get("/customers").then(response =>
+    //                     this.setState({
+    //                         customers: [...response.data],
+    //                         displayCustomers: [...response.data]
+    //                     })
+    //                 );
+    //                 axios.get("/cars").then(response =>
+    //                     this.setState({
+    //                         cars: [...response.data],
+    //                         displayCars: [...response.data]
+    //                     })
+    //                 );
+    //             });
+    //     }
     
        
         
         
-         else {
-            return;
-        }
-    }
+    //      else {
+    //         return;
+    //     }
+    // }
 
 
     render() {

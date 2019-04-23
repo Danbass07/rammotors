@@ -51,7 +51,7 @@ export default class Form extends Component {
     }
     submitHandler(e,  editedObjectName) {
         // submit both of above new or edit  need to update state reset search value
-       
+       console.log(editedObjectName)
         e.preventDefault();
 
     if  (editedObjectName === "newCar" ) {
@@ -64,12 +64,13 @@ export default class Form extends Component {
                 make: newCar.make,
                 mot: newCar.mot,
                 servis: newCar.servis,
-                appointment: newCar.appointment
+                appointment: newCar.appointment,
+                info: newCar.info,
             }).then(() => {
                 this.props.refreshData();
                 });     
 
-    } else if (editedObjectName.toString() === "editedCars" ) {
+    } else if (editedObjectName.toString() === "editedCars" || editedObjectName.toString() === "editedAlerts") {
             const editedCar = { ...this.state[editedObjectName.toString()] };
 
             axios
@@ -230,7 +231,8 @@ addYear(editedDate, editedProperty) {
                                             data[0] === "pending" ||
                                             data[0] === "id" ||
                                             data[0] === "customer_id"||
-                                            data[0] === "customer"
+                                            data[0] === "customer"||
+                                            data[0] === "notes"
                                                 ? style
                                                 : null
                                         }

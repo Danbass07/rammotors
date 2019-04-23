@@ -198,9 +198,9 @@ export default class TableTwo extends Component {
         return (
             <div className={mini+"wrapper"}>
                 <div className={mini+"workfield"}>
-                    <div className={mini+"header-row"}>
+                    
                         {this.props.displayDataArray.length === 4 ? (
-                            <div>
+                            <div className={mini+"header-row"}>
                                  <button
                                     className={
                                         this.state.tableNumber === 2
@@ -233,11 +233,16 @@ export default class TableTwo extends Component {
                                 </button>
                             </div>
                         ) : (
-                            <div className={"mini-header-row"}>
+                            <div className={mini+"header-row"}>
+                             <div className={"mini-header-item"}>
                              {this.props.tableName}
+                             </div>
+                             <div className={"mini-header-item"}>
+                             {this.state.displayData[this.state.tableNumber].length}
+                             </div>
                             </div>
                         )}
-                    </div> {/* end of header row*/}
+                     {/* end of header row*/}
         
 
 

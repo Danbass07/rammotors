@@ -59927,6 +59927,192 @@ if (token) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Focus.js":
+/*!******************************************!*\
+  !*** ./resources/js/components/Focus.js ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Focus; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/components/Form.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var Focus =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Focus, _Component);
+
+  function Focus(props) {
+    var _this;
+
+    _classCallCheck(this, Focus);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Focus).call(this, props));
+    _this.state = {
+      editedCars: {
+        id: 0,
+        customer_id: 0,
+        registration: "",
+        make: "",
+        mot: "",
+        servis: "",
+        appointment: "",
+        info: "",
+        pending: 0,
+        created_at: "",
+        updated_at: "",
+        deleted_at: ""
+      },
+      editedCustomers: {
+        name: "",
+        surname: "",
+        phone: "",
+        email: "",
+        notes: "",
+        cars: [],
+        info: ""
+      },
+      newCar: {
+        id: 0,
+        customer_id: 0,
+        registration: "",
+        make: "",
+        mot: "",
+        servis: "",
+        appointment: "",
+        info: "",
+        pending: 0,
+        created_at: "",
+        updated_at: "",
+        deleted_at: ""
+      },
+      focusOn: "editedCar",
+      focus: false,
+      chooseCustomer: true,
+      operation: "",
+      optionChoice: "",
+      delete: 0,
+      objectName: ''
+    };
+    return _this;
+  }
+
+  _createClass(Focus, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.setState({
+        focusOn: this.props.focusOn,
+        editedObject: _objectSpread({}, this.props.object),
+        objectName: this.props.editedObjectName
+      });
+    }
+  }, {
+    key: "focusOnTableHandler",
+    value: function focusOnTableHandler(table) {
+      ///  focus on or off
+      this.setState({
+        //////  need to know if click is from focus on type and keep focus on just change content
+        focusOn: table,
+        focus: !this.state.focus
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      var focusOn = "Edit";
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "closing-div",
+        onClick: function onClick() {
+          return _this2.props.clearFocus();
+        }
+      }, "X"), focusOn == "Edit" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-work-area"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        clearFocus: function clearFocus() {
+          return _this2.props.clearFocus();
+        },
+        editedObject: this.state.editedObject,
+        editedObjectName: this.state.objectName,
+        refreshData: function refreshData() {
+          return _this2.props.refreshData();
+        },
+        focusOnTableHandler: function focusOnTableHandler() {
+          return _this2.focusOnTableHandler();
+        }
+      })) : null, focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-work-area"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        clearFocus: function clearFocus() {
+          return _this2.setState({
+            focus: !_this2.state.focus
+          });
+        },
+        editedObjectName: "newCar",
+        refreshData: function refreshData() {
+          return _this2.refreshData();
+        },
+        focusOnTableHandler: function focusOnTableHandler() {
+          return _this2.focusOnTableHandler();
+        }
+      })) : null, focusOn == "newCustomer" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-work-area"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        clearFocus: function clearFocus() {
+          return _this2.setState({
+            focus: !_this2.state.focus
+          });
+        },
+        editedObjectName: "newCustomer",
+        refreshData: function refreshData() {
+          return _this2.refreshData();
+        },
+        focusOnTableHandler: function focusOnTableHandler() {
+          return _this2.focusOnTableHandler();
+        }
+      })) : null, this.state.focusOn !== "" && this.state.focusOn !== "newCar" && this.state.focusOn !== "newCustomer" ? console.log('notable') // this.displayTable(this.state.tableName) 
+      : null));
+    }
+  }]);
+
+  return Focus;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Form.js":
 /*!*****************************************!*\
   !*** ./resources/js/components/Form.js ***!
@@ -60026,6 +60212,7 @@ function (_Component) {
       var _this2 = this;
 
       // submit both of above new or edit  need to update state reset search value
+      console.log(editedObjectName);
       e.preventDefault();
 
       if (editedObjectName === "newCar") {
@@ -60036,11 +60223,12 @@ function (_Component) {
           make: newCar.make,
           mot: newCar.mot,
           servis: newCar.servis,
-          appointment: newCar.appointment
+          appointment: newCar.appointment,
+          info: newCar.info
         }).then(function () {
           _this2.props.refreshData();
         });
-      } else if (editedObjectName.toString() === "editedCars") {
+      } else if (editedObjectName.toString() === "editedCars" || editedObjectName.toString() === "editedAlerts") {
         var editedCar = _objectSpread({}, this.state[editedObjectName.toString()]);
 
         axios.put("/cars/".concat(editedCar.id, "/update"), {
@@ -60158,7 +60346,7 @@ function (_Component) {
           key: data[0],
           style: inline
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" ? style : null
+          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "notes" ? style : null
         }, data[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           key: data[0],
           className: "focus-form-input",
@@ -60203,6 +60391,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Table__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Table */ "./resources/js/components/Table.js");
 /* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Form */ "./resources/js/components/Form.js");
+/* harmony import */ var _Focus__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Focus */ "./resources/js/components/Focus.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -60237,6 +60426,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var RamMotors =
 /*#__PURE__*/
 function (_Component) {
@@ -60256,54 +60446,54 @@ function (_Component) {
       expired: [],
       deleted: [],
       alerts: [],
-      displayCars: [],
-      displayCustomers: [],
-      displayAlerts: [],
-      displayPending: [],
-      displayConfirmed: [],
-      displayExpired: [],
-      displayDeleted: [],
-      tableName: "displayAlerts",
-      ascending: true,
-      search: "",
-      searchResult: [],
-      editedCars: {
-        id: 0,
-        customer_id: 0,
-        registration: "",
-        make: "",
-        mot: "",
-        servis: "",
-        appointment: "",
-        info: "",
-        pending: 0,
-        created_at: "",
-        updated_at: "",
-        deleted_at: ""
-      },
-      editedCustomers: {
-        name: "",
-        surname: "",
-        phone: "",
-        email: "",
-        notes: "",
-        cars: [],
-        info: ""
-      },
-      newCar: {
-        id: 0,
-        customer_id: 0,
-        registration: "",
-        make: "",
-        mot: "",
-        servis: "",
-        appointment: "",
-        info: "",
-        pending: 0,
-        created_at: "",
-        updated_at: "",
-        deleted_at: ""
-      },
+      // displayCars: [],
+      // displayCustomers: [],
+      // displayAlerts: [],
+      // displayPending: [],
+      // displayConfirmed: [],
+      // displayExpired: [],
+      // displayDeleted: [],
+      // tableName: "displayAlerts",
+      // ascending: true,
+      // search: "",
+      // searchResult: [],
+      // editedCars: {
+      //     id: 0,
+      //     customer_id: 0,
+      //     registration: "",
+      //     make: "",
+      //     mot: "",
+      //     servis: "",
+      //     appointment: "",
+      //     info: "",
+      //     pending: 0,
+      //     created_at: "",
+      //     updated_at: "",
+      //     deleted_at: ""
+      // },
+      // editedCustomers: {
+      //     name: "",
+      //     surname: "",
+      //     phone: "",
+      //     email: "",
+      //     notes: "",
+      //     cars: [],
+      //     info: ""
+      // },
+      // newCar: { 
+      //     id: 0,
+      //     customer_id: 0,
+      //     registration: "",
+      //     make: "",
+      //     mot: "",
+      //     servis: "",
+      //     appointment: "",
+      //     info: "",
+      //     pending: 0,
+      //     created_at: "",
+      //     updated_at: "",
+      //     deleted_at: ""
+      // },
       focusOn: "editedCar",
       focus: false,
       chooseCustomer: true,
@@ -60396,62 +60586,63 @@ function (_Component) {
     value: function displayFocus(focusOn) {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "focus"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "closing-div",
-        onClick: function onClick() {
-          return _this3.setState({
-            focus: !_this3.state.focus
-          });
-        }
-      }, "X"), focusOn == "Edit" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "focus-work-area"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        clearFocus: function clearFocus() {
-          return _this3.setState({
-            focus: !_this3.state.focus
-          });
-        },
-        editedObject: this.state.editedObject,
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Focus__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        focusOn: this.state.focusOn,
+        object: this.state.editedObject,
         editedObjectName: this.state.objectName,
-        refreshData: function refreshData() {
-          return _this3.refreshData();
-        },
-        focusOnTableHandler: function focusOnTableHandler() {
-          return _this3.focusOnTableHandler();
-        }
-      }), this.displayActions(this.state[this.state.objectName].id), this.displayList(this.state.editedCars.customer_id), " ") : null, focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "focus-work-area"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         clearFocus: function clearFocus() {
           return _this3.setState({
             focus: !_this3.state.focus
           });
         },
-        editedObjectName: "newCar",
         refreshData: function refreshData() {
           return _this3.refreshData();
-        },
-        focusOnTableHandler: function focusOnTableHandler() {
-          return _this3.focusOnTableHandler();
         }
-      })) : null, focusOn == "newCustomer" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "focus-work-area"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        clearFocus: function clearFocus() {
-          return _this3.setState({
-            focus: !_this3.state.focus
-          });
-        },
-        editedObjectName: "newCustomer",
-        refreshData: function refreshData() {
-          return _this3.refreshData();
-        },
-        focusOnTableHandler: function focusOnTableHandler() {
-          return _this3.focusOnTableHandler();
-        }
-      })) : null, this.state.focusOn !== "" && this.state.focusOn !== "newCar" && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null);
+      }) // <div className="focus">
+      //     <div
+      //         className="closing-div"
+      //         onClick={() => this.setState({ focus: !this.state.focus })}
+      //     >
+      //         X
+      //     </div>
+      //     {focusOn == "Edit"  ? (
+      //         <div className="focus-work-area">
+      //             <Form 
+      //             clearFocus={() => this.setState({ focus: !this.state.focus })}
+      //             editedObject={this.state.editedObject}
+      //             editedObjectName={this.state.objectName}
+      //             refreshData={() => this.refreshData()}
+      //             focusOnTableHandler={() => this.focusOnTableHandler()}
+      //             />
+      //             {/* {this.displayActions(this.state[this.state.objectName].id)}
+      //             {this.displayList(
+      //                 this.state.editedCars.customer_id
+      //             )} */}
+      //         </div>
+      //     ) : null}
+      //     {focusOn == "newCar" ? (
+      //         <div className="focus-work-area">
+      //               <Form 
+      //             clearFocus={() => this.setState({ focus: !this.state.focus })}
+      //             editedObjectName={"newCar"}
+      //             refreshData={() => this.refreshData()}
+      //             focusOnTableHandler={() => this.focusOnTableHandler()}
+      //             />
+      //         </div>
+      //     ) : null}
+      //        { focusOn == "newCustomer"? (
+      //       <div className="focus-work-area">
+      //             <Form 
+      //           clearFocus={() => this.setState({ focus: !this.state.focus })}
+      //           editedObjectName={"newCustomer"}
+      //           refreshData={() => this.refreshData()}
+      //           focusOnTableHandler={() => this.focusOnTableHandler()}
+      //           />
+      //       </div>
+      //   ) : null}
+      //     {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null}
+      // </div>
+      ;
     } ///// functions returns stuff need  convert to components
 
   }, {
@@ -60620,55 +60811,62 @@ function (_Component) {
           }
         }, "DELETE")));
       }
-    }
-  }, {
-    key: "submitHandler",
-    value: function submitHandler(e, editedObjectName, operation) {
-      var _this10 = this;
+    } // submitHandler(e, editedObjectName, operation) {
+    //     // submit both of above new or edit  need to update state reset search value
+    //     e.preventDefault();
+    //     if (editedObjectName === "editedCustomer" && operation === "remove") {
+    //         let editedCustomer = { ...this.state.editedCustomer };
+    //         axios
+    //             .post(
+    //                 `/customers/${editedCustomer.id}/removeCar/${
+    //                     e.target.value
+    //                 }`,
+    //                 {}
+    //             )
+    //             .then(response => {
+    //                 axios.get("/customers").then(response =>
+    //                     this.setState({
+    //                         customers: [...response.data],
+    //                         displayCustomers: [...response.data]
+    //                     })
+    //                 );
+    //                 axios.get("/cars").then(response =>
+    //                     this.setState({
+    //                         cars: [...response.data],
+    //                         displayCars: [...response.data]
+    //                     })
+    //                 );
+    //             });
+    //     }
+    //     if (editedObjectName === "editedCustomer" && operation === "assign") {
+    //         const editedCustomer = { ...this.state.editedCustomer };
+    //         axios
+    //             .post(
+    //                 `/customers/${editedCustomer.id}/addCar/${
+    //                     this.state.optionChoice
+    //                 }`,
+    //                 {}
+    //             )
+    //             .then(response => {
+    //                 axios.get("/customers").then(response =>
+    //                     this.setState({
+    //                         customers: [...response.data],
+    //                         displayCustomers: [...response.data]
+    //                     })
+    //                 );
+    //                 axios.get("/cars").then(response =>
+    //                     this.setState({
+    //                         cars: [...response.data],
+    //                         displayCars: [...response.data]
+    //                     })
+    //                 );
+    //             });
+    //     }
+    //      else {
+    //         return;
+    //     }
+    // }
 
-      // submit both of above new or edit  need to update state reset search value
-      e.preventDefault();
-
-      if (editedObjectName === "editedCustomer" && operation === "remove") {
-        var editedCustomer = _objectSpread({}, this.state.editedCustomer);
-
-        axios.post("/customers/".concat(editedCustomer.id, "/removeCar/").concat(e.target.value), {}).then(function (response) {
-          axios.get("/customers").then(function (response) {
-            return _this10.setState({
-              customers: _toConsumableArray(response.data),
-              displayCustomers: _toConsumableArray(response.data)
-            });
-          });
-          axios.get("/cars").then(function (response) {
-            return _this10.setState({
-              cars: _toConsumableArray(response.data),
-              displayCars: _toConsumableArray(response.data)
-            });
-          });
-        });
-      }
-
-      if (editedObjectName === "editedCustomer" && operation === "assign") {
-        var _editedCustomer = _objectSpread({}, this.state.editedCustomer);
-
-        axios.post("/customers/".concat(_editedCustomer.id, "/addCar/").concat(this.state.optionChoice), {}).then(function (response) {
-          axios.get("/customers").then(function (response) {
-            return _this10.setState({
-              customers: _toConsumableArray(response.data),
-              displayCustomers: _toConsumableArray(response.data)
-            });
-          });
-          axios.get("/cars").then(function (response) {
-            return _this10.setState({
-              cars: _toConsumableArray(response.data),
-              displayCars: _toConsumableArray(response.data)
-            });
-          });
-        });
-      } else {
-        return;
-      }
-    }
   }, {
     key: "render",
     value: function render() {
@@ -60905,9 +61103,9 @@ function (_Component) {
         className: mini + "wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "workfield"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.displayDataArray.length === 4 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "header-row"
-      }, this.props.displayDataArray.length === 4 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 2 ? "header-table-button active" : "header-table-button",
         onClick: function onClick() {
           _this3.searchHandler();
@@ -60939,8 +61137,12 @@ function (_Component) {
           });
         }
       }, this.state.tableNames[1])) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "mini-header-row"
-      }, this.props.tableName)), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: mini + "header-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header-item"
+      }, this.props.tableName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "mini-header-item"
+      }, this.state.displayData[this.state.tableNumber].length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "header-row"
       }, Object.keys(this.state.header[this.state.tableNumber]).map(function (key, index) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
