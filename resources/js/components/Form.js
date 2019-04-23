@@ -29,18 +29,13 @@ export default class Form extends Component {
                 info: ""
             },
             newCar: {
-                id: 0,
-                customer_id: 0,
                 registration: "",
                 make: "",
-                mot: "2000-12-12",
+                mot: "",
                 servis: "",
                 appointment: "",
                 info: "",
-                pending: 0,
-                created_at: "",
-                updated_at: "",
-                deleted_at: ""
+             
             },
             newCustomer: {
                 name: "",
@@ -56,8 +51,7 @@ export default class Form extends Component {
     }
     submitHandler(e,  editedObjectName) {
         // submit both of above new or edit  need to update state reset search value
-        console.log('submit trigger');
-        console.log(editedObjectName.toString());
+       
         e.preventDefault();
 
     if  (editedObjectName === "newCar" ) {
@@ -76,7 +70,6 @@ export default class Form extends Component {
                 });     
 
     } else if (editedObjectName.toString() === "editedCars" ) {
-        console.log('submit trigger Cars');
             const editedCar = { ...this.state[editedObjectName.toString()] };
 
             axios
@@ -108,7 +101,7 @@ export default class Form extends Component {
 
         }  else if (editedObjectName.toString() === "newCustomer" ) {
             const newCustomer = { ...this.state.newCustomer };
-            console.log(editedObjectName);
+        
             axios
                 .post(`/customers`, {
                     name: newCustomer.name,
@@ -139,9 +132,10 @@ export default class Form extends Component {
 
     }
 componentWillMount() {
-    if (this.props.editedObjectName === "newCar" ) {
+    
+    if (this.props.editedObjectName.toString() === "newCar" ) {
         this.setState({
-            [this.props.editedObjectName]: {
+            editedObject: {
                   ...this.state.newCar,
             
               }
@@ -149,7 +143,7 @@ componentWillMount() {
         } 
     else if (this.props.editedObjectName === "newCustomer" ) {
     this.setState({
-        [this.props.editedObjectName]: {
+        editedObject: {
                 ...this.state.newCustomer,
         
             }

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import Table from "./Table";
-import TableTwo from "./TableTwo";
 import Form from "./Form";
-import MiniTable from "./MiniTable";
 
 export default class RamMotors extends Component {
     constructor(props) {
@@ -30,7 +28,7 @@ export default class RamMotors extends Component {
             search: "",
             searchResult: [],
 
-            editedCar: {
+            editedCars: {
                 id: 0,
                 customer_id: 0,
                 registration: "",
@@ -45,7 +43,7 @@ export default class RamMotors extends Component {
                 deleted_at: ""
             },
 
-            editedCustomer: {
+            editedCustomers: {
                 name: "",
                 surname: "",
                 phone: "",
@@ -53,6 +51,21 @@ export default class RamMotors extends Component {
                 notes: "",
                 cars: [],
                 info: ""
+            },
+
+            newCar: { 
+                id: 0,
+                customer_id: 0,
+                registration: "",
+                make: "",
+                mot: "",
+                servis: "",
+                appointment: "",
+                info: "",
+                pending: 0,
+                created_at: "",
+                updated_at: "",
+                deleted_at: ""
             },
 
             focusOn: "editedCar",
@@ -136,6 +149,14 @@ export default class RamMotors extends Component {
             objectName: [objectName],
         });
     }
+    focusOnTableHandler(table) {
+        ///  focus on or off
+        this.setState({
+            //////  need to know if click is from focus on type and keep focus on just change content
+            focusOn: table,
+            focus: !this.state.focus
+        });
+    }
 
     displayFocus(focusOn) {
         return (
@@ -156,52 +177,38 @@ export default class RamMotors extends Component {
                         refreshData={() => this.refreshData()}
                         focusOnTableHandler={() => this.focusOnTableHandler()}
                         />
-                        {this.displayActions(this.state.editedCar.id)}
+                        {this.displayActions(this.state[this.state.objectName].id)}
                         {this.displayList(
-                            this.state.editedCar.customer_id
+                            this.state.editedCars.customer_id
                         )}{" "}
                     </div>
                 ) : null}
 
-                {focusOn == "editedCar" && this.state.tableName == "displayCars" ? (
-                    <div className="focus-work-area">
-                        <Form 
-                        editedObject={this.state.editedCar}
-                        editedObjectName={"editedCar"}
-                        refreshData={() => this.refreshData()}
-                        focusOnTableHandler={() => this.focusOnTableHandler()}
-                        />
-                        {this.displayActions(this.state.editedCar.id)}
-                        {this.displayList(
-                            this.state.editedCar.customer_id
-                        )}{" "}
-                    </div>
-                ) : null}
 
-                {focusOn == "editedCustomer" && this.state.tableName == "displayCustomers" ? (
+                {focusOn == "newCar" ? (
+                  
                     <div className="focus-work-area">
                           <Form 
-                        editedObject={this.state.editedCustomer}
-                        editedObjectName={"editedCustomer"}
-                        refreshData={() => this.refreshData()}
-                        focusOnTableHandler={() => this.focusOnTableHandler()}
-                        />
-                        {this.displayActions(this.state.editedCustomer.id)}
-                        {this.displayList(this.state.editedCustomer.id)}{" "}
-                    </div>
-                ) : null}
-
-                {focusOn == "newCar" || focusOn == "newCustomer"? (
-                    <div className="focus-work-area">
-                          <Form 
-                        editedObject={this.state.editedCustomer}
-                        editedObjectName={this.state.focusOn}
+                        clearFocus={() => this.setState({ focus: !this.state.focus })}
+                        editedObjectName={"newCar"}
                         refreshData={() => this.refreshData()}
                         focusOnTableHandler={() => this.focusOnTableHandler()}
                         />
                     
                     </div>
                 ) : null}
+                   { focusOn == "newCustomer"? (
+                  
+                  <div className="focus-work-area">
+                        <Form 
+                      clearFocus={() => this.setState({ focus: !this.state.focus })}
+                      editedObjectName={"newCustomer"}
+                      refreshData={() => this.refreshData()}
+                      focusOnTableHandler={() => this.focusOnTableHandler()}
+                      />
+                  
+                  </div>
+              ) : null}
 
                 {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? this.displayTable(this.state.tableName) : null}
             </div>
@@ -209,15 +216,7 @@ export default class RamMotors extends Component {
     }
   
 
-    // focusOnTableHandler(table) {
-    //     ///  focus on or off
-
-    //     this.setState({
-    //         //////  need to know if click is from focus on type and keep focus on just change content
-    //         focusOn: table,
-    //         focus: !this.state.focus
-    //     });
-    // }
+ 
 
 
 
@@ -241,7 +240,11 @@ export default class RamMotors extends Component {
         return (
             <div>
            
-                         <TableTwo tableName={tableName} displayDataArray={data} editHandler={(data, key) => this.editHandler(data, key)}/>
+                         <Table 
+                         tableName={tableName} 
+                         displayDataArray={data} 
+                         editHandler={(data, key) => this.editHandler(data, key)}
+                            focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
         
             </div>
         );
@@ -367,13 +370,11 @@ export default class RamMotors extends Component {
 
     displayActions(id) {
         ///// not dynamic yet might never be
-
         if (this.state.tableName === "displayCustomers") {
             return (
                 <div className="list-wrapper">
                     <h1>Actions</h1>
                     {this.chooseCar()}
-                    {/* <ASSIGN_CAR_TO_THE_OWNER editedCustomer={this.state.editedCustomer} cars={this.state.cars} refreshData={this.refreshData()}/> */}
                     <button
                         className={"submit-button" + "-" + this.state.delete}
                         onClick={() => this.deleteHandler("customers", id)}
@@ -383,7 +384,7 @@ export default class RamMotors extends Component {
                 </div>
             );
         }
-        if (this.state.tableName === "displayCars") {
+        if (this.state.objectName.toString() === "editedCars") {
             return (
                 <div className="list-wrapper">
                     <div className="focus-form">
@@ -495,56 +496,7 @@ export default class RamMotors extends Component {
                 {this.displayTable('small', [...this.state.confirmed], 'CONFIRMED' )}
                 {this.displayTable('small', [...this.state.expired], 'EXPIRED' )}
 
-                    {/* <MiniTable
-                        tableName="displayAlerts"
-                        customers={this.state.customers}
-                        displayCars={this.state.displayAlerts}
-                        sortingHandler={category =>
-                            this.sortingHandler(category, "displayAlerts")
-                        }
-                        editCarHandler={car => this.editCarHandler(car)}
-                        focusOnTableHandler={table =>
-                            this.focusOnTableHandler(table)
-                        }
-                    />
-
-                    <MiniTable
-                        tableName="displayPending"
-                        customers={this.state.customers}
-                        displayCars={this.state.displayPending}
-                        sortingHandler={category =>
-                            this.sortingHandler(category, "displayPending")
-                        }
-                        editCarHandler={car => this.editCarHandler(car)}
-                        focusOnTableHandler={table =>
-                            this.focusOnTableHandler(table)
-                        }
-                    />
-
-                    <MiniTable
-                        tableName="displayConfirmed"
-                        customers={this.state.customers}
-                        displayCars={this.state.displayConfirmed}
-                        sortingHandler={category =>
-                            this.sortingHandler(category, "displayConfirmed")
-                        }
-                        editCarHandler={car => this.editCarHandler(car)}
-                        focusOnTableHandler={table =>
-                            this.focusOnTableHandler(table)
-                        }
-                    />
-
-                    <MiniTable
-                        tableName="displayExpired"
-                        customers={this.state.customers}
-                        displayCars={this.state.displayExpired}
-                        sortingHandler={category =>
-                            this.sortingHandler(category, "displayExpired")
-                        }
-                        editCarHandler={car => this.editCarHandler(car)}
-                        focusOnTableHandler={table =>
-                            this.focusOnTableHandler(table)
-                        }/> */}
+ 
                     
                 </div>
             </div>
