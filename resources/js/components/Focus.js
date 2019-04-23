@@ -76,7 +76,172 @@ export default class Focus extends Component {
                 focus: !this.state.focus
             });
         }
-
+        deleteHandler(object, id) {
+            this.setState({ delete: this.state.delete + 1 }, () => {
+                if (this.state.delete == 4) {
+                    axios.get(`/${object}/${id}/destroy`).then(() => {
+                        axios.get("/customers").then(response =>
+                            this.setState({
+                                customers: [...response.data],
+                                displayCustomers: [...response.data],
+                                focusOn: "",
+                                focus: !this.state.focus,
+                                search: "",
+                                delete: 0
+                            })
+                        );
+                        axios.get("/cars").then(response =>
+                            this.setState({
+                                cars: [...response.data],
+                                displayCars: [...response.data]
+                            })
+                        );
+                    });
+                }
+            });
+        }
+        sendSmsHandler(id) {
+            axios.get(`/cars/${id}/toNexmo`).then(() => {
+                this.refreshData();
+            });
+        }
+    
+        chooseCar() {
+    
+            return (
+                <div>
+                    <select
+                        className="focus-form-input"
+                        onChange={e => {
+                            this.setState({ optionChoice: e.target.value });
+                        }}
+                    >
+                        {this.state.cars.map(car => {
+                            if (!car.customer_id) {
+                                return (
+                                    <option key={car.id} value={car.id}>
+                                        {car.registration.toUpperCase()}
+                                    </option>
+                                );
+                            }
+                        })}
+                    </select>
+                    <button
+                        onClick={e =>
+                            this.submitHandler(e, "editedCustomer", "assign")
+                        }
+                    >
+                        ASSIGN CAR TO THE OWNER{" "}
+                    </button>
+                </div>
+            );
+        }
+    
+      
+    
+        displayList(id) {
+            ///// not dynamic yet might never be
+    
+            if (this.state.tableName === "displayCustomers") {
+                return (
+                    <div className="list-wrapper">
+                        <h1>List Of Cars</h1>
+                        {this.state.cars.map(car => {
+                            return car.customer_id === id ? (
+                                <div
+                                    key={car.registration}
+                                    className="display-list-item"
+                                >
+                                    {car.registration.toUpperCase()}
+                                    <button
+                                        value={car.id}
+                                        onClick={e =>
+                                            this.submitHandler(
+                                                e,
+                                                "editedCustomer",
+                                                "remove"
+                                            )
+                                        }
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            ) : null;
+                        })}
+                    </div>
+                );
+            }
+    
+            if (this.state.tableName === "displayCars") {
+                return (
+                    <div className="list-wrapper">
+                        <h1>OWNER</h1>
+                        {this.state.customers.map(customer => {
+                            return customer.id === id ? (
+                                <div
+                                    key={id}
+                                    className="display-list-item"
+                                    onClick={() =>
+                                        this.editHandler(customer, "editedCustomer")
+                                    }
+                                >
+                                    {customer.name + " " + customer.surname}
+                                </div>
+                            ) : null;
+                        })}
+                    </div>
+                );
+            }
+        }
+    
+        displayActions(id) {
+            ///// not dynamic yet might never be
+            if (this.state.tableName === "displayCustomers") {
+                return (
+                    <div className="list-wrapper">
+                        <h1>Actions</h1>
+                        {this.chooseCar()}
+                        <button
+                            className={"submit-button" + "-" + this.state.delete}
+                            onClick={() => this.deleteHandler("customers", id)}
+                        >
+                            DELLETE
+                        </button>
+                    </div>
+                );
+            }
+            if (this.state.objectName.toString() === "editedCars") {
+                return (
+                    <div className="list-wrapper">
+                        <div className="focus-form">
+                            <h1>Actions</h1>
+                            
+                            {this.state.alerts.map(alertedCar => {
+                                if (id === alertedCar.id) {
+                                    return (
+                                        <button
+                                            className="submit-button"
+                                            onClick={() => this.sendSmsHandler(id)}
+                                            key={id}
+                                        >
+                                            Send SMS
+                                        </button>
+                                    );
+                                }
+                            })}
+                            <button
+                                className={
+                                    "submit-button" + "-" + this.state.delete
+                                }
+                                onClick={() => this.deleteHandler("cars", id)}
+                            >
+                                DELETE
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+        }
     render() {
         let focusOn = "Edit"
         return (
