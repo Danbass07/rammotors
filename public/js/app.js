@@ -60843,6 +60843,7 @@ function (_Component) {
         if (this.props.displayDataArray.length < 4) {
           this.setState({
             displayData: _toConsumableArray(this.props.displayDataArray),
+            tableNumber: 0,
             header: [_defineProperty({
               make: "",
               customer: {

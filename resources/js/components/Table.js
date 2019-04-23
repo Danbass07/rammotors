@@ -128,6 +128,7 @@ export default class TableTwo extends Component {
             this.setState({
      
                 displayData: [... this.props.displayDataArray],
+                tableNumber: 0,
                 header: [
                     {  
                         
