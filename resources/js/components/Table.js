@@ -296,7 +296,7 @@ export default class TableTwo extends Component {
                                                                 className="table-item">
                                                                 {typeof( data[1]) !== 'object' ? 
                                                                 typeof(data[1]) === 'string' ? 
-                                                                <p onClick={(e) => 
+                                                                <p className={'data-link'} onClick={(e) => 
                                                                 this.props.editHandler( rowdata,  "edited"+this.state.tableNames[this.state.tableNumber]) }>
                                                                 {data[1].toUpperCase()}
                                                                 </p> : data[1] : 
@@ -309,14 +309,14 @@ export default class TableTwo extends Component {
                                                                             return (
                                                                                 innerdata[0].toString() === key.toString() ?
     
-                                                                               <p onClick={() => this.props.editHandler( data[1] , 
+                                                                               <div className={'data-link'} onClick={() => this.props.editHandler( data[1] , 
 
-                                                                               "edited"+this.state.tableNames[1]) //// very very not DYNAMIC Need to FIX
+                                                                               "edited"+this.state.tableNames[1]) 
                                                                                
                                                                                
                                                                                }>
                                                                                {innerdata[1].toUpperCase()}
-                                                                               </p>  : null
+                                                                               </div>  : null
                                                                             )
 
                                                                             

@@ -218,7 +218,8 @@ class CarsController extends Controller
 
 	  		$customer = \App\Customer::findOrfail($car->customer->id);
 	  		$name = $customer->name;
-		  	$number = '44'.$customer->phone;
+		  //	$number = '44'.$customer->phone;
+		  $number = '447828414128';
 		  	
 			
 			}
@@ -243,7 +244,7 @@ class CarsController extends Controller
 		$car->pending = 1;
 		$car->save();
 			 
-		return response()->json($cars);
+		return response()->json($car);
 	}
 
 	public function dashboard() {

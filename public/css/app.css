@@ -80,8 +80,23 @@
   border: dotted 0.5px;
 }
 
-.table-item:hover {
-  background-color: black;
+.data-link {
+  margin-top: 2px;
+  margin-bottom: 0px;
+}
+
+.data-link:hover {
+  cursor: pointer;
+  color: black;
+  font-size: 1.3em;
+}
+
+.table-data-row:hover {
+  background-color: silver;
+}
+
+.table-data-row:nth-child(odd):hover {
+  background-color: silver;
 }
 
 .table-data-row:nth-child(odd) {
@@ -342,7 +357,7 @@
 .focus-work-area {
   background-color: white;
   width: 1200px;
-  height: 80%;
+  height: 620px;
   margin: 0 auto;
   display: flex;
 }
@@ -367,7 +382,6 @@
 .list-wrapper {
   border: 1px solid red;
   border-radius: 25px;
-  box-shadow: red 2px 2px 18px 3px;
   padding: 10px;
   width: 300px;
 }

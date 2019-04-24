@@ -70,12 +70,26 @@
     word-break: break-all;
     border: dotted 0.5px;
 }
-.table-item:hover {
-    background-color: darken($tablehead, 60%);
+.data-link {
+
+    margin-top: 2px;
+    margin-bottom: 0px;
+   
+    
+}
+.data-link:hover {
+    cursor: pointer;
+    color: black;
+    font-size: 1.3em;
+}
+.table-data-row:hover {
+    background-color: silver;
 }
 
 
-
+.table-data-row:nth-child(odd):hover {
+    background-color: silver;
+}
 
 .table-data-row:nth-child(odd) {
     background-color: lighten($tablehead, 20%);

@@ -61063,16 +61063,17 @@ function (_Component) {
                 key: 'data' + index,
                 className: "table-item"
               }, _typeof(data[1]) !== 'object' ? typeof data[1] === 'string' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+                className: 'data-link',
                 onClick: function onClick(e) {
                   return _this3.props.editHandler(rowdata, "edited" + _this3.state.tableNames[_this3.state.tableNumber]);
                 }
               }, data[1].toUpperCase()) : data[1] : data[1] === null ? ' ' : Object.keys(_this3.state.header[_this3.state.tableNumber][key]).map(function (key) {
                 return Object.entries(data[1]).map(function (innerdata) {
-                  return innerdata[0].toString() === key.toString() ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+                  return innerdata[0].toString() === key.toString() ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+                    className: 'data-link',
                     onClick: function onClick() {
                       return _this3.props.editHandler(data[1], "edited" + _this3.state.tableNames[1]);
-                    } //// very very not DYNAMIC Need to FIX
-
+                    }
                   }, innerdata[1].toUpperCase()) : null;
                 });
               }));
