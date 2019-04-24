@@ -113,7 +113,7 @@ export default class RamMotors extends Component {
                     clearFocus={() => this.setState({ focus: !this.state.focus })}
                     refreshData={() => this.refreshData()}
                     alerts={this.state.alerts}
-                    cars={this.props.cars}
+                    cars={this.state.cars}
                     />
                     : null
                 }

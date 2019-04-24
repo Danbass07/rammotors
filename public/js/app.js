@@ -60716,7 +60716,7 @@ function (_Component) {
           return _this3.refreshData();
         },
         alerts: this.state.alerts,
-        cars: this.props.cars
+        cars: this.state.cars
       }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
