@@ -202,6 +202,12 @@ addYear(editedDate, editedProperty) {
         const style = {
             display: "none"
         };
+        const style2 = {
+            color: 'wheat',
+            width: '100%',
+            height: '130px',
+            marginBottom: '1px',
+        };
         const inline = {
             display: "flex",
             flexDirection: "row"
@@ -232,7 +238,8 @@ addYear(editedDate, editedProperty) {
                                             data[0] === "id" ||
                                             data[0] === "customer_id"||
                                             data[0] === "customer"||
-                                            data[0] === "notes"
+                                            data[0] === "notes" ||
+                                            data[0] === "info"
                                                 ? style
                                                 : null
                                         }
@@ -251,7 +258,8 @@ addYear(editedDate, editedProperty) {
                                             data[0] === "pending" ||
                                             data[0] === "id" ||
                                             data[0] === "customer_id"||
-                                            data[0] === "customer"
+                                            data[0] === "customer" ||
+                                            data[0] === "info"
                                                 ? style
                                                 : null
                                         }
@@ -276,6 +284,27 @@ addYear(editedDate, editedProperty) {
                                     {   data[0] === "mot" || data[0] === "servis" ||   data[0] === "appointment" ? this.props.editedObjectName !== 'newCar' ? <div className="action-button" onClick={() =>
                                         this.addYear(this.state[this.props.editedObjectName][data[0]], data[0])}
                         >+1 Y</div> : null : null }
+                           {data[0] === "info"  ?   
+                            
+                                    <input
+                                        key={'info'+data[0]}
+                                        className="focus-form-input"
+                                        placeholder={data[0]}
+                                        style={
+                                            data[0] === "info"
+                                                ? style2
+                                                : style
+                                        }
+                                        type={"text"}
+                                        value={this.state[this.props.editedObjectName][data[0]]
+                                        }
+                                        onChange={e =>
+                                            this.formChangeHandler(e, data[0], this.props.editedObjectName)
+                                        }
+                                    /> : null }
+
+                              
+                                  
                                 </div>
                             );
                         })}
@@ -283,7 +312,9 @@ addYear(editedDate, editedProperty) {
                         <button type="submit" className="submit-button">
                             Save Changes
                         </button>
+                
                     </form>
+                    
                 </div>
     )
     }

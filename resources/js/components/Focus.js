@@ -48,7 +48,7 @@ export default class Focus extends Component {
                         deleted_at: ""
                     },
         
-                    focusOn: "editedCar",
+                    focusOn: "",
                     focus: false,
                     chooseCustomer: true,
                     operation: "",
@@ -116,7 +116,7 @@ export default class Focus extends Component {
                             this.setState({ optionChoice: e.target.value });
                         }}
                     >
-                        {this.state.cars.map(car => {
+                        {this.props.cars.map(car => {
                             if (!car.customer_id) {
                                 return (
                                     <option key={car.id} value={car.id}>
@@ -195,8 +195,9 @@ export default class Focus extends Component {
         }
     
         displayActions(id) {
+            {console.log(this.state.objectName)}
             ///// not dynamic yet might never be
-            if (this.state.tableName === "displayCustomers") {
+            if (this.state.objectName.toString() === "editedCustomers") {
                 return (
                     <div className="list-wrapper">
                         <h1>Actions</h1>
@@ -210,13 +211,13 @@ export default class Focus extends Component {
                     </div>
                 );
             }
-            if (this.state.objectName.toString() === "editedCars") {
+            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
                 return (
                     <div className="list-wrapper">
                         <div className="focus-form">
                             <h1>Actions</h1>
                             
-                            {this.state.alerts.map(alertedCar => {
+                            {this.props.alerts.map(alertedCar => {
                                 if (id === alertedCar.id) {
                                     return (
                                         <button
@@ -263,8 +264,8 @@ export default class Focus extends Component {
                         refreshData={() => this.props.refreshData()}
                         focusOnTableHandler={() => this.focusOnTableHandler()}
                         />
-                        {/* {this.displayActions(this.state[this.state.objectName].id)}
-                        {this.displayList(
+                        {this.displayActions(this.state.editedObject.id,this.state.objectName)}
+                        {/* {this.displayList(
                             this.state.editedCars.customer_id
                         )} */}
                     </div>
@@ -280,6 +281,7 @@ export default class Focus extends Component {
                         refreshData={() => this.refreshData()}
                         focusOnTableHandler={() => this.focusOnTableHandler()}
                         />
+                     
                     
                     </div>
                 ) : null}
@@ -296,9 +298,9 @@ export default class Focus extends Component {
                   </div>
               ) : null}
 
-                {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? console.log('notable')
-                // this.displayTable(this.state.tableName) 
-                : null}
+                {/* {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? console.log('notable') */}
+                {/* // this.displayTable(this.state.tableName) 
+                : null} */}
             </div>
         </div>
     )

@@ -60022,7 +60022,7 @@ function (_Component) {
         updated_at: "",
         deleted_at: ""
       },
-      focusOn: "editedCar",
+      focusOn: "",
       focus: false,
       chooseCustomer: true,
       operation: "",
@@ -60103,7 +60103,7 @@ function (_Component) {
             optionChoice: e.target.value
           });
         }
-      }, this.state.cars.map(function (car) {
+      }, this.props.cars.map(function (car) {
         if (!car.customer_id) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
             key: car.id,
@@ -60157,8 +60157,11 @@ function (_Component) {
     value: function displayActions(id) {
       var _this6 = this;
 
-      ///// not dynamic yet might never be
-      if (this.state.tableName === "displayCustomers") {
+      {
+        console.log(this.state.objectName);
+      } ///// not dynamic yet might never be
+
+      if (this.state.objectName.toString() === "editedCustomers") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), this.chooseCar(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -60169,12 +60172,12 @@ function (_Component) {
         }, "DELLETE"));
       }
 
-      if (this.state.objectName.toString() === "editedCars") {
+      if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "focus-form"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), this.state.alerts.map(function (alertedCar) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), this.props.alerts.map(function (alertedCar) {
           if (id === alertedCar.id) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "submit-button",
@@ -60219,7 +60222,7 @@ function (_Component) {
         focusOnTableHandler: function focusOnTableHandler() {
           return _this7.focusOnTableHandler();
         }
-      })) : null, focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.displayActions(this.state.editedObject.id, this.state.objectName)) : null, focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clearFocus: function clearFocus() {
@@ -60249,8 +60252,7 @@ function (_Component) {
         focusOnTableHandler: function focusOnTableHandler() {
           return _this7.focusOnTableHandler();
         }
-      })) : null, this.state.focusOn !== "" && this.state.focusOn !== "newCar" && this.state.focusOn !== "newCustomer" ? console.log('notable') // this.displayTable(this.state.tableName) 
-      : null));
+      })) : null));
     }
   }]);
 
@@ -60478,6 +60480,12 @@ function (_Component) {
       var style = {
         display: "none"
       };
+      var style2 = {
+        color: 'wheat',
+        width: '100%',
+        height: '130px',
+        marginBottom: '1px'
+      };
       var inline = {
         display: "flex",
         flexDirection: "row"
@@ -60494,12 +60502,12 @@ function (_Component) {
           key: data[0],
           style: inline
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "notes" ? style : null
+          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "notes" || data[0] === "info" ? style : null
         }, data[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           key: data[0],
           className: "focus-form-input",
           placeholder: data[0],
-          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" ? style : null,
+          style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "info" ? style : null,
           type: data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? "date" : "text",
           value: data[0] === "registration" ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
           onChange: function onChange(e) {
@@ -60510,7 +60518,17 @@ function (_Component) {
           onClick: function onClick() {
             return _this3.addYear(_this3.state[_this3.props.editedObjectName][data[0]], data[0]);
           }
-        }, "+1 Y") : null : null);
+        }, "+1 Y") : null : null, data[0] === "info" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          key: 'info' + data[0],
+          className: "focus-form-input",
+          placeholder: data[0],
+          style: data[0] === "info" ? style2 : style,
+          type: "text",
+          value: _this3.state[_this3.props.editedObjectName][data[0]],
+          onChange: function onChange(e) {
+            return _this3.formChangeHandler(e, data[0], _this3.props.editedObjectName);
+          }
+        }) : null);
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "submit-button"
@@ -60696,7 +60714,9 @@ function (_Component) {
         },
         refreshData: function refreshData() {
           return _this3.refreshData();
-        }
+        },
+        alerts: this.state.alerts,
+        cars: this.props.cars
       }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
