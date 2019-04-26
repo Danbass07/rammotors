@@ -21,7 +21,6 @@ export default class RamMotors extends Component {
             chooseCustomer: true,
             operation: "",
             optionChoice: "",
-            delete: 0
         };
        
     }
@@ -72,6 +71,7 @@ export default class RamMotors extends Component {
                 displayCustomers: [...response.data]
             })
         );
+        this.setState({ search: ''})
  
     }
 
@@ -82,24 +82,18 @@ export default class RamMotors extends Component {
 
     ///////////// methods depending on focus state
     ////////////// modal display and form to add or update
-    editHandler(object, objectName){
+    editHandler(object, objectName, focus = !this.state.focus, focusOn = "Edit"){
+     
         this.setState({
-            focusOn: 'Edit',
+            focusOn: focusOn,
             editedObject:  {
                 ...object
             },
-            focus: !this.state.focus,
+            focus: focus,
             objectName: [objectName],
-        });
+        },console.log(this.state.editedObject));
     }
-    focusOnTableHandler(table) {
-        ///  focus on or off
-        this.setState({
-            //////  need to know if click is from focus on type and keep focus on just change content
-            focusOn: table,
-            focus: !this.state.focus
-        });
-    }
+
 
     render() {
         return (
@@ -107,6 +101,7 @@ export default class RamMotors extends Component {
 
                 {this.state.focus ?   
                     <Focus 
+                    editHandler={(object, objectName, focus) => this.editHandler(object, objectName, focus)}
                     focusOn={this.state.focusOn}
                     object={this.state.editedObject}
                     editedObjectName={this.state.objectName}
@@ -114,6 +109,9 @@ export default class RamMotors extends Component {
                     refreshData={() => this.refreshData()}
                     alerts={this.state.alerts}
                     cars={this.state.cars}
+                    expired={this.state.expired}
+                    customers={this.state.customers}
+
                     />
                     : null
                 }
@@ -121,9 +119,8 @@ export default class RamMotors extends Component {
                 <div className="rammotors-row">
                     <Table 
                     tableName={''}
-                    displayDataArray={[[...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted]]} 
-                    editHandler={(data, key) => this.editHandler(data, key)}
-                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                    displayDataArray={[[...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted]]}
+                    editHandler={(object, objectName, focusOn) => this.editHandler(object, objectName, focusOn)}/>
                 </div>
                 
 
@@ -131,23 +128,19 @@ export default class RamMotors extends Component {
                     <Table 
                     tableName={'ALERTS'}
                     displayDataArray={[[...this.state.alerts]]} 
-                    editHandler={(data, key) => this.editHandler(data, key)}
-                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                    editHandler={(data, key) => this.editHandler(data, key)}/>
                     <Table 
                     tableName={'PENDING'}
                     displayDataArray={[[...this.state.pending]]} 
-                    editHandler={(data, key) => this.editHandler(data, key)}
-                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                    editHandler={(data, key) => this.editHandler(data, key)}/>
                     <Table 
                     tableName={'CONFIRMED'}
                     displayDataArray={[[...this.state.confirmed]]} 
-                    editHandler={(data, key) => this.editHandler(data, key)}
-                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                    editHandler={(data, key) => this.editHandler(data, key)}/>
                     <Table 
                     tableName={'EXPIRED'}
                     displayDataArray={[[...this.state.expired]]} 
-                    editHandler={(data, key) => this.editHandler(data, key)}
-                    focusOnTableHandler={(table) => this.focusOnTableHandler(table)}/>
+                    editHandler={(data, key) => this.editHandler(data, key)}/>
                 </div>
             </div>
         );

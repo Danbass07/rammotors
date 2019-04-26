@@ -24,6 +24,7 @@ export default class Focus extends Component {
                     },
         
                     editedCustomers: {
+                        id: 0,
                         name: "",
                         surname: "",
                         phone: "",
@@ -57,7 +58,27 @@ export default class Focus extends Component {
                     objectName: '',
                 };
         };
-    
+     
+        deleteHandler(object, id) {
+            
+            this.setState({ 
+                delete: this.state.delete + 1 }, () => {
+                if (this.state.delete == 4) {
+                    axios.get(`/${object}/${id}/destroy`).then(() => {
+                            this.setState({
+                                delete: 0,
+                            });
+                        
+                }).then( () => { this.props.clearFocus(); this.props.refreshData()})
+            }})
+        }
+
+
+
+        whyWhiteSetState() {    //////////// what the??? something wrong with fuction above?
+            this.setState({});
+        }
+
         componentWillMount() {
             this.setState({
                 focusOn: this.props.focusOn,
@@ -67,44 +88,30 @@ export default class Focus extends Component {
                 objectName: this.props.editedObjectName,
             });
         }
-   
-        focusOnTableHandler(table) {
-            ///  focus on or off
-            this.setState({
-                //////  need to know if click is from focus on type and keep focus on just change content
-                focusOn: table,
-                focus: !this.state.focus
-            });
-        }
-        deleteHandler(object, id) {
-            this.setState({ delete: this.state.delete + 1 }, () => {
-                if (this.state.delete == 4) {
-                    axios.get(`/${object}/${id}/destroy`).then(() => {
-                        axios.get("/customers").then(response =>
-                            this.setState({
-                                customers: [...response.data],
-                                displayCustomers: [...response.data],
-                                focusOn: "",
-                                focus: !this.state.focus,
-                                search: "",
-                                delete: 0
-                            })
-                        );
-                        axios.get("/cars").then(response =>
-                            this.setState({
-                                cars: [...response.data],
-                                displayCars: [...response.data]
-                            })
-                        );
-                    });
-                }
-            });
-        }
+  
+    
         sendSmsHandler(id) {
             axios.get(`/cars/${id}/toNexmo`).then(() => {
-                this.refreshData();
+                this.props.refreshData();
             });
         }
+        sendAlertSmsHandler(id) {
+            axios.get(`/cars/${id}/toNexmoAlert`).then(() => {
+                this.props.refreshData();
+            });
+        }
+        assignCar(carId) {
+            axios.put(`/customers/${this.props.object.id}/addCar/${carId}/`).then(() => {
+                this.props.refreshData();
+            });
+        }
+
+        removeCar(carId) {
+            axios.put(`/customers/${this.props.object.id}/removeCar/${carId}/`).then(() => {
+                this.props.refreshData();
+            });
+        }
+        
     
         chooseCar() {
     
@@ -127,9 +134,7 @@ export default class Focus extends Component {
                         })}
                     </select>
                     <button
-                        onClick={e =>
-                            this.submitHandler(e, "editedCustomer", "assign")
-                        }
+                        onClick={() => this.assignCar(this.state.optionChoice)}
                     >
                         ASSIGN CAR TO THE OWNER{" "}
                     </button>
@@ -142,52 +147,58 @@ export default class Focus extends Component {
         displayList(id) {
             ///// not dynamic yet might never be
     
-            if (this.state.tableName === "displayCustomers") {
+            if (this.state.objectName.toString() === "editedCustomers") {
                 return (
                     <div className="list-wrapper">
                         <h1>List Of Cars</h1>
-                        {this.state.cars.map(car => {
-                            return car.customer_id === id ? (
-                                <div
+                        {this.props.customers.map(customer => {
+                            return customer.id === id ? (
+                                customer.cars.map(car => {
+
+                                    return (
+                                        <div
                                     key={car.registration}
                                     className="display-list-item"
                                 >
                                     {car.registration.toUpperCase()}
                                     <button
                                         value={car.id}
-                                        onClick={e =>
-                                            this.submitHandler(
-                                                e,
-                                                "editedCustomer",
-                                                "remove"
-                                            )
-                                        }
+                                        onClick={() => this.removeCar(car.id)}
                                     >
                                         Remove
                                     </button>
                                 </div>
-                            ) : null;
+                                )
+                                })
+                            ) : null 
+                                
                         })}
                     </div>
                 );
             }
     
-            if (this.state.tableName === "displayCars") {
+            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" ) {
                 return (
                     <div className="list-wrapper">
                         <h1>OWNER</h1>
-                        {this.state.customers.map(customer => {
-                            return customer.id === id ? (
-                                <div
-                                    key={id}
-                                    className="display-list-item"
-                                    onClick={() =>
-                                        this.editHandler(customer, "editedCustomer")
-                                    }
-                                >
-                                    {customer.name + " " + customer.surname}
-                                </div>
-                            ) : null;
+                        {this.props.customers.map(customer => { 
+
+                        return    customer.cars.map(customerCars => {
+                       
+                                return customerCars.id === id ? (
+                                    <div
+                                        key={id}
+                                        className="display-list-item"
+                                        onClick={() =>
+                                            this.props.editHandler(customer, 'editedCustomers', true)
+                                            }
+
+                                    >
+                                        {customer.name + " " + customer.surname}
+                                    </div>
+                                ) : null;
+                            })
+                          
                         })}
                     </div>
                 );
@@ -195,8 +206,7 @@ export default class Focus extends Component {
         }
     
         displayActions(id) {
-            {console.log(this.state.objectName)}
-            ///// not dynamic yet might never be
+            ///// not dynamic but they will be
             if (this.state.objectName.toString() === "editedCustomers") {
                 return (
                     <div className="list-wrapper">
@@ -230,6 +240,19 @@ export default class Focus extends Component {
                                     );
                                 }
                             })}
+                                {this.props.expired.map(expiredCar => {
+                                if (id === expiredCar.id) {
+                                    return (
+                                        <button
+                                            className="submit-button"
+                                            onClick={() => this.sendSmsAlertHandler(id)}
+                                            key={id}
+                                        >
+                                            Send Alert SMS
+                                        </button>
+                                    );
+                                }
+                            })}
                             <button
                                 className={
                                     "submit-button" + "-" + this.state.delete
@@ -244,7 +267,7 @@ export default class Focus extends Component {
             }
         }
     render() {
-        let focusOn = "Edit"
+     
         return (
         <div>
                         <div className="focus">
@@ -255,7 +278,7 @@ export default class Focus extends Component {
                     X
                 </div>
                 
-                {focusOn == "Edit"  ? (
+                {this.props.focusOn == "Edit" || this.state.editedObject !== undefined ? (
                     <div className="focus-work-area">
                         <Form 
                         clearFocus={() => this.props.clearFocus()}
@@ -265,14 +288,12 @@ export default class Focus extends Component {
                         focusOnTableHandler={() => this.focusOnTableHandler()}
                         />
                         {this.displayActions(this.state.editedObject.id,this.state.objectName)}
-                        {/* {this.displayList(
-                            this.state.editedCars.customer_id
-                        )} */}
+                        {this.displayList(this.state.editedObject.id)}
                     </div>
                 ) : null}
 
 
-                {focusOn == "newCar" ? (
+                {this.props.focusOn == "newCar" ? (
                   
                     <div className="focus-work-area">
                           <Form 
@@ -285,7 +306,7 @@ export default class Focus extends Component {
                     
                     </div>
                 ) : null}
-                   { focusOn == "newCustomer"? (
+                   { this.props.focusOn == "newCustomer"? (
                   
                   <div className="focus-work-area">
                         <Form 
@@ -298,9 +319,6 @@ export default class Focus extends Component {
                   </div>
               ) : null}
 
-                {/* {this.state.focusOn !== "" && this.state.focusOn !== "newCar"  && this.state.focusOn !== "newCustomer" ? console.log('notable') */}
-                {/* // this.displayTable(this.state.tableName) 
-                : null} */}
             </div>
         </div>
     )

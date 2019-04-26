@@ -1,8 +1,8 @@
 .form-wrapper {
-    border: 1px solid red;
     border-radius: 25px;
     padding: 10px;
-    width: 500px;
+    width: 700px;
+    background-color: $dark;
 }
 
 .focus-form {
@@ -13,51 +13,52 @@
 .focus-form-input {
     margin-bottom: 35px;
     text-align: center;
-    color: white;
-    background-color: darkred;
+    color: $light;
+    background-color: $main;
     border-radius: 25px;
     margin-left: auto;
+    width: 400px;
 }
 .form-label {
-    color: darkred;
+    color: $main;
     font-size: 0.7em;
     margin: 0 auto;
     text-align: center;
 }
 .submit-button {
-    color: darkred;
-    background-color: white;
-    border-color: darkred;
+    color: $main;
+    background-color: $light;
+    border-color: $main;
     border-radius: 25px;
 }
 .submit-button-0 {
-    color: darkred;
-    background-color: white;
-    border-color: darkred;
+    color: $main;
+    background-color: $light;
+    border-color: $main;
     border-radius: 25px;
 }
 .submit-button-1{
-    color: darkred;
-    background-color: wheat;
-    border-color: darkred;
+    color: $main;
+    background-color: $secondary;
+    border-color: $main;
     border-radius: 25px;
 }
 .submit-button-2 {
-    color: darkred;
+    color: $main;
     background-color: orange;
-    border-color: darkred;
+    border-color: $main;
     border-radius: 25px;
 }
 .submit-button-3 {
-    color: wheat;
-    background-color: red;
-    border-color: darkred;
+    color: $secondary;
+    background-color: $main;
+    border-color: $main;
     border-radius: 25px;
 }
 .action-button {
-    color: darkred;
-    background-color: orange;
-    border-color: darkred;
+    color: $main;
+    background-color: $secondary;
+    border-color: $main;
     border-radius: 50%;
     font-size: 0.8em;
     width: 45px;

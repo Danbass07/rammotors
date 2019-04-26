@@ -20,7 +20,7 @@
 }
 .focus-work-area {
 
-    background-color: white;
+    background-color: $main;
     width: 1200px;
     height: 620px;
     margin: 0 auto;
@@ -30,7 +30,7 @@
 
 .closing-div {
     background-color: black;
-    color: white;
+    color: $light;
     border-radius: 50%;
     z-index:990;
     font-size:1.4em;

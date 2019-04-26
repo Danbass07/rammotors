@@ -353,9 +353,10 @@ export default class TableTwo extends Component {
 
                             onClick={() => {
                                 if(this.state.tableNumber !== 1) {
-                                    this.props.focusOnTableHandler("newCar")
+                                    this.props.editHandler({}, "newCar", "newCar")
                                 } else {
-                                    this.props.focusOnTableHandler("newCustomer")
+                                    this.props.editHandler({}, "newCustomer", "newCustomer")
+                                 
                                 }
                                 
                             }

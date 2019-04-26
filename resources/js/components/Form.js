@@ -51,10 +51,10 @@ export default class Form extends Component {
     }
     submitHandler(e,  editedObjectName) {
         // submit both of above new or edit  need to update state reset search value
-       console.log(editedObjectName)
+   
         e.preventDefault();
 
-    if  (editedObjectName === "newCar" ) {
+    if  (editedObjectName.toString() === "newCar" ) {
 
         const newCar = { ...this.state.newCar };
         
@@ -142,7 +142,7 @@ componentWillMount() {
               }
           });
         } 
-    else if (this.props.editedObjectName === "newCustomer" ) {
+    else if (this.props.editedObjectName.toString() === "newCustomer" ) {
     this.setState({
         editedObject: {
                 ...this.state.newCustomer,
@@ -158,9 +158,10 @@ componentWillMount() {
               editedObject:{...this.props.editedObject,}
           });
     }
-    
+ 
     
 }
+
 stringToDate(_date, _format, _delimiter) {
     var formatLowerCase = _format.toLowerCase();
     var formatItems = formatLowerCase.split(_delimiter);
@@ -210,9 +211,10 @@ addYear(editedDate, editedProperty) {
         };
         const inline = {
             display: "flex",
-            flexDirection: "row"
+            flexDirection: "row",
+            justifyContent: 'space-between'
         };
-        return (
+        if (this.state.editedObject)  return (
                 <div className="form-wrapper">
                     <form
                         className="focus-form"
@@ -223,8 +225,7 @@ addYear(editedDate, editedProperty) {
                             )
                         }
                     >
-                        <h2>{//this.props.editedObjectName.replace("edited", "")
-                        } </h2>
+                      
                         {Object.entries(this.state.editedObject).map(data => {
                             return (
                                 <div key={data[0]} style={inline}>
@@ -316,6 +317,6 @@ addYear(editedDate, editedProperty) {
                     </form>
                     
                 </div>
-    )
+    ) 
     }
 }

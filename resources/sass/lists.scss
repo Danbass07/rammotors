@@ -1,11 +1,12 @@
 .list-wrapper {
-    border: 1px solid red;
+    border: 1px solid $dark;
     border-radius: 25px;
     padding: 10px;
     width: 300px;
+    background-color: $dark;
 }
 
 .display-list-item {
     font-size: 2em;
-    color: darkred;
+    color: $main;
 }
