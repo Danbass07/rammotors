@@ -266,8 +266,8 @@ class CarsController extends Controller
 		$nexmo->message()->send([
 		    'to'   => $number,
 		    'from' => '447794338771',
-			'text' => 'Hello '.$name.'. This is a polite alert that your '.$car->make.' ('.strtoupper($car->registration).')
-			 has MOT expired on '.$car->mot.' and service on '.$car->servis.'. To book your appointment text or call Robert on 07794338771 or visit www.rammotorsretford.co.uk/book-appointment.html *************************************************************** sms send by application developed by DCS.'
+			'text' => 'Hello '.$name.'. This is a polite reminder that the MOT of your'.$car->make.' ('.strtoupper($car->registration).')
+			has ran out on '.$car->mot.'. To avoid penalty book your appointment ASAP. Text or call RAM Motors on 07794338771 or visit www.rammotorsretford.co.uk/book-appointment.html *************************************************************** sms send by application developed by DCS.'
 		    			
 		]);
 
