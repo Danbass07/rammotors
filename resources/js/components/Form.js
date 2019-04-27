@@ -229,7 +229,7 @@ addYear(editedDate, editedProperty) {
                         {Object.entries(this.state.editedObject).map(data => {
                             return (
                                 <div key={data[0]} style={inline}>
-                                    <label
+                                    <label className={"form-label"}
                                         style={
                                             data[0] === "cars" ||
                                             data[0] === "updated_at" ||
@@ -245,7 +245,7 @@ addYear(editedDate, editedProperty) {
                                                 : null
                                         }
                                     >
-                                        {data[0]}
+                                        {data[0].toUpperCase()}
                                     </label>
                                     <input
                                         key={data[0]}

@@ -118,7 +118,7 @@ export default class Focus extends Component {
             return (
                 <div>
                     <select
-                        className="focus-form-input"
+                        className="focus-form-select"
                         onChange={e => {
                             this.setState({ optionChoice: e.target.value });
                         }}
@@ -133,10 +133,10 @@ export default class Focus extends Component {
                             }
                         })}
                     </select>
-                    <button
+                    <button className="focus-form-select-button"
                         onClick={() => this.assignCar(this.state.optionChoice)}
                     >
-                        ASSIGN CAR TO THE OWNER{" "}
+                        ASSIGN CAR TO THE OWNER
                     </button>
                 </div>
             );
@@ -150,22 +150,24 @@ export default class Focus extends Component {
             if (this.state.objectName.toString() === "editedCustomers") {
                 return (
                     <div className="list-wrapper">
-                        <h1>List Of Cars</h1>
+                        <h1 className={'focus-header'}>List Of Cars</h1>
                         {this.props.customers.map(customer => {
                             return customer.id === id ? (
                                 customer.cars.map(car => {
 
                                     return (
-                                        <div
+                                    <div
                                     key={car.registration}
-                                    className="display-list-item"
+                                    className="focus-list-item"
                                 >
                                     {car.registration.toUpperCase()}
-                                    <button
+                                    <br/>
+                                    {car.make.toUpperCase()}
+                                    <button className={'focus-remove'}
                                         value={car.id}
                                         onClick={() => this.removeCar(car.id)}
                                     >
-                                        Remove
+                                       X
                                     </button>
                                 </div>
                                 )
@@ -180,7 +182,7 @@ export default class Focus extends Component {
             if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" ) {
                 return (
                     <div className="list-wrapper">
-                        <h1>OWNER</h1>
+                        <h1 className={'focus-header'}>OWNER</h1>
                         {this.props.customers.map(customer => { 
 
                         return    customer.cars.map(customerCars => {
@@ -188,7 +190,7 @@ export default class Focus extends Component {
                                 return customerCars.id === id ? (
                                     <div
                                         key={id}
-                                        className="display-list-item"
+                                        className="focus-list-item"
                                         onClick={() =>
                                             this.props.editHandler(customer, 'editedCustomers', true)
                                             }
@@ -210,13 +212,13 @@ export default class Focus extends Component {
             if (this.state.objectName.toString() === "editedCustomers") {
                 return (
                     <div className="list-wrapper">
-                        <h1>Actions</h1>
+                        <h1 className={'focus-header'}>Actions</h1>
                         {this.chooseCar()}
                         <button
-                            className={"submit-button" + "-" + this.state.delete}
+                            className={"submit-button-" + this.state.delete}
                             onClick={() => this.deleteHandler("customers", id)}
                         >
-                            DELLETE
+                            DELETE CUSTOMER
                         </button>
                     </div>
                 );
@@ -225,7 +227,7 @@ export default class Focus extends Component {
                 return (
                     <div className="list-wrapper">
                         <div className="focus-form">
-                            <h1>Actions</h1>
+                            <h1 className={'focus-header'} >Actions</h1>
                             
                             {this.props.alerts.map(alertedCar => {
                                 if (id === alertedCar.id) {
@@ -255,11 +257,11 @@ export default class Focus extends Component {
                             })}
                             <button
                                 className={
-                                    "submit-button" + "-" + this.state.delete
+                                    "submit-button-" + this.state.delete
                                 }
                                 onClick={() => this.deleteHandler("cars", id)}
                             >
-                                DELETE
+                                DELETE CAR
                             </button>
                         </div>
                     </div>

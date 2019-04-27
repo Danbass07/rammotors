@@ -18,6 +18,18 @@
     background-color: rgba(0,0,0,0);
     
 }
+.focus-form-select-button{
+    border-radius: 50% 20%;
+    height: 45px;
+    background-color: $secondary;
+    color: $main;
+    font-weight: bold;
+    border-color: $main;
+    margin-top:10px;
+    margin-bottom:40px;
+    box-shadow: black 2px 2px 12px;
+
+}
 .focus-work-area {
 
     background-color: $main;
@@ -25,6 +37,31 @@
     height: 620px;
     margin: 0 auto;
     display: flex;
+
+}
+.focus-remove {
+background-color: black;
+border-radius: 50%;
+color: $light;
+margin-left: auto;
+width: 50px;
+height: 50px;
+font-size: 1.4em;
+box-shadow: black 2px 2px 12px;
+margin-top: 10px;
+}
+.focus-header{
+    color: darkred;
+    font-size: 3.2em;
+}
+.focus-list-item{
+    background-color: $main;
+    color: $light;
+    border-radius: 0% 50% 50% 0%;
+    display: flex;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    padding-left: 20px;
 
 }
 

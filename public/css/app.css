@@ -261,6 +261,10 @@
   box-sizing: border-box;
 }
 
+button:hover {
+  box-shadow: none;
+}
+
 .form-wrapper {
   border-radius: 25px;
   padding: 10px;
@@ -284,18 +288,32 @@
   width: 400px;
 }
 
+.focus-form-select {
+  margin-top: 15px;
+  height: 50px;
+  font-size: 2em;
+  color: white;
+  background-color: darkred;
+  border-radius: 25px;
+  width: 200px;
+}
+
 .form-label {
   color: darkred;
-  font-size: 0.7em;
-  margin: 0 auto;
-  text-align: center;
+  font-size: 1.1em;
 }
 
 .submit-button {
   color: darkred;
-  background-color: white;
+  background-color: wheat;
   border-color: darkred;
   border-radius: 25px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 50px;
+  box-shadow: black 2px 2px 12px;
 }
 
 .submit-button-0 {
@@ -303,6 +321,10 @@
   background-color: white;
   border-color: darkred;
   border-radius: 25px;
+  box-shadow: black 2px 2px 12px;
+  width: 100%;
+  height: 60px;
+  font-size: 1.2em;
 }
 
 .submit-button-1 {
@@ -310,6 +332,10 @@
   background-color: wheat;
   border-color: darkred;
   border-radius: 25px;
+  box-shadow: black 2px 2px 12px;
+  width: 100%;
+  height: 60px;
+  font-size: 1.2em;
 }
 
 .submit-button-2 {
@@ -317,6 +343,10 @@
   background-color: orange;
   border-color: darkred;
   border-radius: 25px;
+  box-shadow: black 2px 2px 12px;
+  width: 100%;
+  height: 70px;
+  font-size: 1.2em;
 }
 
 .submit-button-3 {
@@ -324,6 +354,9 @@
   background-color: darkred;
   border-color: darkred;
   border-radius: 25px;
+  width: 100%;
+  height: 80px;
+  font-size: 1.2em;
 }
 
 .action-button {
@@ -335,6 +368,7 @@
   width: 45px;
   height: 45px;
   padding-top: 7px;
+  box-shadow: black 2px 2px 12px;
 }
 
 .focus {
@@ -355,12 +389,51 @@
   background-color: rgba(0, 0, 0, 0);
 }
 
+.focus-form-select-button {
+  border-radius: 50% 20%;
+  height: 45px;
+  background-color: wheat;
+  color: darkred;
+  font-weight: bold;
+  border-color: darkred;
+  margin-top: 10px;
+  margin-bottom: 40px;
+  box-shadow: black 2px 2px 12px;
+}
+
 .focus-work-area {
   background-color: darkred;
   width: 1200px;
   height: 620px;
   margin: 0 auto;
   display: flex;
+}
+
+.focus-remove {
+  background-color: black;
+  border-radius: 50%;
+  color: white;
+  margin-left: auto;
+  width: 50px;
+  height: 50px;
+  font-size: 1.4em;
+  box-shadow: black 2px 2px 12px;
+  margin-top: 10px;
+}
+
+.focus-header {
+  color: darkred;
+  font-size: 3.2em;
+}
+
+.focus-list-item {
+  background-color: darkred;
+  color: white;
+  border-radius: 0% 50% 50% 0%;
+  display: flex;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  padding-left: 20px;
 }
 
 .closing-div {

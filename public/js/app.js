@@ -60104,7 +60104,7 @@ function (_Component) {
       var _this7 = this;
 
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
-        className: "focus-form-input",
+        className: "focus-form-select",
         onChange: function onChange(e) {
           _this7.setState({
             optionChoice: e.target.value
@@ -60118,10 +60118,11 @@ function (_Component) {
           }, car.registration.toUpperCase());
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "focus-form-select-button",
         onClick: function onClick() {
           return _this7.assignCar(_this7.state.optionChoice);
         }
-      }, "ASSIGN CAR TO THE OWNER", " "));
+      }, "ASSIGN CAR TO THE OWNER"));
     }
   }, {
     key: "displayList",
@@ -60132,17 +60133,20 @@ function (_Component) {
       if (this.state.objectName.toString() === "editedCustomers") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "List Of Cars"), this.props.customers.map(function (customer) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: 'focus-header'
+        }, "List Of Cars"), this.props.customers.map(function (customer) {
           return customer.id === id ? customer.cars.map(function (car) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               key: car.registration,
-              className: "display-list-item"
-            }, car.registration.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "focus-list-item"
+            }, car.registration.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), car.make.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: 'focus-remove',
               value: car.id,
               onClick: function onClick() {
                 return _this8.removeCar(car.id);
               }
-            }, "Remove"));
+            }, "X"));
           }) : null;
         }));
       }
@@ -60150,11 +60154,13 @@ function (_Component) {
       if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "OWNER"), this.props.customers.map(function (customer) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: 'focus-header'
+        }, "OWNER"), this.props.customers.map(function (customer) {
           return customer.cars.map(function (customerCars) {
             return customerCars.id === id ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               key: id,
-              className: "display-list-item",
+              className: "focus-list-item",
               onClick: function onClick() {
                 return _this8.props.editHandler(customer, 'editedCustomers', true);
               }
@@ -60172,12 +60178,14 @@ function (_Component) {
       if (this.state.objectName.toString() === "editedCustomers") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), this.chooseCar(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "submit-button" + "-" + this.state.delete,
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: 'focus-header'
+        }, "Actions"), this.chooseCar(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "submit-button-" + this.state.delete,
           onClick: function onClick() {
             return _this9.deleteHandler("customers", id);
           }
-        }, "DELLETE"));
+        }, "DELETE CUSTOMER"));
       }
 
       if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
@@ -60185,7 +60193,9 @@ function (_Component) {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "focus-form"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Actions"), this.props.alerts.map(function (alertedCar) {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+          className: 'focus-header'
+        }, "Actions"), this.props.alerts.map(function (alertedCar) {
           if (id === alertedCar.id) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "submit-button",
@@ -60206,11 +60216,11 @@ function (_Component) {
             }, "Send Alert SMS");
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-          className: "submit-button" + "-" + this.state.delete,
+          className: "submit-button-" + this.state.delete,
           onClick: function onClick() {
             return _this9.deleteHandler("cars", id);
           }
-        }, "DELETE")));
+        }, "DELETE CAR")));
       }
     }
   }, {
@@ -60519,8 +60529,9 @@ function (_Component) {
           key: data[0],
           style: inline
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+          className: "form-label",
           style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "notes" || data[0] === "info" ? style : null
-        }, data[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        }, data[0].toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
           key: data[0],
           className: "focus-form-input",
           placeholder: data[0],
