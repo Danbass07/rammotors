@@ -11,7 +11,7 @@ export default class RamMotors extends Component {
             pending: [],
             confirmed: [],
             expired: [],
-            deleted: [],
+            deletedCars: [],
             alerts: [],
 
 
@@ -28,47 +28,42 @@ export default class RamMotors extends Component {
     refreshData() {
         axios.get("/cars/alerts").then(response =>
             this.setState({
-                alerts: [...response.data],
-                displayAlerts: [...response.data]
+                alerts: [...response.data]
             })
         );
-        
         axios.get("/cars/deleted").then(response =>
             this.setState({
-                deleted: [...response.data],
-                displayDeleted: [...response.data]
+                deletedCars: [...response.data]
             })
         );
-      
+        // axios.get("/customers/deleted").then(response =>
+        //     this.setState({
+        //         deletedCustomers: [...response.data]
+        //     })
+        //);
         axios.get("/cars").then(response =>
             this.setState({
-                cars: [...response.data],
-                displayCars: [...response.data]
+                cars: [...response.data]
             })
         );
-      
         axios.get("/cars/confirmed").then(response =>
             this.setState({
-                confirmed: [...response.data],
-                displayConfirmed: [...response.data]
+                confirmed: [...response.data]
             })
         );
         axios.get("/cars/pending").then(response =>
             this.setState({
-                pending: [...response.data],
-                displayPending: [...response.data]
+                pending: [...response.data]
             })
         );
         axios.get("/cars/get_data_expired").then(response =>
             this.setState({
-                expired: [...response.data],
-                displayExpired: [...response.data]
+                expired: [...response.data]
             })
         );
         axios.get("/customers").then(response =>
             this.setState({
-                customers: [...response.data],
-                displayCustomers: [...response.data]
+                customers: [...response.data]
             })
         );
         this.setState({ search: ''})
@@ -83,15 +78,33 @@ export default class RamMotors extends Component {
     ///////////// methods depending on focus state
     ////////////// modal display and form to add or update
     editHandler(object, objectName, focus = !this.state.focus, focusOn = "Edit"){
-     
+      
+        let editedCustomer 
+        if(objectName.toString() === "editedCars" ||objectName.toString() === "editedAlerts"){
+         
+             this.state.customers.forEach(customer => { 
+                  
+                    customer.cars.forEach(customerCars => {
+                        
+                            if (customerCars.id === object.id) {
+                              
+                
+                           
+                                editedCustomer = customer; 
+ 
+                            }
+                      })
+                     })     
+                  }
         this.setState({
             focusOn: focusOn,
             editedObject:  {
                 ...object
             },
+            editedCustomer: {...editedCustomer},
             focus: focus,
             objectName: [objectName],
-        },console.log(this.state.editedObject));
+        });
     }
 
 
@@ -110,7 +123,9 @@ export default class RamMotors extends Component {
                     alerts={this.state.alerts}
                     cars={this.state.cars}
                     expired={this.state.expired}
+                    deleted={this.state.deletedCars}
                     customers={this.state.customers}
+                    editedCustomer={this.state.editedCustomer}
 
                     />
                     : null
@@ -119,8 +134,14 @@ export default class RamMotors extends Component {
                 <div className="rammotors-row">
                     <Table 
                     tableName={''}
-                    displayDataArray={[[...this.state.cars], [...this.state.customers],  [...this.state.alerts], [...this.state.deleted]]}
-                    editHandler={(object, objectName, focusOn) => this.editHandler(object, objectName, focusOn)}/>
+                    displayDataArray={
+                        [[...this.state.cars], 
+                        [...this.state.customers],  
+                        [...this.state.alerts], 
+                        [...this.state.deletedCars]]}
+                    editHandler={
+                        (object, objectName, focusOn) => this.editHandler(object, objectName, focusOn)}
+                    />
                 </div>
                 
 

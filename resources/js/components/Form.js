@@ -132,6 +132,35 @@ export default class Form extends Component {
         });
 
     }
+    componentDidUpdate(nextProps)  /// not dynamic easy fix but better with props
+    {
+        if(this.props !== nextProps) {
+            if (this.props.editedObjectName.toString() === "newCar" ) {
+                this.setState({
+                    editedObject: {
+                          ...this.state.newCar,
+                    
+                      }
+                  });
+                } 
+            else if (this.props.editedObjectName.toString() === "newCustomer" ) {
+            this.setState({
+                editedObject: {
+                        ...this.state.newCustomer,
+                
+                    }
+                });
+            } else {
+                this.setState({
+                    [this.props.editedObjectName]: {
+                          ...this.props.editedObject,
+                    
+                      },
+                      editedObject:{...this.props.editedObject,}
+                  });
+            }
+        }
+    }
 componentWillMount() {
     
     if (this.props.editedObjectName.toString() === "newCar" ) {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from "./Form";
-
+let editedObject;
 export default class Focus extends Component {
             constructor(props) {
                 super(props);
@@ -30,7 +30,11 @@ export default class Focus extends Component {
                         phone: "",
                         email: "",
                         notes: "",
-                        cars: [],
+                        cars: [{  id: 0,
+                            customer_id: 0,
+                            registration: "",
+                            make: "",
+                            mot: ""}],
                         info: ""
                     },
         
@@ -50,35 +54,32 @@ export default class Focus extends Component {
                     },
         
                     focusOn: "",
-                    focus: false,
-                    chooseCustomer: true,
-                    operation: "",
-                    optionChoice: "",
+                    // focus: false,
+                    // chooseCustomer: true,
+                    // operation: "",
+                    // optionChoice: "",
                     delete: 0,
                     objectName: '',
                 };
         };
      
         deleteHandler(object, id) {
-            
-            this.setState({ 
-                delete: this.state.delete + 1 }, () => {
-                if (this.state.delete == 4) {
+            if (this.state.delete === 3) {
                     axios.get(`/${object}/${id}/destroy`).then(() => {
                             this.setState({
                                 delete: 0,
                             });
-                        
-                }).then( () => { this.props.clearFocus(); this.props.refreshData()})
-            }})
+                    }).then( () => { this.props.clearFocus(); this.props.refreshData() })
+            } else {
+                    this.setState({ 
+                        delete: this.state.delete + 1 }
+                    )}
+                }
+       
+        unDeleteHandler(object, id) {
+            axios.get(`/${object}/${id}/undestroy`).then( () => { this.props.clearFocus(); this.props.refreshData() })
         }
-
-
-
-        whyWhiteSetState() {    //////////// what the??? something wrong with fuction above?
-            this.setState({});
-        }
-
+        
         componentWillMount() {
             this.setState({
                 focusOn: this.props.focusOn,
@@ -86,20 +87,23 @@ export default class Focus extends Component {
                     ...this.props.object
                 },
                 objectName: this.props.editedObjectName,
-            });
+                editedCustomers: this.props.editedCustomer,
+            }) 
         }
-  
-    
+   
+
         sendSmsHandler(id) {
             axios.get(`/cars/${id}/toNexmo`).then(() => {
                 this.props.refreshData();
             });
         }
+
         sendAlertSmsHandler(id) {
             axios.get(`/cars/${id}/toNexmoAlert`).then(() => {
                 this.props.refreshData();
             });
         }
+
         assignCar(carId) {
             axios.put(`/customers/${this.props.object.id}/addCar/${carId}/`).then(() => {
                 this.props.refreshData();
@@ -114,7 +118,7 @@ export default class Focus extends Component {
         
     
         chooseCar() {
-    
+            
             return (
                 <div>
                     <select
@@ -182,26 +186,23 @@ export default class Focus extends Component {
             if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" ) {
                 return (
                     <div className="list-wrapper">
-                        <h1 className={'focus-header'}>OWNER</h1>
-                        {this.props.customers.map(customer => { 
+                        <div className={'focus-header'}>OWNER</div>
+                        <div className={'focus-header'}>
+                            {this.state.editedCustomers.name}{" "}{this.state.editedCustomers.surname} 
+                        </div>
+                        {this.state.editedCustomers.cars? 
+                        this.state.editedCustomers.cars.map(car => {
+                            return ( 
 
-                        return    customer.cars.map(customerCars => {
-                       
-                                return customerCars.id === id ? (
-                                    <div
-                                        key={id}
-                                        className="focus-list-item"
-                                        onClick={() =>
-                                            this.props.editHandler(customer, 'editedCustomers', true)
-                                            }
-
-                                    >
-                                        {customer.name + " " + customer.surname}
-                                    </div>
-                                ) : null;
-                            })
-                          
-                        })}
+                                <div className="focus-list-item"
+                                    onClick={() => {this.setState({editedObject: {...car}}); } }>
+                                    {car.registration} 
+                                </div> 
+                            )
+                        }
+                 ) : null}
+              
+              
                     </div>
                 );
             }
@@ -223,7 +224,7 @@ export default class Focus extends Component {
                     </div>
                 );
             }
-            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
+            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" || this.state.objectName.toString() === "editedDeletedCars") {
                 return (
                     <div className="list-wrapper">
                         <div className="focus-form">
@@ -263,13 +264,29 @@ export default class Focus extends Component {
                             >
                                 DELETE CAR
                             </button>
+                            {this.props.deleted.map(deletedCar => {
+                                if (id === deletedCar.id) {
+                                    return (
+                                        <button
+                                            className="submit-button"
+                                            onClick={() => this.unDeleteHandler("cars", id)}
+                                            key={id}
+                                        >
+                                          Revive
+                                        </button>
+                                    );
+                                }
+                            })}
+                       
+                            
                         </div>
                     </div>
                 );
             }
+              
         }
     render() {
-     
+        
         return (
         <div>
                         <div className="focus">

@@ -5,7 +5,7 @@ export default class TableTwo extends Component {
         super(props);
         this.state = {
             tableNames: [
-                'Cars', 'Customers', 'Alerts'
+                'Cars', 'Customers', 'Alerts', 'DeletedCars'
             ],
    
             displayData: [
@@ -124,7 +124,7 @@ export default class TableTwo extends Component {
     componentWillReceiveProps(nextProps)  /// not dynamic easy fix but better with props
  {
      if(this.props !== nextProps) {
-        if (this.props.displayDataArray.length < 4 )  {
+        if (this.props.displayDataArray.length < 4)  {
             this.setState({
      
                 displayData: [... this.props.displayDataArray],
@@ -188,13 +188,15 @@ export default class TableTwo extends Component {
 
 
     render() {
+
         if (this.state.displayData[this.state.tableNumber]===undefined) {
             return (<div>Table Has No Data</div>)
         }
         let mini = ''
-       if (this.props.displayDataArray.length < 4 )  {
+        if (this.props.displayDataArray.length < 4 )  {
         mini = 'mini-'
        }
+
         return (
             <div className={mini+"wrapper"}>
                 <div className={mini+"workfield"}>
@@ -242,7 +244,7 @@ export default class TableTwo extends Component {
                              </div>
                             </div>
                         )}
-                     {/* end of header row*/}
+                     {/* end of 1st header row*/}
         
 
 
@@ -250,41 +252,30 @@ export default class TableTwo extends Component {
                     <div className="header-row">
 
                         {Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
-                            return (
-
-                                <div key={key+index}
-                                onClick={() =>
-                                    this.sortingHandler(key)
-                                }
-                                className={mini+"header-item"}
-                            >
+                            return ( // table columns names and sorting by them
+                                <div 
+                                    key={key+index}
+                                    onClick={() => this.sortingHandler(key)}
+                                    className={mini+"header-item"}
+                                >
                                {key === 'servis' ? 'SERVICE' : key.toUpperCase() /// little datatable bad spelling to much bother to change ATM ////// :)
                                } 
-                            </div>
-
+                                </div>
                             )})}
-                        
-                 
-                    </div>  {/* end of header row*/}
+   
+                    </div>  {/* end of 2nd header row*/}
                     
                     <div className={mini+"table-container"} id="style-1">
                         <table className={mini+"table-body"} id="style-1">
-                     
-    
-                                <tbody className={mini+"table-data"} id="style-1">
-                          
-                                    { this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
-                                     
-                                      return (
+                            <tbody className={mini+"table-data"} id="style-1">
+                                { this.state.displayData[this.state.tableNumber].map((rowdata, index) => {
+                                    return (
 
-                                            <tr
+                                            <tr             /// table main content
                                             className={mini+"table-data-row"}
                                             key={'row'+index}
-                                        
                                             >
                                             {Object.entries(rowdata).map((data) => {
-                                            
-
                                                 return (
                                                     Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
                                                         
@@ -297,7 +288,7 @@ export default class TableTwo extends Component {
                                                                 {typeof( data[1]) !== 'object' ? 
                                                                 typeof(data[1]) === 'string' ? 
                                                                 <p className={'data-link'} onClick={(e) => 
-                                                                this.props.editHandler( rowdata,  "edited"+this.state.tableNames[this.state.tableNumber]) }>
+                                                                this.props.editHandler( rowdata,  "edited"+this.state.tableNames[this.state.tableNumber], true) }>
                                                                 {data[1].toUpperCase()}
                                                                 </p> : data[1] : 
                                                                 data[1] === null ? ' ' : 
@@ -376,10 +367,10 @@ export default class TableTwo extends Component {
                         <button
                             className="under-table-button"
                             onClick={() =>
-                                this.setState({tableNumber: 3,})
+                                this.setState({tableNumber: 3})
                             }
                         >
-                            DELETED
+                            DELETED CARS
                         </button>
                     </div> : null}
                 </div>
