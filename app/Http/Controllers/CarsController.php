@@ -74,10 +74,12 @@ class CarsController extends Controller
 			->where('mot','>',Carbon::now())
 			->where('pending','=', 0)
 			->where('appointment','<',Carbon::now())
+			->where('appointment','!=',Carbon::now())
 			->orWhere('servis', '<', Carbon::now()->addWeeks(4))
 			->where('servis','>',Carbon::now())
 			->where('pending','=', 0)
 			->where('appointment','<',Carbon::now())
+			->where('appointment','!=',Carbon::now())
 			->get();
 
 		
@@ -299,7 +301,7 @@ class CarsController extends Controller
 
 	public function confirmed() {
 
-		$cars = \App\Car::with('customer')->where('appointment', '>', Carbon::now())
+		$cars = \App\Car::with('customer')->where('appointment', '>=', Carbon::now())
 						->get();
 
 
