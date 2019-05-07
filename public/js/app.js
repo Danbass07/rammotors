@@ -60678,6 +60678,7 @@ function (_Component) {
       cars: [],
       customers: [],
       pending: [],
+      pendingExpired: [],
       confirmed: [],
       expired: [],
       deletedCars: [],
@@ -60724,6 +60725,11 @@ function (_Component) {
       axios.get("/cars/pending").then(function (response) {
         return _this2.setState({
           pending: _toConsumableArray(response.data)
+        });
+      });
+      axios.get("/cars/pendingExpired").then(function (response) {
+        return _this2.setState({
+          pendingExpired: _toConsumableArray(response.data)
         });
       });
       axios.get("/cars/get_data_expired").then(function (response) {
@@ -60812,8 +60818,8 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableName: 'ALERTS',
-        displayDataArray: [_toConsumableArray(this.state.alerts)],
+        tableName: 'PENDING_EXPIRED',
+        displayDataArray: [_toConsumableArray(this.state.pendingExpired)],
         editHandler: function editHandler(data, key) {
           return _this3.editHandler(data, key);
         }

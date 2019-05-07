@@ -9,6 +9,7 @@ export default class RamMotors extends Component {
             cars: [],
             customers: [],
             pending: [],
+            pendingExpired: [],
             confirmed: [],
             expired: [],
             deletedCars: [],
@@ -54,6 +55,11 @@ export default class RamMotors extends Component {
         axios.get("/cars/pending").then(response =>
             this.setState({
                 pending: [...response.data]
+            })
+        );
+        axios.get("/cars/pendingExpired").then(response =>
+            this.setState({
+                pendingExpired: [...response.data]
             })
         );
         axios.get("/cars/get_data_expired").then(response =>
@@ -147,8 +153,8 @@ export default class RamMotors extends Component {
 
                 <div className="rammotors-row">
                     <Table 
-                    tableName={'ALERTS'}
-                    displayDataArray={[[...this.state.alerts]]} 
+                    tableName={'PENDING_EXPIRED'}
+                    displayDataArray={[[...this.state.pendingExpired]]} 
                     editHandler={(data, key) => this.editHandler(data, key)}/>
                     <Table 
                     tableName={'PENDING'}

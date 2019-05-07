@@ -293,7 +293,15 @@ class CarsController extends Controller
 
 	public function pending() {
 
-		$cars = \App\Car::with('customer')->where('pending', '=', 1)->get();
+		$cars = \App\Car::with('customer')->where('mot', '>=', Carbon::now())->where('pending', '=', 1)->get();
+
+
+		return response()->json($cars);
+	}
+	
+	public function pendingExpired() {
+
+		$cars = \App\Car::with('customer')->where('mot', '<', Carbon::now())->where('pending', '=', 1)->get();
 
 
 		return response()->json($cars);

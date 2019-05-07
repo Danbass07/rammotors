@@ -24,6 +24,7 @@ Route::get('/cars/dashboard', 'CarsController@dashboard')->name('cars.dashboard'
 Route::get('/cars/alerts', 'CarsController@alerts')->name('cars.alerts');
 Route::get('/cars/create', 'CarsController@create')->name('cars.create');
 Route::get('/cars/pending', 'CarsController@pending')->name('cars.pending');
+Route::get('/cars/pendingExpired', 'CarsController@pendingExpired')->name('cars.pendingExpired');
 Route::get('/cars/confirmed', 'CarsController@confirmed')->name('cars.confirmed');
 Route::get('/cars/{id}/edit', 'CarsController@edit')->name('cars.edit');
 Route::get('/cars/{id}/destroy', 'CarsController@destroy')->name('cars.destroy');
