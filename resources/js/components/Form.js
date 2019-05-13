@@ -301,10 +301,10 @@ addYear(editedDate, editedProperty) {
                                                 : "text"
                                         }
                                         value={
-                                            data[0] === "registration"
-                                                ? this.state[this.props.editedObjectName][
+                                            data[0] === "registration" && typeof(this.state[this.props.editedObjectName][data[0]]) === 'string'   ? 
+                                            this.state[this.props.editedObjectName][
                                                     data[0]
-                                                  ].toUpperCase()
+                                                   ].toUpperCase()
                                                 : this.state[this.props.editedObjectName][data[0]]
                                         }
                                         onChange={e =>

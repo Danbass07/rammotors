@@ -60152,7 +60152,14 @@ function (_Component) {
           return customer.id === id ? customer.cars.map(function (car) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               key: car.registration,
-              className: "focus-list-item"
+              className: "focus-list-item",
+              onClick: function onClick() {
+                _this9.setState({
+                  editedCustomers: _objectSpread({}, customer),
+                  objectName: 'editedCars',
+                  editedObject: _objectSpread({}, car)
+                });
+              }
             }, car.registration.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), car.make.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: 'focus-remove',
               value: car.id,
@@ -60170,12 +60177,19 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: 'focus-header'
         }, "OWNER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: 'focus-header'
+          className: "focus-list-item-big",
+          onClick: function onClick() {
+            _this9.setState({
+              objectName: ['editedCustomers'],
+              editedObject: _objectSpread({}, _this9.state.editedCustomers)
+            });
+          }
         }, this.state.editedCustomers.name, " ", this.state.editedCustomers.surname), this.state.editedCustomers.cars ? this.state.editedCustomers.cars.map(function (car) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             className: "focus-list-item",
             onClick: function onClick() {
               _this9.setState({
+                objectName: ['editedCars'],
                 editedObject: _objectSpread({}, car)
               });
             }
@@ -60581,7 +60595,7 @@ function (_Component) {
           placeholder: data[0],
           style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "info" ? style : null,
           type: data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? "date" : "text",
-          value: data[0] === "registration" ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
+          value: data[0] === "registration" && typeof _this3.state[_this3.props.editedObjectName][data[0]] === 'string' ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
           onChange: function onChange(e) {
             return _this3.formChangeHandler(e, data[0], _this3.props.editedObjectName);
           }

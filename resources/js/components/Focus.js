@@ -163,6 +163,11 @@ export default class Focus extends Component {
                                     <div
                                     key={car.registration}
                                     className="focus-list-item"
+                                    onClick={() => {this.setState({
+                                        editedCustomers: {...customer},
+                                        objectName: 'editedCars',
+                                        editedObject: {...car}});
+                                     } }
                                 >
                                     {car.registration.toUpperCase()}
                                     <br/>
@@ -187,7 +192,8 @@ export default class Focus extends Component {
                 return (
                     <div className="list-wrapper">
                         <div className={'focus-header'}>OWNER</div>
-                        <div className={'focus-header'}>
+                        <div className="focus-list-item-big"
+                                    onClick={() => {this.setState({objectName: ['editedCustomers'], editedObject: {...this.state.editedCustomers}}); } }>
                             {this.state.editedCustomers.name}{" "}{this.state.editedCustomers.surname} 
                         </div>
                         {this.state.editedCustomers.cars? 
@@ -195,7 +201,7 @@ export default class Focus extends Component {
                             return ( 
 
                                 <div className="focus-list-item"
-                                    onClick={() => {this.setState({editedObject: {...car}}); } }>
+                                    onClick={() => {this.setState({ objectName: ['editedCars'], editedObject: {...car}}); } }>
                                     {car.registration} 
                                 </div> 
                             )

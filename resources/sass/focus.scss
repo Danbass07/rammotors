@@ -65,7 +65,22 @@ margin-top: 10px;
     box-shadow: black 2px 2px 12px;
 
 }
+.focus-list-item-big{
+    background-color: wheat;
+    border: 2px solid darkred;
+    color: darkred;
+    font-size: 2em;
+    border-radius: 50%;
+    box-shadow: black 2px 2px 12px;
+    text-align: center;
+    margin-bottom: 50px;
+    padding: 5px;
+}
+.focus-list-item-big:hover {
+    box-shadow: none; 
+}
 .focus-list-item:hover {
+
     box-shadow: none;
 }
 
