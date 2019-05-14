@@ -60286,7 +60286,8 @@ function (_Component) {
         },
         focusOnTableHandler: function focusOnTableHandler() {
           return _this11.focusOnTableHandler();
-        }
+        },
+        deleted: this.props.deleted
       }), this.displayActions(this.state.editedObject.id, this.state.objectName), this.displayList(this.state.editedObject.id)) : null, this.props.focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
@@ -60432,6 +60433,7 @@ function (_Component) {
       if (editedObjectName.toString() === "newCar") {
         var newCar = _objectSpread({}, this.state.newCar);
 
+        console.log(this.props.deleted);
         axios.post("/cars", {
           registration: newCar.registration,
           make: newCar.make,
@@ -61122,7 +61124,7 @@ function (_Component) {
       }, this.props.tableName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header-item"
       }, this.state.displayData[this.state.tableNumber].length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "header-row"
+        className: mini + "header-row"
       }, Object.keys(this.state.header[this.state.tableNumber]).map(function (key, index) {
         return (// table columns names and sorting by them
           react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {

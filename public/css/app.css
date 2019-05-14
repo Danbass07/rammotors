@@ -140,7 +140,7 @@
 }
 
 .mini-workfield {
-  height: 180px;
+  height: 215px;
   width: 342px;
   align-items: center;
   border-radius: 5%;
@@ -177,7 +177,7 @@
 .mini-table-container {
   font-size: 1em;
   overflow-y: auto;
-  height: 125px;
+  height: 155px;
   background-color: gray;
 }
 
@@ -214,6 +214,10 @@
   text-align: center;
   overflow: hidden;
   padding: 0;
+}
+
+.mini-table-data-row {
+  font-size: 17px;
 }
 
 .mini-table-data-row:nth-child(odd) {

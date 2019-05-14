@@ -249,7 +249,7 @@ export default class TableTwo extends Component {
 
 
 
-                    <div className="header-row">
+                    <div className={mini+"header-row"}>
 
                         {Object.keys(this.state.header[this.state.tableNumber]).map((key, index) => {
                             return ( // table columns names and sorting by them

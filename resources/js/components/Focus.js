@@ -311,6 +311,7 @@ export default class Focus extends Component {
                         editedObjectName={this.state.objectName}
                         refreshData={() => this.props.refreshData()}
                         focusOnTableHandler={() => this.focusOnTableHandler()}
+                        deleted={this.props.deleted}
                         />
                         {this.displayActions(this.state.editedObject.id,this.state.objectName)}
                         {this.displayList(this.state.editedObject.id)}
