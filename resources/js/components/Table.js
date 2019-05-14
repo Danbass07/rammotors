@@ -5,7 +5,7 @@ export default class TableTwo extends Component {
         super(props);
         this.state = {
             tableNames: [
-                'Cars', 'Customers', 'Alerts', 'DeletedCars'
+                'Cars', 'Customers', 'Alerts', 'DeletedCars', 'Zoomed'
             ],
    
             displayData: [
@@ -49,10 +49,19 @@ export default class TableTwo extends Component {
                     appointment: "",
             
                 },
+                {
+                    registration: "",
+                    make: "",
+                    mot: "",
+                    servis: "",
+                    appointment: "",
+            
+                },
             ],
             tableNumber: 2,
             ascending: true,
             search: '',
+            zoom: false,
           
         };
     }
@@ -120,11 +129,19 @@ export default class TableTwo extends Component {
             ascending: !this.state.ascending
         });
     }
+    zoomHandler()  {
+        
+        this.searchHandler();
+        this.sortingHandler('id');
+       this.props.zoomHandler();
+        console.log(this.state.tableNumber)
+      
+    }
   
-    componentWillReceiveProps(nextProps)  /// not dynamic easy fix but better with props
+    componentWillReceiveProps(nextProps)  /// 
  {
      if(this.props !== nextProps) {
-        if (this.props.displayDataArray.length < 4)  {
+        if (this.props.tableType === 'mini')  {
             this.setState({
      
                 displayData: [... this.props.displayDataArray],
@@ -148,13 +165,14 @@ export default class TableTwo extends Component {
                 ]
             })
            }
+           if (this.props.tableType === 'main')  {
         this.setState({
      
             displayData: [... this.props.displayDataArray],
-      
+            tableNumber: 2,
         })
     
-
+    }
      }
 
  }
@@ -193,7 +211,7 @@ export default class TableTwo extends Component {
             return (<div>Table Has No Data</div>)
         }
         let mini = ''
-        if (this.props.displayDataArray.length < 4 )  {
+        if (this.props.tableType === 'mini' && !this.state.zoom )  {
         mini = 'mini-'
        }
 
@@ -201,7 +219,7 @@ export default class TableTwo extends Component {
             <div className={mini+"wrapper"}>
                 <div className={mini+"workfield"}>
                     
-                        {this.props.displayDataArray.length === 4 ? (
+                        {this.props.tableType === 'main' ? (
                             <div className={mini+"header-row"}>
                                  <button
                                     className={
@@ -233,17 +251,27 @@ export default class TableTwo extends Component {
                                 >
                                     {this.state.tableNames[1]}
                                 </button>
+                                <button
+                                    className={
+                                        this.state.tableNumber === 4
+                                            ? "header-table-button active"
+                                            : "header-table-button"
+                                    }
+                                    onClick={() =>{ this.searchHandler(); this.sortingHandler('id'); this.setState({tableNumber: 4})}}
+                                >
+                                    {this.props.zoomName}
+                                </button>
                             </div>
-                        ) : (
+                        ) : ( this.props.tableType === 'mini' ? (
                             <div className={mini+"header-row"}>
-                             <div className={"mini-header-item"}>
+                             <div onClick={() => this.zoomHandler()  } className={"mini-header-item"}>
                              {this.props.tableName}
                              </div>
                              <div className={"mini-header-item"}>
                              {this.state.displayData[this.state.tableNumber].length}
                              </div>
                             </div>
-                        )}
+                        ): null )}
                      {/* end of 1st header row*/}
         
 
@@ -338,7 +366,7 @@ export default class TableTwo extends Component {
                             
                         </table>
                     </div>
-                    {this.props.displayDataArray.length === 4 ? <div className="under-table-field">
+                    {this.props.tableType === 'main'  ? <div className="under-table-field">
                         <button
                             className="under-table-button"
 

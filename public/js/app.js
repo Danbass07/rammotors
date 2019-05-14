@@ -60699,6 +60699,8 @@ function (_Component) {
       expired: [],
       deletedCars: [],
       alerts: [],
+      zoomed: [],
+      ZoomedName: 'empty',
       focusOn: "editedCar",
       focus: false,
       chooseCustomer: true,
@@ -60826,33 +60828,63 @@ function (_Component) {
       }) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        zoomName: this.state.zoomName,
+        tableType: 'main',
         tableName: '',
-        displayDataArray: [_toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deletedCars)],
+        displayDataArray: [_toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deletedCars), _toConsumableArray(this.state.zoomed)],
         editHandler: function editHandler(object, objectName, focusOn) {
           return _this3.editHandler(object, objectName, focusOn);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableType: 'mini',
         tableName: 'PENDING_EXPIRED',
+        zoomHandler: function zoomHandler() {
+          return _this3.setState({
+            zoomed: _this3.state.pendingExpired,
+            zoomName: 'Pending Expired'
+          });
+        },
         displayDataArray: [_toConsumableArray(this.state.pendingExpired)],
         editHandler: function editHandler(data, key) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableType: 'mini',
         tableName: 'PENDING',
+        zoomHandler: function zoomHandler() {
+          return _this3.setState({
+            zoomed: _this3.state.pending,
+            zoomName: 'Pending'
+          });
+        },
         displayDataArray: [_toConsumableArray(this.state.pending)],
         editHandler: function editHandler(data, key) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableType: 'mini',
         tableName: 'CONFIRMED',
+        zoomHandler: function zoomHandler() {
+          return _this3.setState({
+            zoomed: _this3.state.confirmed,
+            zoomName: 'Confirmed'
+          });
+        },
         displayDataArray: [_toConsumableArray(this.state.confirmed)],
         editHandler: function editHandler(data, key) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        tableType: 'mini',
         tableName: 'EXPIRED',
+        zoomHandler: function zoomHandler() {
+          return _this3.setState({
+            zoomed: _this3.state.expired,
+            zoomName: 'Expired'
+          });
+        },
         displayDataArray: [_toConsumableArray(this.state.expired)],
         editHandler: function editHandler(data, key) {
           return _this3.editHandler(data, key);
@@ -60922,7 +60954,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TableTwo).call(this, props));
     _this.state = {
-      tableNames: ['Cars', 'Customers', 'Alerts', 'DeletedCars'],
+      tableNames: ['Cars', 'Customers', 'Alerts', 'DeletedCars', 'Zoomed'],
       displayData: [],
       header: [{
         registration: "",
@@ -60951,10 +60983,17 @@ function (_Component) {
         mot: "",
         servis: "",
         appointment: ""
+      }, {
+        registration: "",
+        make: "",
+        mot: "",
+        servis: "",
+        appointment: ""
       }],
       tableNumber: 2,
       ascending: true,
-      search: ''
+      search: '',
+      zoom: false
     };
     return _this;
   }
@@ -61015,11 +61054,19 @@ function (_Component) {
       });
     }
   }, {
+    key: "zoomHandler",
+    value: function zoomHandler() {
+      this.searchHandler();
+      this.sortingHandler('id');
+      this.props.zoomHandler();
+      console.log(this.state.tableNumber);
+    }
+  }, {
     key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) /// not dynamic easy fix but better with props
+    value: function componentWillReceiveProps(nextProps) /// 
     {
       if (this.props !== nextProps) {
-        if (this.props.displayDataArray.length < 4) {
+        if (this.props.tableType === 'mini') {
           this.setState({
             displayData: _toConsumableArray(this.props.displayDataArray),
             tableNumber: 0,
@@ -61034,9 +61081,12 @@ function (_Component) {
           });
         }
 
-        this.setState({
-          displayData: _toConsumableArray(this.props.displayDataArray)
-        });
+        if (this.props.tableType === 'main') {
+          this.setState({
+            displayData: _toConsumableArray(this.props.displayDataArray),
+            tableNumber: 2
+          });
+        }
       }
     } ////// helping fuctions
 
@@ -61076,7 +61126,7 @@ function (_Component) {
 
       var mini = '';
 
-      if (this.props.displayDataArray.length < 4) {
+      if (this.props.tableType === 'mini' && !this.state.zoom) {
         mini = 'mini-';
       }
 
@@ -61084,7 +61134,7 @@ function (_Component) {
         className: mini + "wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "workfield"
-      }, this.props.displayDataArray.length === 4 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.tableType === 'main' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: this.state.tableNumber === 2 ? "header-table-button active" : "header-table-button",
@@ -61117,13 +61167,27 @@ function (_Component) {
             tableNumber: 1
           });
         }
-      }, this.state.tableNames[1])) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.tableNames[1]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: this.state.tableNumber === 4 ? "header-table-button active" : "header-table-button",
+        onClick: function onClick() {
+          _this3.searchHandler();
+
+          _this3.sortingHandler('id');
+
+          _this3.setState({
+            tableNumber: 4
+          });
+        }
+      }, this.props.zoomName)) : this.props.tableType === 'mini' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "header-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        onClick: function onClick() {
+          return _this3.zoomHandler();
+        },
         className: "mini-header-item"
       }, this.props.tableName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "mini-header-item"
-      }, this.state.displayData[this.state.tableNumber].length)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.displayData[this.state.tableNumber].length)) : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: mini + "header-row"
       }, Object.keys(this.state.header[this.state.tableNumber]).map(function (key, index) {
         return (// table columns names and sorting by them
@@ -61174,7 +61238,7 @@ function (_Component) {
             }
           });
         }));
-      })))), this.props.displayDataArray.length === 4 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })))), this.props.tableType === 'main' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "under-table-field"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "under-table-button",
