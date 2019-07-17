@@ -97,8 +97,8 @@ export default class Focus extends Component {
                 this.props.refreshData();
             });
         }
-
-        sendAlertSmsHandler(id) {
+        
+        sendSmsAlertHandler(id) {
             axios.get(`/cars/${id}/toNexmoAlert`).then(() => {
                 this.props.refreshData();
             });
@@ -188,7 +188,7 @@ export default class Focus extends Component {
                 );
             }
     
-            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" ) {
+            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedZoomed" || this.state.objectName.toString() === "editedAlerts" ) {
                 return (
                     <div className="list-wrapper">
                         <div className={'focus-header'}>OWNER</div>
@@ -230,7 +230,7 @@ export default class Focus extends Component {
                     </div>
                 );
             }
-            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" || this.state.objectName.toString() === "editedDeletedCars") {
+            if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedZoomed" || this.state.objectName.toString() === "editedAlerts" || this.state.objectName.toString() === "editedDeletedCars") {
                 return (
                     <div className="list-wrapper">
                         <div className="focus-form">

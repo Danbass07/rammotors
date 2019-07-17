@@ -170,8 +170,8 @@ class CustomersController extends Controller
 
 	  		$customer = \App\Customer::findOrfail($car->customer->id);
 	  		$name = $customer->name;
-		  	// $number = '44'.$customer->phone;
-		  	$number = '447828414128';
+		  	$number = '44'.$customer->phone;
+		  	//$number = '447828414128';
 			
 			}
 

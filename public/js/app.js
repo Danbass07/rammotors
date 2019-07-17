@@ -60085,8 +60085,8 @@ function (_Component) {
       });
     }
   }, {
-    key: "sendAlertSmsHandler",
-    value: function sendAlertSmsHandler(id) {
+    key: "sendSmsAlertHandler",
+    value: function sendSmsAlertHandler(id) {
       var _this5 = this;
 
       axios.get("/cars/".concat(id, "/toNexmoAlert")).then(function () {
@@ -60171,7 +60171,7 @@ function (_Component) {
         }));
       }
 
-      if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts") {
+      if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedZoomed" || this.state.objectName.toString() === "editedAlerts") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60216,7 +60216,7 @@ function (_Component) {
         }, "DELETE CUSTOMER"));
       }
 
-      if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedAlerts" || this.state.objectName.toString() === "editedDeletedCars") {
+      if (this.state.objectName.toString() === "editedCars" || this.state.objectName.toString() === "editedZoomed" || this.state.objectName.toString() === "editedAlerts" || this.state.objectName.toString() === "editedDeletedCars") {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60433,7 +60433,6 @@ function (_Component) {
       if (editedObjectName.toString() === "newCar") {
         var newCar = _objectSpread({}, this.state.newCar);
 
-        console.log(this.props.deleted);
         axios.post("/cars", {
           registration: newCar.registration,
           make: newCar.make,

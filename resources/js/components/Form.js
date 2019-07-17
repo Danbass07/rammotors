@@ -57,7 +57,6 @@ export default class Form extends Component {
     if  (editedObjectName.toString() === "newCar" ) {
 
         const newCar = { ...this.state.newCar };
-        console.log(this.props.deleted)
         axios
             .post(`/cars`, {
                 registration: newCar.registration,
