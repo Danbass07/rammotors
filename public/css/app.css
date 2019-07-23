@@ -478,6 +478,14 @@ button:hover {
   padding: 0;
 }
 
+.Dark {
+  background-color: black;
+  border: 2px solid darkorange;
+  color: darkorange;
+  border-radius: 50%;
+  box-shadow: darkred 2px 2px 12px;
+}
+
 .list-wrapper {
   border: 1px solid darkgrey;
   border-radius: 25px;

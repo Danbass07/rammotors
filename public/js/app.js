@@ -60026,9 +60026,9 @@ function (_Component) {
       // focus: false,
       // chooseCustomer: true,
       // operation: "",
-      // optionChoice: "",
+      optionChoice: 0,
       delete: 0,
-      objectName: ''
+      objectName: ""
     };
     return _this;
   }
@@ -60098,9 +60098,11 @@ function (_Component) {
     value: function assignCar(carId) {
       var _this6 = this;
 
-      axios.put("/customers/".concat(this.props.object.id, "/addCar/").concat(carId, "/")).then(function () {
-        _this6.props.refreshData();
-      });
+      if (this.state.optionChoice !== 0) {
+        axios.put("/customers/".concat(this.props.object.id, "/addCar/").concat(carId, "/")).then(function () {
+          _this6.props.refreshData();
+        });
+      }
     }
   }, {
     key: "removeCar",
@@ -60123,7 +60125,9 @@ function (_Component) {
             optionChoice: e.target.value
           });
         }
-      }, this.props.cars.map(function (car) {
+      }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: 0
+      }, "Choose a car..."), this.props.cars.map(function (car) {
         if (!car.customer_id) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
             key: car.id,
@@ -60147,21 +60151,22 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-          className: 'focus-header'
+          className: "focus-header"
         }, "List Of Cars"), this.props.customers.map(function (customer) {
           return customer.id === id ? customer.cars.map(function (car) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
               key: car.registration,
-              className: "focus-list-item",
+              className: "focus-list-item"
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
               onClick: function onClick() {
                 _this9.setState({
                   editedCustomers: _objectSpread({}, customer),
-                  objectName: 'editedCars',
+                  objectName: "editedCars",
                   editedObject: _objectSpread({}, car)
                 });
               }
-            }, car.registration.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), car.make.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-              className: 'focus-remove',
+            }, car.registration.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), car.make.toUpperCase(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+              className: "focus-remove",
               value: car.id,
               onClick: function onClick() {
                 return _this9.removeCar(car.id);
@@ -60175,12 +60180,12 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: 'focus-header'
+          className: "focus-header"
         }, "OWNER"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "focus-list-item-big",
+          className: this.state.editedCustomers.phone.length === 10 ? "focus-list-item-big" : "focus-list-item-big Dark",
           onClick: function onClick() {
             _this9.setState({
-              objectName: ['editedCustomers'],
+              objectName: ["editedCustomers"],
               editedObject: _objectSpread({}, _this9.state.editedCustomers)
             });
           }
@@ -60189,7 +60194,7 @@ function (_Component) {
             className: "focus-list-item",
             onClick: function onClick() {
               _this9.setState({
-                objectName: ['editedCars'],
+                objectName: ["editedCars"],
                 editedObject: _objectSpread({}, car)
               });
             }
@@ -60207,7 +60212,7 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "list-wrapper"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-          className: 'focus-header'
+          className: "focus-header"
         }, "Actions"), this.chooseCar(), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "submit-button-" + this.state.delete,
           onClick: function onClick() {
@@ -60222,7 +60227,7 @@ function (_Component) {
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "focus-form"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
-          className: 'focus-header'
+          className: "focus-header"
         }, "Actions"), this.props.alerts.map(function (alertedCar) {
           if (id === alertedCar.id) {
             return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -61058,7 +61063,6 @@ function (_Component) {
       this.searchHandler();
       this.sortingHandler('id');
       this.props.zoomHandler();
-      console.log(this.state.tableNumber);
     }
   }, {
     key: "componentWillReceiveProps",
