@@ -129,7 +129,13 @@ class CustomersController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
+    {   
+        $customer = \App\Customer::find($id)->load('cars');
+         foreach($customer->cars as $car) {
+            $car->customer()->dissociate();
+		$car->save();
+
+        }
         Customer::destroy($id);
 		
         return response()->json();

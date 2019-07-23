@@ -134,7 +134,6 @@ export default class TableTwo extends Component {
         this.searchHandler();
         this.sortingHandler('id');
        this.props.zoomHandler();
-        console.log(this.state.tableNumber)
       
     }
   
