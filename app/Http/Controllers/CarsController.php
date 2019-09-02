@@ -221,7 +221,7 @@ class CarsController extends Controller
 	  		$customer = \App\Customer::findOrfail($car->customer->id);
 	  		$name = $customer->name;
 		  	$number = '44'.$customer->phone;
-		
+			//  $number = '447828414128';
 		  	
 			
 			}
@@ -256,27 +256,30 @@ class CarsController extends Controller
 	  	}
 
 	  	else {
-
-	  		$customer = \App\Customer::findOrfail($car->customer->id);
-	  		$name = $customer->name;
-		  	$number = '44'.$customer->phone;
-		
-		  	
-			
+			if ($car->pending === 0) { 
+				$customer = \App\Customer::findOrfail($car->customer->id);
+				$name = $customer->name;
+		//		$number = '44'.$customer->phone;
+		  	  $number = '447828414128';
+				
+		  $nexmo->message()->send([
+			  'to'   => $number,
+			  'from' => '447794338771',
+			  'text' => 'Hello '.$name.'. This is a polite reminder that the MOT of your'.$car->make.' ('.strtoupper($car->registration).')
+			  has ran out on '.$car->mot.'. To avoid penalty book your appointment ASAP. Text or call RAM Motors on 07794338771 or visit www.rammotorsretford.co.uk/book-appointment.html *************************************************************** sms send by application developed by DCS.'
+						  
+		  ]);
+		  $car->pending = 1;
 			}
 
-		$nexmo->message()->send([
-		    'to'   => $number,
-		    'from' => '447794338771',
-			'text' => 'Hello '.$name.'. This is a polite reminder that the MOT of your'.$car->make.' ('.strtoupper($car->registration).')
-			has ran out on '.$car->mot.'. To avoid penalty book your appointment ASAP. Text or call RAM Motors on 07794338771 or visit www.rammotorsretford.co.uk/book-appointment.html *************************************************************** sms send by application developed by DCS.'
-		    			
-		]);
+			}
+
+	
 
 	
 		
 
-		$car->pending = 1;
+		
 		$car->save();
 			 
 		return response()->json($car);

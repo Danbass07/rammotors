@@ -295,8 +295,10 @@ export default class Focus extends Component {
                             }
                         })}
                         {this.props.expired.map(expiredCar => {
+                            console.log(expiredCar)
                             if (id === expiredCar.id) {
                                 return (
+                                    expiredCar.pending === 0 ?
                                     <button
                                         className="submit-button"
                                         onClick={() =>
@@ -305,7 +307,7 @@ export default class Focus extends Component {
                                         key={id}
                                     >
                                         Send Alert SMS
-                                    </button>
+                                    </button> : <div className="alert-sended">Alert Sended</div>
                                 );
                             }
                         })}

@@ -60239,14 +60239,18 @@ function (_Component) {
             }, "Send SMS");
           }
         }), this.props.expired.map(function (expiredCar) {
+          console.log(expiredCar);
+
           if (id === expiredCar.id) {
-            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            return expiredCar.pending === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "submit-button",
               onClick: function onClick() {
                 return _this10.sendSmsAlertHandler(id);
               },
               key: id
-            }, "Send Alert SMS");
+            }, "Send Alert SMS") : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+              className: "alert-sended"
+            }, "Alert Sended");
           }
         }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           className: "submit-button-" + this.state.delete,

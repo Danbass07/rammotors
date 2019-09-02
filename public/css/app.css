@@ -486,6 +486,15 @@ button:hover {
   box-shadow: darkred 2px 2px 12px;
 }
 
+.alert-sended {
+  height: 40px;
+  background-color: wheat;
+  border: 2px solid darkred;
+  color: darkred;
+  text-align: center;
+  font-size: 22px;
+}
+
 .list-wrapper {
   border: 1px solid darkgrey;
   border-radius: 25px;
