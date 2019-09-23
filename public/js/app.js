@@ -60239,10 +60239,8 @@ function (_Component) {
             }, "Send SMS");
           }
         }), this.props.expired.map(function (expiredCar) {
-          console.log(expiredCar);
-
           if (id === expiredCar.id) {
-            return expiredCar.pending === 0 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+            return expiredCar.pending === 0 || expiredCar.pending === 1 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
               className: "submit-button",
               onClick: function onClick() {
                 return _this10.sendSmsAlertHandler(id);
@@ -61323,8 +61321,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\websites\rammotors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\websites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

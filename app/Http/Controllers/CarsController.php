@@ -221,7 +221,7 @@ class CarsController extends Controller
 	  		$customer = \App\Customer::findOrfail($car->customer->id);
 	  		$name = $customer->name;
 		  	$number = '44'.$customer->phone;
-			//  $number = '447828414128';
+		//	  $number = '447828414128';
 		  	
 			
 			}
@@ -256,11 +256,11 @@ class CarsController extends Controller
 	  	}
 
 	  	else {
-			if ($car->pending === 0) { 
+			if ($car->pending === 0 || $car->pending === 1 ) { 
 				$customer = \App\Customer::findOrfail($car->customer->id);
 				$name = $customer->name;
-		//		$number = '44'.$customer->phone;
-		  	  $number = '447828414128';
+				$number = '44'.$customer->phone;
+		 // 	  $number = '447828414128';
 				
 		  $nexmo->message()->send([
 			  'to'   => $number,
@@ -269,7 +269,7 @@ class CarsController extends Controller
 			  has ran out on '.$car->mot.'. To avoid penalty book your appointment ASAP. Text or call RAM Motors on 07794338771 or visit www.rammotorsretford.co.uk/book-appointment.html *************************************************************** sms send by application developed by DCS.'
 						  
 		  ]);
-		  $car->pending = 1;
+		  $car->pending = 2;
 			}
 
 			}
