@@ -259,8 +259,8 @@ class CarsController extends Controller
 			if ($car->pending === 0 || $car->pending === 1 ) { 
 				$customer = \App\Customer::findOrfail($car->customer->id);
 				$name = $customer->name;
-		//		$number = '44'.$customer->phone;
-		  	  $number = '447828414128';
+				$number = '44'.$customer->phone;
+		//  	  $number = '447828414128';
 				
 		  $nexmo->message()->send([
 			  'to'   => $number,
