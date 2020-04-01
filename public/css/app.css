@@ -471,7 +471,7 @@ button:hover {
 }
 
 .focus-message {
-  height: 80%;
+  height: 96px;
   width: 599px;
   background-color: wheat;
   color: black;
