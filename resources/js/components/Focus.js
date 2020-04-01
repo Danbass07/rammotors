@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Form from "./Form";
+import Messages from "./Messages";
+
 let editedObject;
 export default class Focus extends Component {
     constructor(props) {
@@ -171,7 +173,6 @@ export default class Focus extends Component {
                 <div className="list-wrapper">
                     <h1 className={"focus-header"}>List Of Cars</h1>
                     {this.props.customers.map(customer => {
-                       
                         return customer.id === id
                             ? customer.cars.map(car => {
                                   return (
@@ -221,7 +222,11 @@ export default class Focus extends Component {
                 <div className="list-wrapper">
                     <div className={"focus-header"}>OWNER</div>
                     <div
-                        className={this.state.editedCustomers.phone.length === 10 ? "focus-list-item-big" : "focus-list-item-big Dark"}
+                        className={
+                            this.state.editedCustomers.phone.length === 10
+                                ? "focus-list-item-big"
+                                : "focus-list-item-big Dark"
+                        }
                         onClick={() => {
                             this.setState({
                                 objectName: ["editedCustomers"],
@@ -295,10 +300,9 @@ export default class Focus extends Component {
                             }
                         })}
                         {this.props.expired.map(expiredCar => {
-                           
                             if (id === expiredCar.id) {
-                                return (
-                                    expiredCar.pending === 0 || expiredCar.pending === 1  ?
+                                return expiredCar.pending === 0 ||
+                                    expiredCar.pending === 1 ? (
                                     <button
                                         className="submit-button"
                                         onClick={() =>
@@ -307,7 +311,11 @@ export default class Focus extends Component {
                                         key={id}
                                     >
                                         Send Alert SMS
-                                    </button> : <div className="alert-sended">Alert Sended</div>
+                                    </button>
+                                ) : (
+                                    <div className="alert-sended">
+                                        Alert Sended
+                                    </div>
                                 );
                             }
                         })}
@@ -338,6 +346,7 @@ export default class Focus extends Component {
         }
     }
     render() {
+        console.log(this.state.editedObject.customer_id);
         return (
             <div>
                 <div className="focus">
@@ -350,23 +359,29 @@ export default class Focus extends Component {
 
                     {this.props.focusOn == "Edit" ||
                     this.state.editedObject !== undefined ? (
-                        <div className="focus-work-area">
-                            <Form
-                                clearFocus={() => this.props.clearFocus()}
+                        <React.Fragment>
+                            <div className="focus-work-area">
+                                <Form
+                                    clearFocus={() => this.props.clearFocus()}
+                                    editedObject={this.state.editedObject}
+                                    editedObjectName={this.state.objectName}
+                                    refreshData={() => this.props.refreshData()}
+                                    focusOnTableHandler={() =>
+                                        this.focusOnTableHandler()
+                                    }
+                                    deleted={this.props.deleted}
+                                />
+                                {this.displayActions(
+                                    this.state.editedObject.id,
+                                    this.state.objectName
+                                )}
+                                {this.displayList(this.state.editedObject.id)}
+                            </div>
+                            <Messages
                                 editedObject={this.state.editedObject}
                                 editedObjectName={this.state.objectName}
-                                refreshData={() => this.props.refreshData()}
-                                focusOnTableHandler={() =>
-                                    this.focusOnTableHandler()
-                                }
-                                deleted={this.props.deleted}
                             />
-                            {this.displayActions(
-                                this.state.editedObject.id,
-                                this.state.objectName
-                            )}
-                            {this.displayList(this.state.editedObject.id)}
-                        </div>
+                        </React.Fragment>
                     ) : null}
 
                     {this.props.focusOn == "newCar" ? (

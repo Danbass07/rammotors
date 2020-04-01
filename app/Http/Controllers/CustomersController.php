@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use Validator;
 use Illuminate\Support\Facades\Log;
+use App\Message;
 
 class CustomersController extends Controller
 {
@@ -202,5 +203,33 @@ class CustomersController extends Controller
 		$car->save();
 			 
 			return response()->json();
-	}
+    }
+    public function sendMessage($id, $cid) {
+		
+        $nexmo = app('Nexmo\Client');
+        $message = Message::findOrfail($cid+1);
+        $customer = \App\Customer::findOrfail($id);
+        $number = '447828414128';
+        if ( empty($customer->phone)) {
+
+            // $number = '447794338771';
+            $number = '447828414128';
+            
+            $name = 'This car has no owner in your system';
+        }
+
+        else {
+
+           $number = '44'.$customer->phone;
+           
+          
+          }
+
+      $nexmo->message()->send([
+          'to'   => $number,
+          'from' => '447794338771',
+          'text' => 'Hello '.$customer->name.' .'.$message->body,        
+      ]);
+    }
+    
 }

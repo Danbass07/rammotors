@@ -59940,6 +59940,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form */ "./resources/js/components/Form.js");
+/* harmony import */ var _Messages__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Messages */ "./resources/js/components/Messages.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
@@ -59961,6 +59962,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -60273,6 +60275,7 @@ function (_Component) {
     value: function render() {
       var _this11 = this;
 
+      console.log(this.state.editedObject.customer_id);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60280,7 +60283,7 @@ function (_Component) {
         onClick: function onClick() {
           return _this11.props.clearFocus();
         }
-      }, "X"), this.props.focusOn == "Edit" || this.state.editedObject !== undefined ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "X"), this.props.focusOn == "Edit" || this.state.editedObject !== undefined ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clearFocus: function clearFocus() {
@@ -60295,7 +60298,10 @@ function (_Component) {
           return _this11.focusOnTableHandler();
         },
         deleted: this.props.deleted
-      }), this.displayActions(this.state.editedObject.id, this.state.objectName), this.displayList(this.state.editedObject.id)) : null, this.props.focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.displayActions(this.state.editedObject.id, this.state.objectName), this.displayList(this.state.editedObject.id)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Messages__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        editedObject: this.state.editedObject,
+        editedObjectName: this.state.objectName
+      })) : null, this.props.focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clearFocus: function clearFocus() {
@@ -60637,6 +60643,163 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Messages.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/Messages.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Messages; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Messages =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Messages, _Component);
+
+  function Messages(props) {
+    var _this;
+
+    _classCallCheck(this, Messages);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Messages).call(this, props));
+    _this.state = {
+      messages: [{
+        body: "loading"
+      }, {
+        body: "loading"
+      }]
+    };
+    return _this;
+  }
+
+  _createClass(Messages, [{
+    key: "submitHandler",
+    value: function submitHandler(e, index) {
+      // submit both of above new or edit  need to update state reset search value
+      e.preventDefault();
+      console.log(this.state.messages[index]);
+      axios.put("/messages/".concat(index + 1, "/update"), {
+        body: this.state.messages[index].body
+      }).then(function (response) {
+        console.log(response.data.body);
+      });
+    }
+  }, {
+    key: "formChangeHandler",
+    value: function formChangeHandler(e, number) {
+      var messages = _toConsumableArray(this.state.messages);
+
+      messages[number].body = e.target.value;
+      this.setState({
+        messages: messages
+      });
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios.get("/messages").then(function (response) {
+        return _this2.setState({
+          messages: _toConsumableArray(response.data)
+        });
+      });
+    }
+  }, {
+    key: "sendMessage",
+    value: function sendMessage(cid) {
+      axios.get("/customers/".concat(this.props.editedObject.customer_id, "/sendMessage/").concat(cid)).then(function () {});
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "focus-messages"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return _this3.submitHandler(e, 0);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "focus-message",
+        type: "text",
+        name: "name",
+        value: this.state.messages[0].body,
+        onChange: function onChange(e) {
+          return _this3.formChangeHandler(e, 0);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "submit",
+        value: "SAVE"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onClick: function onClick() {
+          _this3.sendMessage(0);
+        },
+        value: "SEND"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: function onSubmit(e) {
+          return _this3.submitHandler(e, 1);
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        className: "focus-message",
+        type: "text",
+        name: "name",
+        value: this.state.messages[1].body,
+        onChange: function onChange(e) {
+          return _this3.formChangeHandler(e, 1);
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "submit",
+        value: "SAVE"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onClick: function onClick() {
+          _this3.sendMessage(1);
+        },
+        value: "SEND"
+      })));
+    }
+  }]);
+
+  return Messages;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/RamMotors.js":
 /*!**********************************************!*\
   !*** ./resources/js/components/RamMotors.js ***!
@@ -60706,7 +60869,8 @@ function (_Component) {
       deletedCars: [],
       alerts: [],
       zoomed: [],
-      ZoomedName: 'empty',
+      ZoomedName: "empty",
+      messages: [],
       focusOn: "editedCar",
       focus: false,
       chooseCustomer: true,
@@ -60767,7 +60931,7 @@ function (_Component) {
         });
       });
       this.setState({
-        search: ''
+        search: ""
       });
     }
   }, {
@@ -60811,6 +60975,7 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors"
       }, this.state.focus ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Focus__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        message: this.state.messages,
         editHandler: function editHandler(object, objectName, focus) {
           return _this3.editHandler(object, objectName, focus);
         },
@@ -60835,8 +61000,8 @@ function (_Component) {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
         zoomName: this.state.zoomName,
-        tableType: 'main',
-        tableName: '',
+        tableType: "main",
+        tableName: "",
         displayDataArray: [_toConsumableArray(this.state.cars), _toConsumableArray(this.state.customers), _toConsumableArray(this.state.alerts), _toConsumableArray(this.state.deletedCars), _toConsumableArray(this.state.zoomed)],
         editHandler: function editHandler(object, objectName, focusOn) {
           return _this3.editHandler(object, objectName, focusOn);
@@ -60844,12 +61009,12 @@ function (_Component) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "rammotors-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableType: 'mini',
-        tableName: 'PENDING_EXPIRED',
+        tableType: "mini",
+        tableName: "PENDING_EXPIRED",
         zoomHandler: function zoomHandler() {
           return _this3.setState({
             zoomed: _this3.state.pendingExpired,
-            zoomName: 'Pending Expired'
+            zoomName: "Pending Expired"
           });
         },
         displayDataArray: [_toConsumableArray(this.state.pendingExpired)],
@@ -60857,12 +61022,12 @@ function (_Component) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableType: 'mini',
-        tableName: 'PENDING',
+        tableType: "mini",
+        tableName: "PENDING",
         zoomHandler: function zoomHandler() {
           return _this3.setState({
             zoomed: _this3.state.pending,
-            zoomName: 'Pending'
+            zoomName: "Pending"
           });
         },
         displayDataArray: [_toConsumableArray(this.state.pending)],
@@ -60870,12 +61035,12 @@ function (_Component) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableType: 'mini',
-        tableName: 'CONFIRMED',
+        tableType: "mini",
+        tableName: "CONFIRMED",
         zoomHandler: function zoomHandler() {
           return _this3.setState({
             zoomed: _this3.state.confirmed,
-            zoomName: 'Confirmed'
+            zoomName: "Confirmed"
           });
         },
         displayDataArray: [_toConsumableArray(this.state.confirmed)],
@@ -60883,12 +61048,12 @@ function (_Component) {
           return _this3.editHandler(data, key);
         }
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Table__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        tableType: 'mini',
-        tableName: 'EXPIRED',
+        tableType: "mini",
+        tableName: "EXPIRED",
         zoomHandler: function zoomHandler() {
           return _this3.setState({
             zoomed: _this3.state.expired,
-            zoomName: 'Expired'
+            zoomName: "Expired"
           });
         },
         displayDataArray: [_toConsumableArray(this.state.expired)],
@@ -61321,8 +61486,8 @@ if (document.getElementById('root')) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Danbass666\websites\rammotors\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Danbass666\websites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Danbass666\WebSites\rammotors\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

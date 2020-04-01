@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 	// Cars Controllers
 
 Route::get('/cars', 'CarsController@index');
@@ -51,8 +52,10 @@ Route::put('/customers/{id}/update', 'CustomersController@update')->name('custom
 Route::put('/customers/{id}/addCar/{cid}', 'CustomersController@addCar')->name('customers.addCar');
 Route::put('/customers/{id}/removeCar/{cid}', 'CustomersController@removeCar')->name('customers.removeCar');
 Route::get('/get_customers_datatables', 'CustomersController@get_customers_datatables')->name('get_customers_datatables');	
-
+Route::get('/customers/{id}/sendMessage/{cid}', 'CustomersController@sendMessage')->name('customers.sendMessage');
 		
+Route::get('/messages', 'MessagesController@index')->name('messages.index');
+Route::put('/messages/{id}/update', 'MessagesController@update')->name('messages.update');
 
 // // Authentication routes...
 // Route::get('auth/login', 'Front@login');

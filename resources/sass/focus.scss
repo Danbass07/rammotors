@@ -1,60 +1,54 @@
-.focus{
+.focus {
     position: fixed;
     top: 0;
     height: 100vh;
     width: 100%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     display: block;
-
-
 }
 .focus-field {
-    position:relative;
+    position: relative;
     margin: 200px auto;
-    
+
     height: 395px;
     opacity: 1;
-    background-color: rgba(0,0,0,0);
-    
+    background-color: rgba(0, 0, 0, 0);
 }
-.focus-form-select-button{
+.focus-form-select-button {
     border-radius: 50% 20%;
     height: 45px;
     background-color: $secondary;
     color: $main;
     font-weight: bold;
     border-color: $main;
-    margin-top:10px;
-    margin-bottom:40px;
+    margin-top: 10px;
+    margin-bottom: 40px;
     box-shadow: black 2px 2px 12px;
-
 }
 .focus-work-area {
-
     background-color: $main;
     width: 1200px;
     height: 620px;
     margin: 0 auto;
     display: flex;
-
 }
 .focus-remove {
-background-color: black;
-border-radius: 50%;
-color: $light;
-margin-left: auto;
-width: 50px;
-height: 50px;
-font-size: 1.4em;
-box-shadow: black 2px 2px 12px;
-margin-top: 10px;
+    background-color: black;
+    border-radius: 50%;
+    color: $light;
+    margin-left: auto;
+    width: 50px;
+    height: 50px;
+    font-size: 1.4em;
+    box-shadow: black 2px 2px 12px;
+    margin-top: 10px;
 }
-.focus-header{
+.focus-header {
     color: darkred;
     font-size: 2.7em;
 }
-.focus-list-item{
+.focus-list-item {
     background-color: $main;
     color: $light;
     border-radius: 0% 50% 50% 0%;
@@ -63,9 +57,8 @@ margin-top: 10px;
     margin-bottom: 15px;
     padding-left: 20px;
     box-shadow: black 2px 2px 12px;
-
 }
-.focus-list-item-big{
+.focus-list-item-big {
     background-color: wheat;
     border: 2px solid darkred;
     color: darkred;
@@ -77,19 +70,33 @@ margin-top: 10px;
     padding: 5px;
 }
 .focus-list-item-big:hover {
-    box-shadow: none; 
+    box-shadow: none;
 }
 .focus-list-item:hover {
-
     box-shadow: none;
+}
+.focus-messages {
+    height: 181px;
+    width: 1200px;
+    margin: auto;
+    background-color: darkred;
+    display: flex;
+    justify-content: space-between;
+}
+.focus-message {
+    height: 80%;
+    widpx;
+    background-color: wheat;
+    color: black;
+    margin: auto auto;
 }
 
 .closing-div {
     background-color: black;
     color: $light;
     border-radius: 50%;
-    z-index:990;
-    font-size:1.4em;
+    z-index: 990;
+    font-size: 1.4em;
     margin-left: auto;
     position: relative;
     right: 50px;
@@ -106,14 +113,13 @@ margin-top: 10px;
     color: darkorange;
     border-radius: 50%;
     box-shadow: darkred 2px 2px 12px;
-
 }
 .alert-sended {
     height: 40px;
     background-color: wheat;
     border: 2px solid darkred;
     color: darkred;
-    
+
     text-align: center;
     font-size: 22px;
 }

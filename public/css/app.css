@@ -461,6 +461,23 @@ button:hover {
   box-shadow: none;
 }
 
+.focus-messages {
+  height: 181px;
+  width: 1200px;
+  margin: auto;
+  background-color: darkred;
+  display: flex;
+  justify-content: space-between;
+}
+
+.focus-message {
+  height: 80%;
+  width: 599px;
+  background-color: wheat;
+  color: black;
+  margin: auto auto;
+}
+
 .closing-div {
   background-color: black;
   color: white;
