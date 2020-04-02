@@ -60505,8 +60505,8 @@ function (_Component) {
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate(nextProps) /// not dynamic easy fix but better with props
-    {
+    value: function componentDidUpdate(nextProps /// not dynamic easy fix but better with props
+    ) {
       if (this.props !== nextProps) {
         if (this.props.editedObjectName.toString() === "newCar") {
           this.setState({
@@ -60568,6 +60568,17 @@ function (_Component) {
       this.setState(_defineProperty({}, this.props.editedObjectName, _objectSpread({}, this.state[this.props.editedObjectName], _defineProperty({}, editedProperty, yearLater))));
     }
   }, {
+    key: "addHalfYear",
+    value: function addHalfYear(editedDate, editedProperty) {
+      var date = this.stringToDate(editedDate, "YYYY-mm-dd", "-");
+      var year = date.getFullYear();
+      var month = ("0" + (date.getMonth() + 7)).slice(-2);
+      var day = ("0" + date.getDate()).slice(-2);
+      var halfYearLater = year.toString() + "-" + month.toString() + "-" + day.toString();
+      console.log(halfYearLater);
+      this.setState(_defineProperty({}, this.props.editedObjectName, _objectSpread({}, this.state[this.props.editedObjectName], _defineProperty({}, editedProperty, halfYearLater))));
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -60579,15 +60590,15 @@ function (_Component) {
         display: "none"
       };
       var style2 = {
-        color: 'wheat',
-        width: '100%',
-        height: '130px',
-        marginBottom: '1px'
+        color: "wheat",
+        width: "100%",
+        height: "130px",
+        marginBottom: "1px"
       };
       var inline = {
         display: "flex",
         flexDirection: "row",
-        justifyContent: 'space-between'
+        justifyContent: "space-between"
       };
       if (this.state.editedObject) return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-wrapper"
@@ -60609,17 +60620,22 @@ function (_Component) {
           placeholder: data[0],
           style: data[0] === "cars" || data[0] === "updated_at" || data[0] === "created_at" || data[0] === "deleted_at" || data[0] === "pending" || data[0] === "id" || data[0] === "customer_id" || data[0] === "customer" || data[0] === "info" ? style : null,
           type: data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? "date" : "text",
-          value: data[0] === "registration" && typeof _this3.state[_this3.props.editedObjectName][data[0]] === 'string' ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
+          value: data[0] === "registration" && typeof _this3.state[_this3.props.editedObjectName][data[0]] === "string" ? _this3.state[_this3.props.editedObjectName][data[0]].toUpperCase() : _this3.state[_this3.props.editedObjectName][data[0]],
           onChange: function onChange(e) {
             return _this3.formChangeHandler(e, data[0], _this3.props.editedObjectName);
           }
-        }), data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? _this3.props.editedObjectName !== 'newCar' ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        }), data[0] === "mot" || data[0] === "servis" || data[0] === "appointment" ? _this3.props.editedObjectName !== "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
           className: "action-button",
           onClick: function onClick() {
             return _this3.addYear(_this3.state[_this3.props.editedObjectName][data[0]], data[0]);
           }
-        }, "+1 Y") : null : null, data[0] === "info" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-          key: 'info' + data[0],
+        }, "+1 Y"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "action-button",
+          onClick: function onClick() {
+            return _this3.addHalfYear(_this3.state[_this3.props.editedObjectName][data[0]], data[0]);
+          }
+        }, "+6M")) : null : null, data[0] === "info" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+          key: "info" + data[0],
           className: "focus-form-input",
           placeholder: data[0],
           style: data[0] === "info" ? style2 : style,
