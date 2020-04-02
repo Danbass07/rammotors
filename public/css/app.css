@@ -464,7 +464,7 @@ button:hover {
 .focus-messages {
   height: 181px;
   width: 1200px;
-  margin: auto;
+  margin: 21px auto;
   background-color: darkred;
   display: flex;
   justify-content: space-between;
@@ -476,6 +476,7 @@ button:hover {
   background-color: wheat;
   color: black;
   margin: auto auto;
+  margin-bottom: -7px;
 }
 
 .closing-div {
