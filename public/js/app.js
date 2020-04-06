@@ -60275,7 +60275,7 @@ function (_Component) {
     value: function render() {
       var _this11 = this;
 
-      console.log(this.state.editedObject.customer_id);
+      console.log(this.state.editedObject.registration);
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -60298,10 +60298,10 @@ function (_Component) {
           return _this11.focusOnTableHandler();
         },
         deleted: this.props.deleted
-      }), this.displayActions(this.state.editedObject.id, this.state.objectName), this.displayList(this.state.editedObject.id)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Messages__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }), this.displayActions(this.state.editedObject.id, this.state.objectName), this.displayList(this.state.editedObject.id)), this.state.editedObject.registration ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Messages__WEBPACK_IMPORTED_MODULE_2__["default"], {
         editedObject: this.state.editedObject,
         editedObjectName: this.state.objectName
-      })) : null, this.props.focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }) : null) : null, this.props.focusOn == "newCar" ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "focus-work-area"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Form__WEBPACK_IMPORTED_MODULE_1__["default"], {
         clearFocus: function clearFocus() {
@@ -60756,7 +60756,7 @@ function (_Component) {
   }, {
     key: "sendMessage",
     value: function sendMessage(cid) {
-      axios.get("/customers/".concat(this.props.editedObject.customer_id, "/sendMessage/").concat(cid)).then(function () {});
+      axios.get("/customers/".concat(this.props.editedObject.customer_id, "/sendMessage/").concat(cid, "/carId/").concat(this.props.editedObject.id)).then(function () {});
     }
   }, {
     key: "render",

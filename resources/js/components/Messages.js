@@ -46,7 +46,7 @@ export default class Messages extends Component {
     sendMessage(cid) {
         axios
             .get(
-                `/customers/${this.props.editedObject.customer_id}/sendMessage/${cid}`
+                `/customers/${this.props.editedObject.customer_id}/sendMessage/${cid}/carId/${this.props.editedObject.id}`
             )
             .then(() => {});
     }

@@ -346,7 +346,7 @@ export default class Focus extends Component {
         }
     }
     render() {
-        console.log(this.state.editedObject.customer_id);
+        console.log(this.state.editedObject.registration);
         return (
             <div>
                 <div className="focus">
@@ -377,10 +377,12 @@ export default class Focus extends Component {
                                 )}
                                 {this.displayList(this.state.editedObject.id)}
                             </div>
-                            <Messages
-                                editedObject={this.state.editedObject}
-                                editedObjectName={this.state.objectName}
-                            />
+                            {this.state.editedObject.registration ? (
+                                <Messages
+                                    editedObject={this.state.editedObject}
+                                    editedObjectName={this.state.objectName}
+                                />
+                            ) : null}
                         </React.Fragment>
                     ) : null}
 

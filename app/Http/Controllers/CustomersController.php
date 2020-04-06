@@ -204,12 +204,13 @@ class CustomersController extends Controller
 			 
 			return response()->json();
     }
-    public function sendMessage($id, $cid) {
+    public function sendMessage($id, $messageindex, $carid ) {
 		
         $nexmo = app('Nexmo\Client');
-        $message = Message::findOrfail($cid+1);
+        $message = Message::findOrfail($messageindex+1);
         $customer = \App\Customer::findOrfail($id);
         $number = '447828414128';
+        $car= \App\Car::findOrfail($carid);
         if ( empty($customer->phone)) {
 
             // $number = '447794338771';
@@ -221,14 +222,17 @@ class CustomersController extends Controller
         else {
 
            $number = '44'.$customer->phone;
-           
           
+           $message =  $message->body;
+
+           $newphrase = str_replace("%REG%", $car->registration,  $message);
+           Log::info($newphrase);
           }
 
       $nexmo->message()->send([
           'to'   => $number,
           'from' => '447794338771',
-          'text' => 'Hello '.$customer->name.' .'.$message->body,        
+          'text' => 'Hello '.$customer->name.' .'.$newphrase,        
       ]);
     }
     
